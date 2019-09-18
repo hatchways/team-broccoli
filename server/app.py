@@ -14,6 +14,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
 from models import User
+# authentication_handler imports db from this very file.
+# Is there a better file structure for this?
+from api.authentication_handler import authentication_handler
 
+app.register_blueprint(authentication_handler)
 app.register_blueprint(home_handler)
 app.register_blueprint(ping_handler)

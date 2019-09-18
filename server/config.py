@@ -1,31 +1,10 @@
 import os
-from dotenv import load_dotenv
-basedir = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(".env")
 
 TEAM_NAME = os.environ['TEAM_NAME']
 
 class Config(object):
-    DEBUG = False
-    TESTING = False
-    CSRF_ENABLED = True
-    SECRET_KEY = 'this-really-needs-to-be-changed'
+    DEBUG = os.environ['DEBUG']
+    TESTING = os.environ['TESTING']
+    CSRF_ENABLED = os.environ['CSRF_ENABLED']
+    SECRET_KEY = os.environ['SECRET_KEY']
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-
-
-class ProductionConfig(Config):
-    DEBUG = False
-
-
-class StagingConfig(Config):
-    DEVELOPMENT = True
-    DEBUG = True
-
-
-class DevelopmentConfig(Config):
-    DEVELOPMENT = True
-    DEBUG = True
-
-
-class TestingConfig(Config):
-    TESTING = True

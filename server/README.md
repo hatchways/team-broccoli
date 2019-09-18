@@ -27,5 +27,6 @@ $ postgresql > \q
 ## How to run the server
 - Change directory to the /server directory
 - `pipenv install` to install the dependencies
-- `pipenv run python manage.py db migrate` to migrate and populate the database
+- `pipenv run python flask db migrate` to prepare the migration steps
+- `pipenv run python flask db upgrade` to apply the latest migration to your database
 - `pipenv run flask run` to run the server

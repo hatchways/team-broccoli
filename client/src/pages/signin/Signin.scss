@@ -1,3 +1,40 @@
+@media(min-width:468px){
+    .pageView {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+.loginView {
+    flex: 1;
+    flex-wrap: wrap;
+    //box-shadow: 0 1px 1px #333;
+    box-sizing: border-box;
+    border: solid 0 #ddd;
+    border-radius: 2px;
+    height: 100%;
+    text-align: left;
+    padding: 150px;
+    margin: 5px;
+}
+
+.signupView {
+    flex: 1;
+    flex-wrap: wrap;
+    box-shadow: 0 1px 1px #333;
+    box-sizing: border-box;
+    border: solid 1px #ddd;
+    border-radius: 2px;
+    padding: 100px;
+    margin: 5px;
+    background-image: url('./backgroundimage.jpg');
+    background-size: cover;
+}
+
+.align {
+    margin-left: 20px;
+}
+
 .button {
     background-color: black;
     border: 1px solid rgb(202, 202, 202);
@@ -5,7 +42,6 @@
     color: white;
     padding: 10px;
     text-align: center;
-    align-content: left;
     text-decoration: none;
     font-size: 16px;
     margin-top: 20px;
@@ -14,15 +50,19 @@
     cursor: pointer;
 }
 
-.boxView {
-    box-shadow: 0 1px 1px #333;
-    border: solid 1px #ddd;
-    border-radius: 2px;
-    text-align: left;
-    padding: 30px;
-    margin: 10px;
-    margin-top: 100px;
-    margin-left: 650px;
-    margin-right: 10px;
-    
+.signupbutton {
+    background-color: gray;
+    border: 1px solid rgb(202, 202, 202);
+    border-radius: 20px;
+    color: white;
+    opacity: 0.7;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 50px;
+    margin-left: 350px;
+    width: 200px;
+    cursor: pointer;
 }

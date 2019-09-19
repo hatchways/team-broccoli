@@ -6,7 +6,7 @@ from api.ping_handler import ping_handler
 from api.home_handler import home_handler
 from config import Config
 
-app = Flask(__name__)
+app = Flask(__name__.split('.')[0])
 app.config.from_object(Config)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

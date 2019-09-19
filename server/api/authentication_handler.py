@@ -3,6 +3,7 @@ import os
 from flask import jsonify, request, Blueprint
 # User is really from models.py, but there's an import loop
 # that prevents us from importing it from there.
+from flask_jwt_extended import create_access_token
 from app import db, User
 from util import scrypt
 authentication_handler = Blueprint('authentication_handler', __name__)
@@ -31,12 +32,13 @@ def register_user():
             new_user = User(name=name, email=email, password=hashed_password, salt=salt)
             db.session.add(new_user)
             db.session.commit()
+            access_token = create_access_token(identity=email)
             return jsonify({
                 'id': new_user.id,
                 'name': new_user.name,
                 'email': new_user.email,
-                'JWT': 'fake_signup_JWT',
-                }), 201
+                'access_token': access_token,
+            }), 201
         else:
             return jsonify({'error': 'Please provide a valid username, email address, and password.'}), 400
 
@@ -57,11 +59,12 @@ def login_user():
             user_record = User.query.filter_by(email=email).first_or_404("No account exists with that email address")
             hashed_password = scrypt(password, user_record.salt)
             if hashed_password == user_record.password:
+                access_token = create_access_token(identity=email)
                 return jsonify({
                     'id': user_record.id,
                     'name': user_record.name,
                     'email': user_record.email,
-                    'JWT': 'fake_login_JWT',
+                    'access_token': access_token,
                 }), 200
             else:
                 return jsonify({'error': 'Incorrect password.'})

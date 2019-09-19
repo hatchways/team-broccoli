@@ -1,32 +1,26 @@
-@media(min-width:468px){
+@media(min-width:768px){
     .pageView {
         display: flex;
         flex-direction: row;
+        max-width: 100%;
+        justify-content: space-between;
     }
 }
 
 .loginView {
     flex: 1;
     flex-wrap: wrap;
-    //box-shadow: 0 1px 1px #333;
+    flex-basis: 50%;
     box-sizing: border-box;
-    border: solid 0 #ddd;
-    border-radius: 2px;
-    height: 100%;
-    text-align: left;
-    padding: 150px;
-    margin: 5px;
+    padding: 100px;
+    margin-bottom: 115px;
 }
 
 .signupView {
     flex: 1;
     flex-wrap: wrap;
-    box-shadow: 0 1px 1px #333;
+    flex-basis: 50%;
     box-sizing: border-box;
-    border: solid 1px #ddd;
-    border-radius: 2px;
-    padding: 100px;
-    margin: 5px;
     background-image: url('./backgroundimage.jpg');
     background-size: cover;
 }
@@ -60,9 +54,8 @@
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    margin-top: 5px;
-    margin-bottom: 50px;
-    margin-left: 350px;
+    margin-top: 70px;
+    margin-left: 400px;
     width: 200px;
     cursor: pointer;
 }

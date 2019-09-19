@@ -65,8 +65,8 @@ class signin extends Component{
     render(){
         return(
             <div className="pageView">
-                <form onSubmit={this.handleSubmit.bind(this)}>
-                    <div className="loginView">
+                <div className="loginView">
+                    <form onSubmit={this.handleSubmit.bind(this)}>
                         <h2>Log In</h2>
                         <span>Email</span><br />
                         <TextField
@@ -115,8 +115,8 @@ class signin extends Component{
                             </IconButton>,
                             ]}
                         />
-                    </div>
-                </form>
+                    </form>
+                </div>
 
                 <div className="signupView">
                     <Link to='/signup'><button className="signupbutton" type="submit">Sign Up</button></Link>

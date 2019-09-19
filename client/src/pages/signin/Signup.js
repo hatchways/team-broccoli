@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import './Signin.scss'
+import './Signup.scss'
 import { Link } from 'react-router-dom'
 
 import TextField from '@material-ui/core/TextField';
@@ -37,7 +37,7 @@ class signup extends Component{
 
     //handle updating the state with the values of the input fields
     updateText(event){
-        let updatedText = Object.assign({}, this.state.signup)
+            let updatedText = Object.assign({}, this.state.signup)
         updatedText[event.target.id] = event.target.value
         
         let updatedLength
@@ -96,8 +96,8 @@ class signup extends Component{
     render(){
         return(
             <div className="pageView">
-                <form onSubmit={this.handleSubmit.bind(this)}>
-                    <div className="loginView">
+                <div className="createView">
+                    <form onSubmit={this.handleSubmit.bind(this)}>
                         <h2>Create an account</h2>
                         <span>Name</span><br />
                         <TextField
@@ -131,7 +131,7 @@ class signup extends Component{
                         <FormControlLabel
                                 control={<Checkbox checked={this.state.terms} onChange={this.handleCheck} value="Agree" color="primary" />}
                                 label="By signing up I agree with terms and conditions"
-                        />
+                        /><br />
                         <button className="button" type="submit">Create</button>
                         <Snackbar
                             anchorOrigin={{
@@ -156,11 +156,11 @@ class signup extends Component{
                             </IconButton>,
                             ]}
                         />
-                    </div>
-                </form>
+                    </form>
+                </div>
 
-                <div className="signupView">
-                    <Link to='/signin'><button className="signupbutton" type="submit">Sign In</button></Link>
+                <div className="returnView">
+                    <Link to='/signin'><button className="signinbutton" type="submit">Sign In</button></Link>
                 </div>
             </div>
         )

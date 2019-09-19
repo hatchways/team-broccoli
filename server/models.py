@@ -51,12 +51,13 @@ class FundraiserSchema(ma.ModelSchema):
     class Meta:
         model = Fundraiser
         include_fk = True
+    
+    donations = ma.Nested(DonationSchema, many=True)
 
 class DonationSchema(ma.ModelSchema):
     class Meta:
         model = Donation
         include_fk = True
-
 
 class UserSchema(ma.ModelSchema):
 

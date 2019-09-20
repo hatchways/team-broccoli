@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0e30253f104e32bf3bf1372763178e218bfb51d01b7266ca337e81905584a50a"
+            "sha256": "7e097a806119f6014ddabdb073ee77227d302b486b087fd5574534b7cbe0e1ab"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -136,6 +136,14 @@
             ],
             "version": "==3.2.0"
         },
+        "marshmallow-sqlalchemy": {
+            "hashes": [
+                "sha256:b53ae45f6f113ae5433211786129ecb6eaf3646a3a333e769eeb22593b6dbe9c",
+                "sha256:c4dd561ff42f39e44619e6558a28da7154fea62ffada6815403f1381762c87db"
+            ],
+            "index": "pypi",
+            "version": "==0.19.0"
+        },
         "psycopg2": {
             "hashes": [
                 "sha256:128d0fa910ada0157bba1cb74a9c5f92bb8a1dca77cf91a31eb274d1f889e001",
@@ -191,10 +199,10 @@
         },
         "werkzeug": {
             "hashes": [
-                "sha256:00d32beac38fcd48d329566f80d39f10ec2ed994efbecfb8dd4b320062d05902",
-                "sha256:0a24d43be6a7dce81bae05292356176d6c46d63e42a0dd3f9504b210a9cfaa43"
+                "sha256:7280924747b5733b246fe23972186c6b348f9ae29724135a6dfc1e53cea433e7",
+                "sha256:e5f4a1f98b52b18a93da705a7458e55afb26f32bff83ff5d19189f92462d65c4"
             ],
-            "version": "==0.15.6"
+            "version": "==0.16.0"
         }
     },
     "develop": {}

@@ -33,7 +33,7 @@ class Fundraiser(db.Model):
     creator_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
 
     creator = db.relationship("User", back_populates="fundraisers")
-    donations = db.relationship("Donation", back_populates="fundraisers")
+    donations = db.relationship("Donation", back_populates="fundraiser")
 
 class Donation(db.Model):
     __tablename__ = 'donations'
@@ -47,17 +47,19 @@ class Donation(db.Model):
     fundraiser = db.relationship("Fundraiser", back_populates="donations")
     user = db.relationship("User", back_populates="donations")
 
+class DonationSchema(ma.ModelSchema):
+    class Meta:
+        model = Donation
+        include_fk = True
+
+    donations = ma.Nested(DonationSchema, many=True)
+
 class FundraiserSchema(ma.ModelSchema):
     class Meta:
         model = Fundraiser
         include_fk = True
 
     donations = ma.Nested(DonationSchema, many=True)
-
-class DonationSchema(ma.ModelSchema):
-    class Meta:
-        model = Donation
-        include_fk = True
 
 class UserSchema(ma.ModelSchema):
 

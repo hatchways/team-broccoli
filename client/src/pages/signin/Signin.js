@@ -7,7 +7,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-class signin extends Component{
+class Signin extends Component{
 
     constructor(){
         super()
@@ -18,20 +18,20 @@ class signin extends Component{
                 password: ''
             },
             passLength: 0,
-            snackbaropen: false,
-            snackbarmsg: ''
+            snackbarOpen: false,
+            snackbarMsg: ''
         }
     }
 
     //handles the snackbar warning message
     snackbarClose = (event) => {
         this.setState({
-            snackbaropen: false
+            snackbarOpen: false
         })
     }
 
     //handle updating the state with the values of the input fields
-    updateText(event){
+    updateText = (event) => {
         let updatedText = Object.assign({}, this.state.login)
         updatedText[event.target.id] = event.target.value
         
@@ -45,18 +45,18 @@ class signin extends Component{
     }
 
     //handles form submittal
-    handleSubmit(event){
+    handleSubmit = (event) => {
         event.preventDefault()
         if(this.state.passLength < 6){
             this.setState({
-                snackbaropen: true,
-                snackbarmsg: 'Password must contain atleast 6 characters'
+                snackbarOpen: true,
+                snackbarMsg: 'Password must contain atleast 6 characters'
             })
         }
         if(!this.state.login.email){
             this.setState({
-                snackbaropen: true,
-                snackbarmsg: 'Please enter a valid Email and Password'
+                snackbarOpen: true,
+                snackbarMsg: 'Please enter a valid Email and Password'
             })
         }
         //Post request and response to be handled here once backend is setup
@@ -66,7 +66,7 @@ class signin extends Component{
         return(
             <div className="pageView">
                 <div className="loginView">
-                    <form onSubmit={this.handleSubmit.bind(this)}>
+                    <form onSubmit={this.handleSubmit}>
                         <h2>Log In</h2>
                         <span>Email</span><br />
                         <TextField
@@ -77,7 +77,7 @@ class signin extends Component{
                             autoComplete="email"
                             margin="normal"
                             variant="outlined"
-                            onChange={this.updateText.bind(this)}
+                            onChange={this.updateText}
                         /><br />
                         <span>Password</span><br />
                         <TextField
@@ -87,7 +87,7 @@ class signin extends Component{
                             autoComplete="current-password"
                             margin="normal"
                             variant="outlined"
-                            onChange={this.updateText.bind(this)}
+                            onChange={this.updateText}
                         /><br />
                         <span>Forgot Password?</span><br />
                         <button className="button" type="submit">Login</button>
@@ -97,13 +97,13 @@ class signin extends Component{
                             vertical: 'bottom',
                             horizontal: 'left',
                             }}
-                            open={this.state.snackbaropen}
+                            open={this.state.snackbarOpen}
                             autoHideDuration={6000}
                             onClose={this.snackbarClose}
                             ContentProps={{
                             'aria-describedby': 'message-id',
                             }}
-                            message={<span id="message-id">{this.state.snackbarmsg}</span>}
+                            message={<span id="message-id">{this.state.snackbarMsg}</span>}
                             action={[
                             <IconButton
                                 key="close"
@@ -126,4 +126,4 @@ class signin extends Component{
     }
 }
 
-export default signin
+export default Signin

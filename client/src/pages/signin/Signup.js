@@ -9,7 +9,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-class signup extends Component{
+class Signup extends Component{
 
     constructor(){
         super()
@@ -22,8 +22,8 @@ class signup extends Component{
                 termsNconditions: ''
             },
             passLength: 0,
-            snackbaropen: false,
-            snackbarmsg: '',
+            snackbarOpen: false,
+            snackbarMsg: '',
             terms: false
         }
     }
@@ -31,7 +31,7 @@ class signup extends Component{
     //handles the snackbar warning message
     snackbarClose = (event) => {
         this.setState({
-            snackbaropen: false
+            snackbarOpen: false
         })
     }
 
@@ -54,26 +54,26 @@ class signup extends Component{
         event.preventDefault()
         if(this.state.passLength < 6){
             this.setState({
-                snackbaropen: true,
-                snackbarmsg: 'Password must contain atleast 6 characters'
+                snackbarOpen: true,
+                snackbarMsg: 'Password must contain atleast 6 characters'
             })
         }
         if(!this.state.signup.email){
             this.setState({
-                snackbaropen: true,
-                snackbarmsg: 'Please enter a valid Email'
+                snackbarOpen: true,
+                snackbarMsg: 'Please enter a valid Email'
             })
         }
         if(!this.state.signup.name){
             this.setState({
-                snackbaropen: true,
-                snackbarmsg: 'Please enter a name'
+                snackbarOpen: true,
+                snackbarMsg: 'Please enter a name'
             })
         }
         if(!this.state.terms){
             this.setState({
-                snackbaropen: true,
-                snackbarmsg: 'Please agree to the terms and conditions by selecting the checkbox'
+                snackbarOpen: true,
+                snackbarMsg: 'Please agree to the terms and conditions by selecting the checkbox'
             })
         }
         //Post request and response to be handled here once backend is setup
@@ -138,13 +138,13 @@ class signup extends Component{
                             vertical: 'bottom',
                             horizontal: 'left',
                             }}
-                            open={this.state.snackbaropen}
+                            open={this.state.snackbarOpen}
                             autoHideDuration={6000}
                             onClose={this.snackbarClose}
                             ContentProps={{
                             'aria-describedby': 'message-id',
                             }}
-                            message={<span id="message-id">{this.state.snackbarmsg}</span>}
+                            message={<span id="message-id">{this.state.snackbarMsg}</span>}
                             action={[
                             <IconButton
                                 key="close"
@@ -167,4 +167,4 @@ class signup extends Component{
     }
 }
 
-export default signup
+export default Signup

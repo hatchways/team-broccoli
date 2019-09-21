@@ -17,6 +17,7 @@ Below are the installations required to get started with the app
     1. Client Installations: Node, NPM
     2. Server Installations: Python, pip, pipenv,
     3. Database Installations: flask, sqlalchemy, flask-sqlalchemy, flask-migrate
+    4. .env File: prepare a .env file in the project root using .env.example in server as a template
 
 # How to start this app
     1. Client: Navigate to the client folder in a terminal window and run the command "npm start" to get the client started

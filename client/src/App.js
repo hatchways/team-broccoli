@@ -4,8 +4,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { theme } from "./themes/theme";
 import LandingPage from "./pages/Landing";
-import Signin from "./pages/signin/Signin"
-import Signup from "./pages/signin/Signup"
+import Signin from "./pages/signin/Signin";
+import Signup from "./pages/signin/Signup";
 
 import "./App.css";
 

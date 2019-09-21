@@ -36,8 +36,9 @@ class Signup extends Component{
     }
 
     //handle updating the state with the values of the input fields
-    updateText(event){
-            let updatedText = Object.assign({}, this.state.signup)
+    updateText = (event) => {
+        console.log('updateText: '+event.target.id+' == '+event.target.value)
+        let updatedText = Object.assign({}, this.state.signup)
         updatedText[event.target.id] = event.target.value
         
         let updatedLength
@@ -50,7 +51,8 @@ class Signup extends Component{
     }
 
     //handles form submittal
-    handleSubmit(event){
+    handleSubmit = (event) => {
+        console.log('submit details'+JSON.stringify(this.state.signup))
         event.preventDefault()
         if(this.state.passLength < 6){
             this.setState({
@@ -97,13 +99,13 @@ class Signup extends Component{
         return(
             <div className="pageView">
                 <div className="createView">
-                    <form onSubmit={this.handleSubmit.bind(this)}>
+                    <form onSubmit={this.handleSubmit}>
                         <h2>Create an account</h2>
                         <span>Name</span><br />
                         <TextField
                             id="name"
                             type="name"
-                            onChange={this.updateText.bind(this)}
+                            onChange={this.updateText}
                             margin="normal"
                             variant="outlined"
                         /><br />
@@ -116,7 +118,7 @@ class Signup extends Component{
                             autoComplete="email"
                             margin="normal"
                             variant="outlined"
-                            onChange={this.updateText.bind(this)}
+                            onChange={this.updateText}
                         /><br />
                         <span>Password</span><br />
                         <TextField
@@ -126,7 +128,7 @@ class Signup extends Component{
                             autoComplete="current-password"
                             margin="normal"
                             variant="outlined"
-                            onChange={this.updateText.bind(this)}
+                            onChange={this.updateText}
                         /><br />
                         <FormControlLabel
                                 control={<Checkbox checked={this.state.terms} onChange={this.handleCheck} value="Agree" color="primary" />}

@@ -15,7 +15,8 @@ Individual contributors to this application are Mohammed Aslam, Michael Watts, A
 Below are the installations required to get started with the app
 
     1. Client Installations: Node, NPM
-    2. Server Installations: Python, pip, pipenv
+    2. Server Installations: Python, pip, pipenv,
+    3. Database Installations: flask, sqlalchemy, flask-sqlalchemy, flask-migrate
 
 # How to start this app
     1. Client: Navigate to the client folder in a terminal window and run the command "npm start" to get the client started

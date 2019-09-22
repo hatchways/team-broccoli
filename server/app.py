@@ -28,8 +28,9 @@ app.register_blueprint(home_handler)
 app.register_blueprint(ping_handler)
 
 # flask_restful API and resources
-from resources.Fundraiser import FundraiserCreate, FundraiserResource
+from resources.Fundraiser import FundraiserCreate, FundraiserList, FundraiserResource
 fr_api = Api(app)
 
 fr_api.add_resource(FundraiserCreate, '/fundraiser')
+fr_api.add_resource(FundraiserList, '/fundraisers')
 fr_api.add_resource(FundraiserResource, '/fundraiser/<int:fundraiser_id>')

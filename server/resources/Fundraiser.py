@@ -73,6 +73,16 @@ class FundraiserCreate(Resource):
 
         return fundraiser_schema.dump(fundraiser), 200
 
+
+class FundraiserList(Resource):
+    """Provide a list of all fundraisers at /fundraisers"""
+    # Possible TODO -- some method of limiting the number of results.
+    @classmethod
+    def get(cls):
+        fundraisers = Fundraiser.query.all()
+        return fundraiser_list_schema.dump(fundraisers), 200
+
+
 class FundraiserResource(Resource):
     """ Handle GET/PUT/DELETE for /fundraiser/<fundraiser_id>
     PUT/DELETE needs authentication and

@@ -14,7 +14,7 @@ flask-sqlalchemy = "==2.4.0"
 flask-migrate = "==2.5.2"
 flask-marshmallow = "==0.10.1"
 flask-restful = "==0.3.7"
-marshmallow-sqlalchemy = "*"
+marshmallow-sqlalchemy = "==0.10.1"
 
 [requires]
 python_version = "3.7"

@@ -16,6 +16,22 @@ class User(db.Model):
     fundraisers = db.relationship("Fundraiser", back_populates="creator")
     donations = db.relationship("Donation", back_populates="user")
 
+    @classmethod
+    def find_by_id(cls, _id: int) -> "User":
+        return cls.query.filter_by(id=_id).first()
+
+    @classmethod
+    def find_by_email(cls, _email: str) -> "User":
+        return cls.query.filter_by(email=_email).first()
+
+    def save_to_db(self) -> None:
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_from_db(self) -> None:
+        db.session.delete(self)
+        db.session.commit()
+
 class Fundraiser(db.Model):
     __tablename__ = 'fundraisers'
 
@@ -30,6 +46,18 @@ class Fundraiser(db.Model):
     creator = db.relationship("User", back_populates="fundraisers")
     donations = db.relationship("Donation", back_populates="fundraiser")
 
+    @classmethod
+    def find_by_id(cls, _id: int) -> "Fundraiser":
+        return cls.query.filter_by(id=_id).first()
+
+    def save_to_db(self) -> None:
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_from_db(self) -> None:
+        db.session.delete(self)
+        db.session.commit()
+
 class Donation(db.Model):
     __tablename__ = 'donations'
 
@@ -42,6 +70,11 @@ class Donation(db.Model):
     fundraiser = db.relationship("Fundraiser", back_populates="donations")
     user = db.relationship("User", back_populates="donations")
 
+class UserOnlySchema(ma.ModelSchema):
+    class Meta:
+        model = User
+        fields = ("name", "id", "email", )
+
 class DonationSchema(ma.ModelSchema):
     class Meta:
         model = Donation
@@ -52,6 +85,7 @@ class FundraiserSchema(ma.ModelSchema):
         model = Fundraiser
         include_fk = True
 
+    creator = ma.Nested(UserOnlySchema)
     donations = ma.Nested(DonationSchema, many=True)
 
 class UserSchema(ma.ModelSchema):

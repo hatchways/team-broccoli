@@ -52,8 +52,6 @@ class DonationSchema(ma.ModelSchema):
         model = Donation
         include_fk = True
 
-    donations = ma.Nested(DonationSchema, many=True)
-
 class FundraiserSchema(ma.ModelSchema):
     class Meta:
         model = Fundraiser

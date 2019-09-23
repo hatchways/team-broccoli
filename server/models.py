@@ -1,13 +1,8 @@
-from app import db
+from app import db, ma
 from sqlalchemy.dialects.postgresql import JSON, BYTEA
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from marshmallow import Schema, fields
-
-# leaving this here against the db import from app;
-# still figuring out which approach is best
-db = SQLAlchemy()
-ma = Marshmallow()
 
 class User(db.Model):
     __tablename__ = 'users'

@@ -30,7 +30,7 @@ class Fundraiser(db.Model):
     amount = db.Column(db.Integer(), nullable=False)
     deadline = db.Column(db.DateTime(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False)
-    creator_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
+    creator_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
 
     creator = db.relationship("User", back_populates="fundraisers")
     donations = db.relationship("Donation", back_populates="fundraiser")
@@ -41,8 +41,8 @@ class Donation(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     amount = db.Column(db.Integer(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False)
-    fundraiser_id = db.Column(db.Integer(), db.ForeignKey('fundraisers.id'))
-    user_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
+    fundraiser_id = db.Column(db.Integer(), db.ForeignKey('fundraisers.id'), nullable=False)
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
 
     fundraiser = db.relationship("Fundraiser", back_populates="donations")
     user = db.relationship("User", back_populates="donations")

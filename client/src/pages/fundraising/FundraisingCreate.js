@@ -21,6 +21,7 @@ const styles = theme => ({
   menu: {
     width: 200,
   },
+  theme: theme
 });
 
 
@@ -91,6 +92,7 @@ class FundraisingCreate extends Component {
 
   render() {
     const { classes } = this.props;
+    console.log(theme);
     return (
       <div className="pageView">
         <Grid
@@ -99,15 +101,15 @@ class FundraisingCreate extends Component {
           justify="center"
           alignItems="center"
         >
-        <h2>Create New Fundraiser</h2>
+        <h1>Create New Fundraiser</h1>
         <form noValidate autoComplete="off">
           <Grid container item xs={12} spacing={1}>
             <FormControl>
-              <FormLabel className={classes.formLabel}>
+              <FormLabel>
                 What is your cause you'd like to fundraise for?
               </FormLabel>
               <TextField
-                label="Write a cause title"
+                // label="Write a cause title"
                 placeholder="Write a cause title"
                 name="title"
                 margin="normal"
@@ -124,7 +126,7 @@ class FundraisingCreate extends Component {
                 Description
               </FormLabel>
               <TextField
-                label="Write a cause title"
+                // label="Write a cause title"
                 placeholder="Write a cause title"
                 name="title"
                 margin="normal"

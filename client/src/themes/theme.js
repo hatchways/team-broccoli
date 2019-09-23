@@ -1,6 +1,14 @@
 import { createMuiTheme } from "@material-ui/core";
 
 export const theme = createMuiTheme({
+  overrides: {
+    MuiFormLabel : {
+      root: {
+        color: "black",
+        fontWeight: "700"
+      }
+    }
+  },
   typography: {
     fontFamily: '"Roboto"'
   },
@@ -9,6 +17,6 @@ export const theme = createMuiTheme({
   error: "#d8000c",
   bgcolor: "#f6f6f6",
   formLabel: {
-    color: "#00000"
+    color: "black"
   }
 });

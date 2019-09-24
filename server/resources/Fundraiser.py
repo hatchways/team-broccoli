@@ -7,6 +7,7 @@ from flask_jwt_extended import (
 from marshmallow import ValidationError
 
 from datetime import datetime as dt
+from datetime import timezone as tz
 
 from models import db, ma, Fundraiser, FundraiserSchema, User
 
@@ -49,8 +50,13 @@ class FundraiserCreate(Resource):
 
         fundraiser_data = request.get_json()
 
+        deadline_string = fundraiser_data['deadline']
+        deadline_utc = dt.fromisoformat(deadline_string)
+        deadline_utc = deadline_utc.astimezone(tz=tz.utc).isoformat()
+        fundraiser_data['deadline'] = deadline_utc
+
         # server-side generated data
-        fundraiser_data['created_at'] = dt.now().isoformat()
+        fundraiser_data['created_at'] = dt.now(tz=tz.utc).isoformat()
         fundraiser_data['creator_id'] = user.id
 
         try:

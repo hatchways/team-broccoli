@@ -41,6 +41,7 @@ class Fundraiser(db.Model):
     amount = db.Column(db.Integer(), nullable=False)
     deadline = db.Column(db.DateTime(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False)
+    last_modified_at = db.Column(db.DateTime(), nullable=False)
     creator_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
 
     creator = db.relationship("User", back_populates="fundraisers")

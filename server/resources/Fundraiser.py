@@ -57,6 +57,7 @@ class FundraiserCreate(Resource):
 
         # server-side generated data
         fundraiser_data['created_at'] = dt.now(tz=tz.utc).isoformat()
+        fundraiser_data['last_modified_at'] = dt.now(tz=tz.utc).isoformat()
         fundraiser_data['creator_id'] = user.id
 
         try:
@@ -111,6 +112,7 @@ class FundraiserResource(Resource):
         fundraiser_data['id'] = fundraiser_id
         fundraiser_data['creator_id'] = fundraiser.creator_id
         fundraiser_data['created_at'] = fundraiser.created_at.isoformat()
+        fundraiser_data['last_modified_at'] = dt.now(tz=tz.utc).isoformat()
 
         try:
             fundraiser = fundraiser_schema.load(fundraiser_data)

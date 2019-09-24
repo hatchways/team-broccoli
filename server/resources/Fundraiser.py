@@ -82,3 +82,41 @@ class FundraiserResource(Resource):
             return {"message": FUNDRAISER_NOT_FOUND}, 404
 
         return fundraiser_schema.dump(fundraiser), 200
+
+    @classmethod
+    @jwt_required
+    def put(cls, fundraiser_id: int):
+        user_email = get_jwt_identity()
+        user = User.find_by_email(user_email)
+
+        if not user:
+            return {"message": INVALID_CREDENTIALS}, 401
+
+        try:
+            fundraiser = Fundraiser.find_by_id(fundraiser_id)
+        except ValidationError as err:
+            return {"message": FUNDRAISER_NOT_FOUND}, 404
+
+        if user.id != fundraiser.creator_id:
+            return {"message": INVALID_CREDENTIALS}, 401
+
+        fundraiser_data = request.get_json()
+
+        deadline_string = fundraiser_data['deadline']
+        deadline_utc = dt.fromisoformat(deadline_string)
+        deadline_utc = deadline_utc.astimezone(tz=tz.utc).isoformat()
+        fundraiser_data['deadline'] = deadline_utc
+
+        # server-side generated data
+        fundraiser_data['id'] = fundraiser_id
+        fundraiser_data['creator_id'] = fundraiser.creator_id
+        fundraiser_data['created_at'] = fundraiser.created_at.isoformat()
+
+        try:
+            fundraiser = fundraiser_schema.load(fundraiser_data)
+        except ValidationError as err:
+            return err.messages, 400
+
+        fundraiser.save_to_db()
+
+        return fundraiser_schema.dump(fundraiser), 200

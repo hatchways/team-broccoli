@@ -73,7 +73,10 @@ class FundraiserCreate(Resource):
         return fundraiser_schema.dump(fundraiser), 200
 
 class FundraiserResource(Resource):
-    """ Handle GET/PUT/DELETE for /fundraiser/<fundraiser_id>"""
+    """ Handle GET/PUT/DELETE for /fundraiser/<fundraiser_id>
+    PUT/DELETE needs authentication and
+    can only be done by the Fundraiser creator
+    """
 
     @classmethod
     def get(cls, fundraiser_id: int):
@@ -86,16 +89,35 @@ class FundraiserResource(Resource):
 
     @classmethod
     @jwt_required
-    def put(cls, fundraiser_id: int):
+    def delete(cls, fundraiser_id:int):
         user_email = get_jwt_identity()
         user = User.find_by_email(user_email)
+        fundraiser = Fundraiser.find_by_id(fundraiser_id)
 
         if not user:
             return {"message": INVALID_CREDENTIALS}, 401
 
-        try:
-            fundraiser = Fundraiser.find_by_id(fundraiser_id)
-        except ValidationError as err:
+        if not fundraiser:
+            return {"message": FUNDRAISER_NOT_FOUND}, 404
+
+        if user.id != fundraiser.creator_id:
+            return {"message": INVALID_CREDENTIALS}, 401
+
+        fundraiser.delete_from_db()
+        return {"message": FUNDRAISER_DELETED}, 200
+
+
+    @classmethod
+    @jwt_required
+    def put(cls, fundraiser_id: int):
+        user_email = get_jwt_identity()
+        user = User.find_by_email(user_email)
+        fundraiser = Fundraiser.find_by_id(fundraiser_id)
+
+        if not user:
+            return {"message": INVALID_CREDENTIALS}, 401
+
+        if not fundraiser:
             return {"message": FUNDRAISER_NOT_FOUND}, 404
 
         if user.id != fundraiser.creator_id:

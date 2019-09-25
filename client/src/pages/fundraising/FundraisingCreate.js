@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 
 import { theme } from '../../themes/theme'
-import { FormControl, FormLabel, Typography, TextField, Grid } from "@material-ui/core";
+import { FormControl, FormLabel, Typography, TextField, Container, Grid, Input, InputAdornment, Icon, Paper } from "@material-ui/core";
+//import { Event } from "@material-ui/icons"
 import { withStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
-
+//import { DatePicker } from "@materual-ui/pickers"
+import ImageUpload from '../../components/ImageUpload';
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DayjsUtils from '@date-io/dayjs';
 
 const styles = theme => ({
   container: {
@@ -91,57 +95,153 @@ class FundraisingCreate extends Component {
 
 
   render() {
-    const { classes } = this.props;
+
     console.log(theme);
     return (
       <div className="pageView">
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-        >
-        <h1>Create New Fundraiser</h1>
         <form noValidate autoComplete="off">
-          <Grid container item xs={12} spacing={1}>
-            <FormControl>
-              <FormLabel>
-                What is your cause you'd like to fundraise for?
-              </FormLabel>
-              <TextField
-                // label="Write a cause title"
-                placeholder="Write a cause title"
-                name="title"
-                margin="normal"
-                row="5"
-                variant="outlined"
-                onChange={this.updateText}
-              />
-            </FormControl>
-          </Grid>
+          <Container maxWidth="md">
+            <Grid
+              container
+              direction="column"
+              justify="space-around"
+              alignItems="stretch"
+              spacing={2}
+            >
+              <h1>Create New Fundraiser</h1>
 
-          <Grid container item xs={12} spacing={1}>
-            <FormControl>
-              <FormLabel>
-                Description
-              </FormLabel>
-              <TextField
-                // label="Write a cause title"
-                placeholder="Write a cause title"
-                name="title"
-                margin="normal"
-                row="5"
-                variant="outlined"
-                onChange={this.updateText}
-              />
-            </FormControl>
-          </Grid>
+              <Grid item>
+                <FormControl fullWidth required>
+                  <FormLabel fullWidth>
+                    What is your cause you'd like to fundraise for?
+                  </FormLabel>
+                  <TextField
+                    // label="Write a cause title"
+                    placeholder="Write a cause title"
+                    margin="normal"
+                    name="title"
+                    variant="outlined"
+                    onChange={this.updateText}
+                    fullWidth
+                  />
+                </FormControl>
+              </Grid>
 
+              <Grid item>
+                <FormControl fullWidth required>
+                  <FormLabel>
+                    Description
+                  </FormLabel>
+                  <TextField
+                    placeholder="Write a cause title"
+                    name="title"
+                    margin="normal"
+                    multiline
+                    rows="7"
+                    variant="outlined"
+                    onChange={this.updateText}
+                    defaultComponent="textarea"
+                  />
+                </FormControl>
+              </Grid>
 
-          {/* <label>Amount</label>
-          <input type="number"></input> */}
+              <Grid container item spacing={1}>
+                <Grid item xs={3}>
+                  <FormControl fullWidth required>
+                    <FormLabel>
+                      Amount
+                    </FormLabel>
+                    <TextField
+                      InputProps={{ 
+                        startAdornment: <InputAdornment>$</InputAdornment>
+                      }}
+                      placeholder="100.00"
+                      name="amount"
+                      margin="normal"
+                      variant="outlined"
+                      onChange={this.updateText}
+                    />
+                  </FormControl>
+                </Grid>
+
+                <Grid item xs></Grid>
+
+                <Grid item xs={8} >
+                  <FormControl fullWidth required>
+                    <FormLabel>
+                      Deadline
+                    </FormLabel>
+                  <Grid container direction="row" item spacing={1}>
+                    <Grid item xs={4}>
+                      <MuiPickersUtilsProvider utils={ DayjsUtils }>
+                        <DatePicker
+                        InputProps={{ 
+                          endAdornment: <InputAdornment>
+                            <Icon>event</Icon>
+                          </InputAdornment>
+                        }}
+                        placeholder="Date"
+                        name="date"
+                        margin="normal"
+                        inputVariant="outlined"
+                        onChange={this.updateText}
+                        variant="inline"
+                      />
+                      </MuiPickersUtilsProvider>
+                      
+                      {/* <TextField
+                        InputProps={{ 
+                          endAdornment: <InputAdornment>
+                            <Icon>event</Icon>
+                          </InputAdornment>
+                        }}
+                        placeholder="Date"
+                        name="date"
+                        margin="normal"
+                        variant="outlined"
+                        onChange={this.updateText}
+                      /> */}
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        InputProps={{ 
+                          endAdornment: <InputAdornment><Icon>schedule</Icon></InputAdornment>
+                        }}
+                        placeholder="Time"
+                        name="time"
+                        margin="normal"
+                        variant="outlined"
+                        onChange={this.updateText}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TextField
+                        InputProps={{ 
+                          startAdornment: <InputAdornment position="finish">$</InputAdornment>
+                        }}
+                        placeholder="Time"
+                        name="time"
+                        margin="normal"
+                        variant="outlined"
+                        onChange={this.updateText}
+                      />
+                    </Grid>
+
+                  </Grid>
+                </FormControl>
+
+              </Grid>
+            </Grid>
+
+            <Grid item>
+              <Paper>
+                <ImageUpload />
+              </Paper>
+            </Grid>
+
+            </Grid>
+          </Container>
         </form>
-        </Grid>
       </div>
     );
   }

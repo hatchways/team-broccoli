@@ -56,8 +56,9 @@ class FundraiserCreate(Resource):
         fundraiser_data['deadline'] = deadline_utc
 
         # server-side generated data
-        fundraiser_data['created_at'] = dt.now(tz=tz.utc).isoformat()
-        fundraiser_data['last_modified_at'] = dt.now(tz=tz.utc).isoformat()
+        now = dt.now(tz=tz.utc).isoformat()
+        fundraiser_data['created_at'] = now
+        fundraiser_data['last_modified_at'] = now
         fundraiser_data['creator_id'] = user.id
 
         try:

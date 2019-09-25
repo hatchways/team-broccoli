@@ -39,9 +39,9 @@ class Fundraiser(db.Model):
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text(), nullable=False)
     amount = db.Column(db.Integer(), nullable=False)
-    deadline = db.Column(db.DateTime(), nullable=False)
-    created_at = db.Column(db.DateTime(), nullable=False)
-    last_modified_at = db.Column(db.DateTime(), nullable=False)
+    deadline = db.Column(db.DateTime(timezone=True), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False)
+    last_modified_at = db.Column(db.DateTime(timezone=True), nullable=False)
     creator_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
 
     creator = db.relationship("User", back_populates="fundraisers")
@@ -64,7 +64,7 @@ class Donation(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     amount = db.Column(db.Integer(), nullable=False)
-    created_at = db.Column(db.DateTime(), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False)
     fundraiser_id = db.Column(db.Integer(), db.ForeignKey('fundraisers.id'), nullable=False)
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
 

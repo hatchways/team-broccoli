@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
 import { theme } from '../../themes/theme'
-import { FormControl, FormLabel, Typography, TextField, Container, Grid, Input, InputAdornment, Icon, Paper, Select, MenuItem, OutlinedInput } from "@material-ui/core";
-//import { Event } from "@material-ui/icons"
+import { FormControl, FormLabel, Typography, TextField, Container, Grid, Input, InputAdornment, Icon, Select, Button } from "@material-ui/core";
+
 import { withStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
-//import { DatePicker } from "@materual-ui/pickers"
+
 import ImageUpload from '../../components/ImageUpload';
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { DatePicker, MuiPickersUtilsProvider, TimePicker } from "@material-ui/pickers";
 import DayjsUtils from '@date-io/dayjs';
 
 const styles = theme => ({
@@ -108,11 +108,13 @@ class FundraisingCreate extends Component {
               alignItems="stretch"
               spacing={2}
             >
-              <h1>Create New Fundraiser</h1>
+              <Typography variant="h3" style={{ marginTop: "1em", marginBottom:"0.75em" }} align="center" gutterBottom>
+                Create New Fundraiser
+              </Typography>
 
               <Grid item>
                 <FormControl fullWidth required>
-                  <FormLabel fullWidth>
+                  <FormLabel fullWidth >
                     What is your cause you'd like to fundraise for?
                   </FormLabel>
                   <TextField
@@ -145,7 +147,7 @@ class FundraisingCreate extends Component {
                 </FormControl>
               </Grid>
 
-              <Grid container item spacing={1}>
+              <Grid container item>
                 <Grid item xs={3}>
                   <FormControl fullWidth required>
                     <FormLabel>
@@ -166,13 +168,13 @@ class FundraisingCreate extends Component {
 
                 <Grid item xs></Grid>
 
-                <Grid item xs={8} >
+                <Grid item xs={7}>
                   <FormControl fullWidth required>
                     <FormLabel>
                       Deadline
                     </FormLabel>
-                  <Grid container direction="row" item spacing={1}>
-                    <Grid item xs={4}>
+                  <Grid container direction="row">
+                    <Grid item xs={6}>
                       <MuiPickersUtilsProvider utils={ DayjsUtils }>
                         <DatePicker
                           InputProps={{ 
@@ -189,28 +191,27 @@ class FundraisingCreate extends Component {
                         />
                       </MuiPickersUtilsProvider>
                     </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        InputProps={{ 
-                          endAdornment: <InputAdornment><Icon>schedule</Icon></InputAdornment>
-                        }}
-                        placeholder="Time"
-                        name="time"
-                        margin="normal"
-                        variant="outlined"
-                        onChange={this.updateText}
-                      />
+                    <Grid item xs={6}>
+                      <MuiPickersUtilsProvider utils={ DayjsUtils }>
+                        <TimePicker
+                          InputProps={{ 
+                            endAdornment: <InputAdornment><Icon>schedule</Icon></InputAdornment>
+                          }}
+                          placeholder="Time"
+                          name="time"
+                          margin="normal"
+                          inputVariant="outlined"
+                          onChange={this.updateText}
+                        />
+                      </MuiPickersUtilsProvider>
                     </Grid>
-                    <Grid item xs={4}>
+                    {/* <Grid item xs={4}>
 
                         <Select
                           required
                           fullWidth
                           onChange={this.updateText}
-                          variant="outlined"
-                          margin="normal"
-                          placeholder="Timezone"
-                          input={<OutlinedInput name="timezone" />}
+                          input={<TextField name="timezone" variant="outlined" margin="normal" placeholder="Timezone" />}
                         >
                           <MenuItem value="Timezone">
                             <em>Timezone</em>
@@ -220,17 +221,24 @@ class FundraisingCreate extends Component {
                           <MenuItem value={-8}>PST</MenuItem>
                         </Select>
 
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </FormControl>
               </Grid>
             </Grid>
 
             <Grid item>
+            <FormLabel>
+              Upload an image for your fundraiser
+            </FormLabel>
               <ImageUpload />
             </Grid>
 
             </Grid>
+
+            <Button>
+              Submit
+            </Button>
           </Container>
         </form>
       </div>

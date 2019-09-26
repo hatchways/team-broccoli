@@ -5,7 +5,9 @@ export const theme = createMuiTheme({
     MuiFormLabel : {
       root: {
         color: "black",
-        fontWeight: "700"
+        fontWeight: "700",
+        fontFamily: '"Roboto"',
+        fontSize: "1.2rem"
       }
     }
   },

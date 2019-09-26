@@ -228,17 +228,21 @@ class FundraisingCreate extends Component {
             </Grid>
 
             <Grid item>
-            <FormLabel>
-              Upload an image for your fundraiser
-            </FormLabel>
+              <FormLabel>
+                Upload an image for your fundraiser
+              </FormLabel>
               <ImageUpload />
             </Grid>
 
+            <Grid item align="center" style={{ marginTop: "1.5rem", padding: "1em" }}> 
+              <Button variant="contained" color="primary" size="large" style={{ padding: "1em 2em 1em 2em", backgroundColor: "black" }}>
+                Create Fundraiser
+              </Button>
             </Grid>
 
-            <Button>
-              Submit
-            </Button>
+            </Grid>
+
+
           </Container>
         </form>
       </div>

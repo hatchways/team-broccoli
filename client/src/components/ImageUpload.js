@@ -58,8 +58,7 @@ export default function ImageUpload(props) {
           src={file.preview}
           style={img}
           />
-        Click the image to preview it. Or drag another image below to replace it.</p>
-
+        </p>
       </div>
     </div>
 
@@ -72,13 +71,13 @@ export default function ImageUpload(props) {
 
   return (
     <section className="container">
-      <Paper backgroundColor="black">
+      <Paper>
       <aside style={thumbsContainer}>
         {thumbs}
       </aside>
       <div {...getRootProps({className: 'dropzone'})} style={{ padding:"5em"}}>
-        <input {...getInputProps()} />
-        <Typography variant = "colorTextSecondary" padding={2}>
+        <input {...getInputProps()} inputVariant="outlined" />
+        <Typography variant = "h6" padding={2}>
           Drag and drop your image here, or click to select one
         </Typography>
       </div>

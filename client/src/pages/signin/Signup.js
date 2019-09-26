@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import "./Signup.scss";
 import { Link } from "react-router-dom";
 
+import Background from "./backgroundimage.jpg";
+import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -98,9 +100,10 @@ class Signup extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
-      <div className="pageView">
-        <div className="createView">
+      <div className={classes.pageView}>
+        <div className={classes.createView}>
           <form onSubmit={this.handleSubmit}>
             <h2>Create an account</h2>
             <span>Name</span>
@@ -150,7 +153,7 @@ class Signup extends Component {
               label="By signing up I agree with terms and conditions"
             />
             <br />
-            <button className="button" type="submit">
+            <button className={classes.create} type="submit">
               Create
             </button>
             <Snackbar
@@ -179,9 +182,9 @@ class Signup extends Component {
           </form>
         </div>
 
-        <div className="returnView">
+        <div className={classes.returnView}>
           <Link to="/signin">
-            <button className="signinbutton" type="submit">
+            <button className={classes.signin} type="submit">
               Sign In
             </button>
           </Link>
@@ -191,4 +194,31 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+const styles = theme => ({
+  create: theme.solidButton,
+  signin: theme.opaqueButton,
+  pageView: {
+    display: "flex",
+    flexDirection: "row",
+    maxwidth: "100%",
+    justifyContent: "space-between"
+  },
+  createView: {
+    flex: 1,
+    flexWrap: "wrap",
+    flexBasis: "50%",
+    boxSizing: "border-box",
+    padding: "90px",
+    marginBottom: "12px"
+  },
+  returnView: {
+    flex: 1,
+    flexWrap: "wrap",
+    flexBasis: "50%",
+    boxSizing: "border-box",
+    backgroundImage: `url(${Background})`,
+    backgroundSize: "cover"
+  }
+});
+
+export default withStyles(styles)(Signup);

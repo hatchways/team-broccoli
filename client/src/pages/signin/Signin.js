@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import "./Signin.scss";
 import { Link } from "react-router-dom";
 
+import Background from "./backgroundimage.jpg";
+import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -64,9 +65,10 @@ class Signin extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
-      <div className="pageView">
-        <div className="loginView">
+      <div className={classes.pageView}>
+        <div className={classes.loginView}>
           <form onSubmit={this.handleSubmit}>
             <h2>Log In</h2>
             <span>Email</span>
@@ -96,7 +98,7 @@ class Signin extends Component {
             <br />
             <span>Forgot Password?</span>
             <br />
-            <button className="button" type="submit">
+            <button className={classes.login} type="submit">
               Login
             </button>
 
@@ -126,9 +128,9 @@ class Signin extends Component {
           </form>
         </div>
 
-        <div className="signupView">
+        <div className={classes.signupView}>
           <Link to="/signup">
-            <button className="signupbutton" type="submit">
+            <button className={classes.signup} type="submit">
               Sign Up
             </button>
           </Link>
@@ -138,4 +140,31 @@ class Signin extends Component {
   }
 }
 
-export default Signin;
+const styles = theme => ({
+  login: theme.solidButton,
+  signup: theme.opaqueButton,
+  pageView: {
+    display: "flex",
+    flexDirection: "row",
+    maxwidth: "100%",
+    justifyContent: "space-between"
+  },
+  loginView: {
+    flex: 1,
+    flexWrap: "wrap",
+    flexBasis: "50%",
+    boxSizing: "border-box",
+    padding: "100px",
+    marginBottom: "115px"
+  },
+  signupView: {
+    flex: 1,
+    flexWrap: "wrap",
+    flexBasis: "50%",
+    boxSizing: "border-box",
+    backgroundImage: `url(${Background})`,
+    backgroundSize: "cover"
+  }
+});
+
+export default withStyles(styles)(Signin);

@@ -1,23 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
-import { Typography, Container, Grid } from '@material-ui/pickers';
+import { Container, Grid } from '@material-ui/pickers';
+import { Typography, Paper } from '@material-ui/core';
 
 
 const thumbsContainer = {
   display: 'flex',
   flexDirection: 'row',
-  flexWrap: 'wrap',
-  marginTop: 16
+  //flexWrap: 'wrap',
+  marginTop: 16,
+  border: '1px solid #eaeaea',
+
 };
 
 const thumb = {
   display: 'inline-flex',
   borderRadius: 2,
-  border: '1px solid #eaeaea',
   marginBottom: 8,
   marginRight: 8,
-  width: 100,
-  height: 100,
+  // width: 200,
+  height: 200,
   padding: 4,
   boxSizing: 'border-box'
 };
@@ -25,12 +27,13 @@ const thumb = {
 const thumbInner = {
   display: 'flex',
   minWidth: 0,
-  overflow: 'hidden'
+  //overflow: 'hidden'
 };
 
 const img = {
-  display: 'block',
-  width: 'auto',
+  display: 'inline-block',
+  // width: 'auto',
+  verticalAlign: 'top',
   height: '100%'
 };
 
@@ -47,14 +50,19 @@ export default function ImageUpload(props) {
   });
   
   const thumbs = files.map(file => (
+
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
+        <p align={"center"}>
         <img
           src={file.preview}
           style={img}
-        />
+          />
+        Click the image to preview it. Or drag another image below to replace it.</p>
+
       </div>
     </div>
+
   ));
 
   useEffect(() => () => {
@@ -64,13 +72,18 @@ export default function ImageUpload(props) {
 
   return (
     <section className="container">
-      <div {...getRootProps({className: 'dropzone'})}>
-        <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
-      </div>
+      <Paper backgroundColor="black">
       <aside style={thumbsContainer}>
         {thumbs}
       </aside>
+      <div {...getRootProps({className: 'dropzone'})} style={{ padding:"5em"}}>
+        <input {...getInputProps()} />
+        <Typography variant = "colorTextSecondary" padding={2}>
+          Drag and drop your image here, or click to select one
+        </Typography>
+      </div>
+
+      </Paper>
     </section>
   );
 }

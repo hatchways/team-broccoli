@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { theme } from '../../themes/theme'
-import { FormControl, FormLabel, Typography, TextField, Container, Grid, Input, InputAdornment, Icon, Paper } from "@material-ui/core";
+import { FormControl, FormLabel, Typography, TextField, Container, Grid, Input, InputAdornment, Icon, Paper, Select, MenuItem, OutlinedInput } from "@material-ui/core";
 //import { Event } from "@material-ui/icons"
 import { withStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -175,32 +175,19 @@ class FundraisingCreate extends Component {
                     <Grid item xs={4}>
                       <MuiPickersUtilsProvider utils={ DayjsUtils }>
                         <DatePicker
-                        InputProps={{ 
-                          endAdornment: <InputAdornment>
-                            <Icon>event</Icon>
-                          </InputAdornment>
-                        }}
-                        placeholder="Date"
-                        name="date"
-                        margin="normal"
-                        inputVariant="outlined"
-                        onChange={this.updateText}
-                        variant="inline"
-                      />
+                          InputProps={{ 
+                            endAdornment: <InputAdornment>
+                              <Icon>event</Icon>
+                            </InputAdornment>
+                          }}
+                          placeholder="Date"
+                          name="date"
+                          margin="normal"
+                          inputVariant="outlined"
+                          onChange={this.updateText}
+                          variant="inline"
+                        />
                       </MuiPickersUtilsProvider>
-                      
-                      {/* <TextField
-                        InputProps={{ 
-                          endAdornment: <InputAdornment>
-                            <Icon>event</Icon>
-                          </InputAdornment>
-                        }}
-                        placeholder="Date"
-                        name="date"
-                        margin="normal"
-                        variant="outlined"
-                        onChange={this.updateText}
-                      /> */}
                     </Grid>
                     <Grid item xs={4}>
                       <TextField
@@ -215,28 +202,32 @@ class FundraisingCreate extends Component {
                       />
                     </Grid>
                     <Grid item xs={4}>
-                      <TextField
-                        InputProps={{ 
-                          startAdornment: <InputAdornment position="finish">$</InputAdornment>
-                        }}
-                        placeholder="Time"
-                        name="time"
-                        margin="normal"
-                        variant="outlined"
-                        onChange={this.updateText}
-                      />
-                    </Grid>
 
+                        <Select
+                          required
+                          fullWidth
+                          onChange={this.updateText}
+                          variant="outlined"
+                          margin="normal"
+                          placeholder="Timezone"
+                          input={<OutlinedInput name="timezone" />}
+                        >
+                          <MenuItem value="Timezone">
+                            <em>Timezone</em>
+                          </MenuItem>
+                          <MenuItem value={-5}>EST</MenuItem>
+                          <MenuItem value={-6}>CST</MenuItem>
+                          <MenuItem value={-8}>PST</MenuItem>
+                        </Select>
+
+                    </Grid>
                   </Grid>
                 </FormControl>
-
               </Grid>
             </Grid>
 
             <Grid item>
-              <Paper>
-                <ImageUpload />
-              </Paper>
+              <ImageUpload />
             </Grid>
 
             </Grid>

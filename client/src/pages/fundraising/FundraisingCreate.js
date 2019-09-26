@@ -118,7 +118,6 @@ class FundraisingCreate extends Component {
                     What is your cause you'd like to fundraise for?
                   </FormLabel>
                   <TextField
-                    // label="Write a cause title"
                     placeholder="Write a cause title"
                     margin="normal"
                     name="title"
@@ -182,6 +181,7 @@ class FundraisingCreate extends Component {
                               <Icon>event</Icon>
                             </InputAdornment>
                           }}
+                          fullWidth
                           placeholder="Date"
                           name="date"
                           margin="normal"
@@ -197,6 +197,7 @@ class FundraisingCreate extends Component {
                           InputProps={{ 
                             endAdornment: <InputAdornment><Icon>schedule</Icon></InputAdornment>
                           }}
+                          fullWidth
                           placeholder="Time"
                           name="time"
                           margin="normal"
@@ -205,23 +206,7 @@ class FundraisingCreate extends Component {
                         />
                       </MuiPickersUtilsProvider>
                     </Grid>
-                    {/* <Grid item xs={4}>
 
-                        <Select
-                          required
-                          fullWidth
-                          onChange={this.updateText}
-                          input={<TextField name="timezone" variant="outlined" margin="normal" placeholder="Timezone" />}
-                        >
-                          <MenuItem value="Timezone">
-                            <em>Timezone</em>
-                          </MenuItem>
-                          <MenuItem value={-5}>EST</MenuItem>
-                          <MenuItem value={-6}>CST</MenuItem>
-                          <MenuItem value={-8}>PST</MenuItem>
-                        </Select>
-
-                    </Grid> */}
                   </Grid>
                 </FormControl>
               </Grid>

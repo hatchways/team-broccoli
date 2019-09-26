@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./Signup.scss";
 import { Link } from "react-router-dom";
 
 import Background from "./backgroundimage.jpg";

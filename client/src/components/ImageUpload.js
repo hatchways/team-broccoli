@@ -77,7 +77,7 @@ export default function ImageUpload(props) {
       </aside>
       <div {...getRootProps({className: 'dropzone'})} style={{ padding:"5em"}}>
         <input {...getInputProps()} inputVariant="outlined" />
-        <Typography variant = "h6" padding={2}>
+        <Typography variant = "h6" align="center" padding={2} style={{ color: "#a5a5a5", fontWeight: "400" }}>
           Drag and drop your image here, or click to select one
         </Typography>
       </div>

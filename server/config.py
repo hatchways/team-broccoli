@@ -7,4 +7,5 @@ class Config(object):
     TESTING = os.environ['TESTING']
     CSRF_ENABLED = os.environ['CSRF_ENABLED']
     SECRET_KEY = os.environ['SECRET_KEY']
+    JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']

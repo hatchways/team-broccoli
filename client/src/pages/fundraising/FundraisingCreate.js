@@ -52,10 +52,14 @@ class FundraisingCreate extends Component {
         title: "",
         description: "",
         amount: "",
-        deadline: dayjs().add(30, 'days')
+        deadline: dayjs().add(30, "days")
       },
-      date: dayjs().add(30, 'days').format("YYYY-MM-DD"),
-      time: dayjs().second(0).format("HH:mm"),
+      date: dayjs()
+        .add(30, "days")
+        .format("YYYY-MM-DD"),
+      time: dayjs()
+        .second(0)
+        .format("HH:mm"),
       snackbarOpen: false,
       snackbarMsg: ""
     };
@@ -78,7 +82,7 @@ class FundraisingCreate extends Component {
       date: date.format("YYYY-MM-DD"),
       deadline: deadline_date
     });
-  }
+  };
 
   updateTime = time => {
     let deadline_time = this.state.fundraiser.deadline;
@@ -90,12 +94,12 @@ class FundraisingCreate extends Component {
       time: time.format("YYYY-MM-DD"),
       deadline: deadline_time
     });
-  }
+  };
 
   updateText = event => {
     let updatedText = Object.assign({}, this.state.fundraiser);
     updatedText[event.target.name] = event.target.value;
-    
+
     this.setState({
       fundraiser: {
         title: updatedText["title"],
@@ -142,11 +146,13 @@ class FundraisingCreate extends Component {
     // deadline must be later than today
 
     if (!this.state.snackbarOpen) {
-
       // remove Z from the end because we're sending this as UTC time
       let deadline_string = this.state.fundraiser.deadline;
       deadline_string = deadline_string.toISOString();
-      deadline_string = deadline_string.substring(0, deadline_string.length - 1);
+      deadline_string = deadline_string.substring(
+        0,
+        deadline_string.length - 1
+      );
       this.setState({
         fundraiser: {
           deadline: deadline_string
@@ -154,10 +160,10 @@ class FundraisingCreate extends Component {
       });
 
       fetch("/fundraiser", {
-        method: 'POST',
+        method: "POST",
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
+          Accept: "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(this.state.fundraiser)
       });
@@ -245,14 +251,14 @@ class FundraisingCreate extends Component {
                       <Grid item xs={6}>
                         <MuiPickersUtilsProvider utils={DayjsUtils}>
                           <DatePicker
-                            InputProps={{ 
+                            InputProps={{
                               endAdornment: (
                                 <InputAdornment>
                                   <Icon>event</Icon>
                                 </InputAdornment>
                               )
                             }}
-                            value = {this.state.date}
+                            value={this.state.date}
                             fullWidth
                             placeholder="Date"
                             name="date"
@@ -266,14 +272,14 @@ class FundraisingCreate extends Component {
                       <Grid item xs={6}>
                         <MuiPickersUtilsProvider utils={DayjsUtils}>
                           <TimePicker
-                            InputProps={{ 
+                            InputProps={{
                               endAdornment: (
                                 <InputAdornment>
                                   <Icon>schedule</Icon>
                                 </InputAdornment>
                               )
                             }}
-                            value = {this.state.time}
+                            value={this.state.time}
                             fullWidth
                             placeholder="Time"
                             name="time"
@@ -303,7 +309,7 @@ class FundraisingCreate extends Component {
                   variant="contained"
                   color="primary"
                   size="large"
-                  style={{ 
+                  style={{
                     padding: "1em 2em 1em 2em",
                     backgroundColor: "black"
                   }}

@@ -1,33 +1,46 @@
 import React, { Component } from "react";
 
-import { theme } from '../../themes/theme'
-import { FormControl, FormLabel, Typography, TextField, Container, Grid, Input, InputAdornment, Icon, Select, Button } from "@material-ui/core";
+import { theme } from "../../themes/theme";
+import {
+  FormControl,
+  FormLabel,
+  Typography,
+  TextField,
+  Container,
+  Grid,
+  InputAdornment,
+  Icon,
+  Button
+} from "@material-ui/core";
 
 import { withStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 
-import ImageUpload from '../../components/ImageUpload';
-import { DatePicker, MuiPickersUtilsProvider, TimePicker } from "@material-ui/pickers";
-import DayjsUtils from '@date-io/dayjs';
+import ImageUpload from "../../components/ImageUpload";
+import {
+  DatePicker,
+  MuiPickersUtilsProvider,
+  TimePicker
+} from "@material-ui/pickers";
+import DayjsUtils from "@date-io/dayjs";
 
 const styles = theme => ({
   container: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap"
   },
   textField: {
     marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(1)
   },
   dense: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(2)
   },
   menu: {
-    width: 200,
+    width: 200
   },
   theme: theme
 });
-
 
 class FundraisingCreate extends Component {
   constructor() {
@@ -37,12 +50,11 @@ class FundraisingCreate extends Component {
         title: "",
         description: "",
         amount: "",
-        deadline: "",
+        deadline: ""
       },
       snackbarOpen: false,
       snackbarMsg: ""
-    }
-
+    };
   }
 
   snackbarClose = () => {
@@ -51,24 +63,24 @@ class FundraisingCreate extends Component {
     });
   };
 
-
   updateText = event => {
     let updatedText = Object.assign({}, this.state.fundraiser);
     updatedText[event.target.name] = event.target.value;
-
   };
 
-  validate = (data) => {
+  validate = data => {
     if (!data.title) {
       this.setState({
         snackbarOpen: true,
-        snackbarMsg: "Fundraiser title is required and must be at least 3 characters"
+        snackbarMsg:
+          "Fundraiser title is required and must be at least 3 characters"
       });
     }
     if (!data.description) {
       this.setState({
         snackbarOpen: true,
-        snackbarMsg: "Fundraiser description is required and must be at least 200 characters"
+        snackbarMsg:
+          "Fundraiser description is required and must be at least 200 characters"
       });
     }
     if (!data.amount) {
@@ -83,19 +95,16 @@ class FundraisingCreate extends Component {
         snackbarMsg: "Fundraiser deadline is required"
       });
     }
-  }
+  };
 
   handleSubmit = event => {
     event.preventDefault();
     // todo add length checks
     this.validate(this.state.fundraiser);
     // deadline must be later than today
-
   };
 
-
   render() {
-
     console.log(theme);
     return (
       <div className="pageView">
@@ -108,13 +117,18 @@ class FundraisingCreate extends Component {
               alignItems="stretch"
               spacing={2}
             >
-              <Typography variant="h3" style={{ marginTop: "1em", marginBottom:"0.75em" }} align="center" gutterBottom>
+              <Typography
+                variant="h3"
+                style={{ marginTop: "1em", marginBottom: "0.75em" }}
+                align="center"
+                gutterBottom
+              >
                 Create New Fundraiser
               </Typography>
 
               <Grid item>
                 <FormControl fullWidth required>
-                  <FormLabel fullWidth >
+                  <FormLabel fullWidth>
                     What is your cause you'd like to fundraise for?
                   </FormLabel>
                   <TextField
@@ -130,9 +144,7 @@ class FundraisingCreate extends Component {
 
               <Grid item>
                 <FormControl fullWidth required>
-                  <FormLabel>
-                    Description
-                  </FormLabel>
+                  <FormLabel>Description</FormLabel>
                   <TextField
                     placeholder="Write a cause title"
                     name="title"
@@ -149,11 +161,9 @@ class FundraisingCreate extends Component {
               <Grid container item>
                 <Grid item xs={3}>
                   <FormControl fullWidth required>
-                    <FormLabel>
-                      Amount
-                    </FormLabel>
+                    <FormLabel>Amount</FormLabel>
                     <TextField
-                      InputProps={{ 
+                      InputProps={{
                         startAdornment: <InputAdornment>$</InputAdornment>
                       }}
                       placeholder="100.00"
@@ -169,71 +179,80 @@ class FundraisingCreate extends Component {
 
                 <Grid item xs={7}>
                   <FormControl fullWidth required>
-                    <FormLabel>
-                      Deadline
-                    </FormLabel>
-                  <Grid container direction="row">
-                    <Grid item xs={6}>
-                      <MuiPickersUtilsProvider utils={ DayjsUtils }>
-                        <DatePicker
-                          InputProps={{ 
-                            endAdornment: <InputAdornment>
-                              <Icon>event</Icon>
-                            </InputAdornment>
-                          }}
-                          fullWidth
-                          placeholder="Date"
-                          name="date"
-                          margin="normal"
-                          inputVariant="outlined"
-                          onChange={this.updateText}
-                          variant="inline"
-                        />
-                      </MuiPickersUtilsProvider>
+                    <FormLabel>Deadline</FormLabel>
+                    <Grid container direction="row">
+                      <Grid item xs={6}>
+                        <MuiPickersUtilsProvider utils={DayjsUtils}>
+                          <DatePicker
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment>
+                                  <Icon>event</Icon>
+                                </InputAdornment>
+                              )
+                            }}
+                            fullWidth
+                            placeholder="Date"
+                            name="date"
+                            margin="normal"
+                            inputVariant="outlined"
+                            onChange={this.updateText}
+                            variant="inline"
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <MuiPickersUtilsProvider utils={DayjsUtils}>
+                          <TimePicker
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment>
+                                  <Icon>schedule</Icon>
+                                </InputAdornment>
+                              )
+                            }}
+                            fullWidth
+                            placeholder="Time"
+                            name="time"
+                            margin="normal"
+                            inputVariant="outlined"
+                            onChange={this.updateText}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                      <MuiPickersUtilsProvider utils={ DayjsUtils }>
-                        <TimePicker
-                          InputProps={{ 
-                            endAdornment: <InputAdornment><Icon>schedule</Icon></InputAdornment>
-                          }}
-                          fullWidth
-                          placeholder="Time"
-                          name="time"
-                          margin="normal"
-                          inputVariant="outlined"
-                          onChange={this.updateText}
-                        />
-                      </MuiPickersUtilsProvider>
-                    </Grid>
+                  </FormControl>
+                </Grid>
+              </Grid>
 
-                  </Grid>
-                </FormControl>
+              <Grid item>
+                <FormLabel>Upload an image for your fundraiser</FormLabel>
+                <ImageUpload />
+              </Grid>
+
+              <Grid
+                item
+                align="center"
+                style={{ marginTop: "1.5rem", padding: "1em" }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  style={{
+                    padding: "1em 2em 1em 2em",
+                    backgroundColor: "black"
+                  }}
+                >
+                  Create Fundraiser
+                </Button>
               </Grid>
             </Grid>
-
-            <Grid item>
-              <FormLabel>
-                Upload an image for your fundraiser
-              </FormLabel>
-              <ImageUpload />
-            </Grid>
-
-            <Grid item align="center" style={{ marginTop: "1.5rem", padding: "1em" }}> 
-              <Button variant="contained" color="primary" size="large" style={{ padding: "1em 2em 1em 2em", backgroundColor: "black" }}>
-                Create Fundraiser
-              </Button>
-            </Grid>
-
-            </Grid>
-
-
           </Container>
         </form>
       </div>
     );
   }
-
 }
 
 export default withStyles(styles)(FundraisingCreate);

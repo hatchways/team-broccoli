@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Container, Grid } from "@material-ui/pickers";
 import { Typography, Paper } from "@material-ui/core";
 
 const thumbsContainer = {
   display: "flex",
   flexDirection: "row",
-  //flexWrap: 'wrap',
   marginTop: 16,
   border: "1px solid #eaeaea"
 };
@@ -16,7 +14,6 @@ const thumb = {
   borderRadius: 2,
   marginBottom: 8,
   marginRight: 8,
-  // width: 200,
   height: 200,
   padding: 4,
   boxSizing: "border-box"
@@ -25,12 +22,10 @@ const thumb = {
 const thumbInner = {
   display: "flex",
   minWidth: 0
-  //overflow: 'hidden'
 };
 
 const img = {
   display: "inline-block",
-  // width: 'auto',
   verticalAlign: "top",
   height: "100%"
 };

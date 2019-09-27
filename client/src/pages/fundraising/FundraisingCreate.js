@@ -58,8 +58,7 @@ class FundraisingCreate extends Component {
         .add(30, "days")
         .format("YYYY-MM-DD"),
       time: dayjs()
-        .second(0)
-        .format("HH:mm"),
+        .second(0),
       snackbarOpen: false,
       snackbarMsg: ""
     };
@@ -91,7 +90,7 @@ class FundraisingCreate extends Component {
     deadline_time.second(0);
 
     this.setState({
-      time: time.format("YYYY-MM-DD"),
+      time: time.second(0),
       deadline: deadline_time
     });
   };
@@ -285,7 +284,7 @@ class FundraisingCreate extends Component {
                             name="time"
                             margin="normal"
                             inputVariant="outlined"
-                            onChange={this.updateText}
+                            onChange={this.updateTime}
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>

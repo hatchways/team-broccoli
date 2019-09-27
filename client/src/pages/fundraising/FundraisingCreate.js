@@ -197,7 +197,7 @@ class FundraisingCreate extends Component {
                             margin="normal"
                             inputVariant="outlined"
                             onChange={this.updateText}
-                            variant="inline"
+                            variant="dialog"
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>

@@ -2,25 +2,40 @@ import { createMuiTheme } from "@material-ui/core";
 
 export const theme = createMuiTheme({
   overrides: {
-    MuiFormLabel : {
+    MuiFormLabel: {
       root: {
         color: "black",
         fontWeight: "700",
         fontFamily: '"Roboto"',
         fontSize: "1.2rem"
       }
+    },
+    MuiPickersToolbar: {
+      toolbar: { backgroundColor: "black" }
+    },
+    MuiPickersDay: {
+      daySelected: { backgroundColor: "black" }
+    },
+    MuiPickersYear: {
+      yearSelected: { color: "black" }
+    },
+    MuiPickersClock: {
+      pin: { backgroundColor: "black" }
+    },
+    MuiPickersClockPointer: {
+      pointer: { backgroundColor: "black" },
+      thumb: { borderColor: "black" }
+    },
+    MuiPickersClockNumber: {
+      clockNumberSelected: { backgroundColor: "black" }
     }
   },
-  typography: {
-    fontFamily: '"Roboto"'
-  },
+  typography: { fontFamily: '"Roboto"' },
   primary: "#f04040",
   secondary: "#1f1f1f",
   error: "#d8000c",
   bgcolor: "#f6f6f6",
-  formLabel: {
-    color: "black"
-  },
+  formLabel: { color: "black" },
   solidButton: {
     backgroundColor: "black",
     border: "1px solid rgb(202, 202, 202)",

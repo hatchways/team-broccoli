@@ -17,11 +17,13 @@ import { withStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 
 import ImageUpload from "../../components/ImageUpload";
+
 import {
   DatePicker,
   MuiPickersUtilsProvider,
   TimePicker
 } from "@material-ui/pickers";
+import dayjs from "dayjs";
 import DayjsUtils from "@date-io/dayjs";
 
 const styles = theme => ({
@@ -50,8 +52,10 @@ class FundraisingCreate extends Component {
         title: "",
         description: "",
         amount: "",
-        deadline: ""
+        deadline: dayjs().add(30, 'days')
       },
+      date: dayjs().add(30, 'days').format("YYYY-MM-DD"),
+      time: dayjs().second(0).format("HH:mm"),
       snackbarOpen: false,
       snackbarMsg: ""
     };
@@ -63,9 +67,43 @@ class FundraisingCreate extends Component {
     });
   };
 
+  updateDate = date => {
+    let deadline_date = this.state.fundraiser.deadline;
+
+    deadline_date.year(date.year());
+    deadline_date.month(date.month());
+    deadline_date.date(date.date());
+
+    this.setState({
+      date: date.format("YYYY-MM-DD"),
+      deadline: deadline_date
+    });
+  }
+
+  updateTime = time => {
+    let deadline_time = this.state.fundraiser.deadline;
+    deadline_time.hour(time.hour());
+    deadline_time.minute(time.minute());
+    deadline_time.second(0);
+
+    this.setState({
+      time: time.format("YYYY-MM-DD"),
+      deadline: deadline_time
+    });
+  }
+
   updateText = event => {
     let updatedText = Object.assign({}, this.state.fundraiser);
     updatedText[event.target.name] = event.target.value;
+    
+    this.setState({
+      fundraiser: {
+        title: updatedText["title"],
+        description: updatedText["description"],
+        amount: updatedText["amount"],
+        deadline: this.state.fundraiser.deadline // we update this elsewhere
+      }
+    });
   };
 
   validate = data => {
@@ -102,10 +140,31 @@ class FundraisingCreate extends Component {
     // todo add length checks
     this.validate(this.state.fundraiser);
     // deadline must be later than today
+
+    if (!this.state.snackbarOpen) {
+
+      // remove Z from the end because we're sending this as UTC time
+      let deadline_string = this.state.fundraiser.deadline;
+      deadline_string = deadline_string.toISOString();
+      deadline_string = deadline_string.substring(0, deadline_string.length - 1);
+      this.setState({
+        fundraiser: {
+          deadline: deadline_string
+        }
+      });
+
+      fetch("/fundraiser", {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.fundraiser)
+      });
+    }
   };
 
   render() {
-    console.log(theme);
     return (
       <div className="pageView">
         <form noValidate autoComplete="off">
@@ -136,6 +195,7 @@ class FundraisingCreate extends Component {
                     margin="normal"
                     name="title"
                     variant="outlined"
+                    value={this.state.fundraiser.title}
                     onChange={this.updateText}
                     fullWidth
                   />
@@ -147,13 +207,13 @@ class FundraisingCreate extends Component {
                   <FormLabel>Description</FormLabel>
                   <TextField
                     placeholder="Write a cause title"
-                    name="title"
+                    name="description"
                     margin="normal"
                     multiline
                     rows="7"
                     variant="outlined"
+                    value={this.state.fundraiser.description}
                     onChange={this.updateText}
-                    defaultComponent="textarea"
                   />
                 </FormControl>
               </Grid>
@@ -170,6 +230,7 @@ class FundraisingCreate extends Component {
                       name="amount"
                       margin="normal"
                       variant="outlined"
+                      value={this.state.fundraiser.amount}
                       onChange={this.updateText}
                     />
                   </FormControl>
@@ -184,19 +245,20 @@ class FundraisingCreate extends Component {
                       <Grid item xs={6}>
                         <MuiPickersUtilsProvider utils={DayjsUtils}>
                           <DatePicker
-                            InputProps={{
+                            InputProps={{ 
                               endAdornment: (
                                 <InputAdornment>
                                   <Icon>event</Icon>
                                 </InputAdornment>
                               )
                             }}
+                            value = {this.state.date}
                             fullWidth
                             placeholder="Date"
                             name="date"
                             margin="normal"
                             inputVariant="outlined"
-                            onChange={this.updateText}
+                            onChange={this.updateDate}
                             variant="dialog"
                           />
                         </MuiPickersUtilsProvider>
@@ -204,13 +266,14 @@ class FundraisingCreate extends Component {
                       <Grid item xs={6}>
                         <MuiPickersUtilsProvider utils={DayjsUtils}>
                           <TimePicker
-                            InputProps={{
+                            InputProps={{ 
                               endAdornment: (
                                 <InputAdornment>
                                   <Icon>schedule</Icon>
                                 </InputAdornment>
                               )
                             }}
+                            value = {this.state.time}
                             fullWidth
                             placeholder="Time"
                             name="time"
@@ -236,10 +299,11 @@ class FundraisingCreate extends Component {
                 style={{ marginTop: "1.5rem", padding: "1em" }}
               >
                 <Button
+                  onClick={this.handleSubmit}
                   variant="contained"
                   color="primary"
                   size="large"
-                  style={{
+                  style={{ 
                     padding: "1em 2em 1em 2em",
                     backgroundColor: "black"
                   }}

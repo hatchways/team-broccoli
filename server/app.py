@@ -1,4 +1,5 @@
 from flask import Flask, Blueprint
+from flask_cors import CORS
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
@@ -10,6 +11,7 @@ from config import Config
 app = Flask(__name__.split('.')[0])
 app.config.from_object(Config)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 db = SQLAlchemy(app)

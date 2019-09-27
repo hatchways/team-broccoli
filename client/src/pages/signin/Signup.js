@@ -82,6 +82,27 @@ class Signup extends Component {
       });
     }
     //Post request and response to be handled here once backend is setup
+
+    //TODO: cleanup/extract api functionality
+    let url = 'http://127.0.0.1:5000'
+
+    let requestBody = {
+      name: this.state.signup.name,
+      email: this.state.signup.email,
+      password: this.state.signup.password,
+    }
+
+    let fetchData = {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: new Headers()
+    }
+
+    fetch(url + '/create', fetchData)
+      .then((resp) => {
+        //TODO: if response is not 200, display error
+        //TODO: store cookie and redirect to home page
+      });
   };
 
   handleCheck = event => {

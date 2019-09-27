@@ -61,7 +61,27 @@ class Signin extends Component {
         snackbarMsg: "Please enter a valid Email and Password"
       });
     }
+
     //Post request and response to be handled here once backend is setup
+    //TODO: cleanup/extract api functionality
+    let url = 'http://127.0.0.1:5000'
+
+    let requestBody = {
+      email: this.state.login.email,
+      password: this.state.login.password,
+    }
+
+    let fetchData = {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: new Headers()
+    }
+
+    fetch(url + '/signin', fetchData)
+      .then(function (resp) {
+        //TODO: if response is not 200, display error
+        //TODO: store cookie and redirect to home page
+      });
   };
 
   render() {

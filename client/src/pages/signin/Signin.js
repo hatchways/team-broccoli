@@ -64,7 +64,9 @@ class Signin extends Component {
 
     //Post request and response to be handled here once backend is setup
     //TODO: cleanup/extract api functionality
-    let url = 'http://127.0.0.1:5000'
+    let url = process.env.REACT_APP_SERVER_URL;
+
+    console.log(url);
 
     let requestBody = {
       email: this.state.login.email,
@@ -74,13 +76,23 @@ class Signin extends Component {
     let fetchData = {
       method: "POST",
       body: JSON.stringify(requestBody),
-      headers: new Headers()
+      headers: new Headers(),
+      credentials: 'same-origin'
     }
 
     fetch(url + '/signin', fetchData)
-      .then(function (resp) {
-        //TODO: if response is not 200, display error
-        //TODO: store cookie and redirect to home page
+      .then(res => {
+        if (res !== 200) {
+          ; // TODO: handle :( cases
+        } return res;
+      })
+      .then(res => res.json())
+      .then(authenticated_user => {
+        localStorage.setItem("access_token", authenticated_user.access_token);
+        localStorage.setItem("email", authenticated_user.email);
+        localStorage.setItem("id", authenticated_user.id);
+        localStorage.setItem("name", authenticated_user.name);
+        //TODO: redirect to home page
       });
   };
 

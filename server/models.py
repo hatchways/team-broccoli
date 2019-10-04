@@ -44,6 +44,7 @@ class Fundraiser(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), nullable=False)
     last_modified_at = db.Column(db.DateTime(timezone=True), nullable=False)
     creator_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
+    image_url = db.Column(db.String(512))
 
     creator = db.relationship("User", back_populates="fundraisers")
     donations = db.relationship("Donation", back_populates="fundraiser")

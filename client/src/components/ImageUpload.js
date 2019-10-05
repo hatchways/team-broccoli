@@ -64,24 +64,26 @@ async function get_presigned_post(filename, filetype) {
 
 async function upload_to_s3(file) {
   const presigned_post = await file.presigned_post
-  const url = await presigned_post.url
+  const fields = presigned_post.data.fields
   console.log(presigned_post.data)
-  console.log(presigned_post.data.fields)
-  var headers = await presigned_post.data.fields
 
-  const options = {
-    method: 'PUT',
-    headers,
-    body: file,
-  }
+  let formData = new FormData();
+  Object.keys(fields).forEach(key => {
+    formData.append(key, fields[key])
+  })
 
-  return fetch(url, options)
+  formData.append('file', file)
+
+  return fetch(presigned_post.data.url, {
+    body: formData,
+    method: 'POST',
+  })
     .then(response => {
       if (!response.ok) {
         // TODO: handle errors from react's side
         throw new Error(`${response.status}: ${response.statusText}`)
       }
-      return url;
+      return presigned_post.url;
     })
 }
 

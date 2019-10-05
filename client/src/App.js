@@ -4,7 +4,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { theme } from "./themes/theme";
 import LandingPage from "./pages/Landing";
-import FundraisingCreate from './pages/fundraising/FundraisingCreate';
+import FundraisingCreate from "./pages/fundraising/FundraisingCreate";
+import FundraiserDetails from "./pages/fundraising/FundraiserDetails";
 import Signin from "./pages/signin/Signin";
 import Signup from "./pages/signin/Signup";
 
@@ -16,6 +17,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/fundraiser/create" component={FundraisingCreate} />
+          <Route path="/fundraiser/details" component={FundraiserDetails} />
           <Route path="/signin" component={Signin} />
           <Route path="/signup" component={Signup} />
           <Route path="/" component={LandingPage} />

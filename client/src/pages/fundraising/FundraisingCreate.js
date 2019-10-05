@@ -57,8 +57,7 @@ class FundraisingCreate extends Component {
       date: dayjs()
         .add(30, "days")
         .format("YYYY-MM-DD"),
-      time: dayjs()
-        .second(0),
+      time: dayjs().second(0),
       snackbarOpen: false,
       snackbarMsg: ""
     };
@@ -211,7 +210,7 @@ class FundraisingCreate extends Component {
                 <FormControl fullWidth required>
                   <FormLabel>Description</FormLabel>
                   <TextField
-                    placeholder="Write a cause title"
+                    placeholder="Details about the course you are fundraising"
                     name="description"
                     margin="normal"
                     multiline

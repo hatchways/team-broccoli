@@ -69,10 +69,10 @@ class SignS3(Resource):
         presigned_post = s3.generate_presigned_post(
             Bucket = S3_BUCKET,
             Key = file_name,
-            Fields = {"acl": "public-read", "Content-Type": file_type},
+            Fields = {"acl": "public-read", "Content-Type": "image/*"},
             Conditions = [
                 {"acl": "public-read"},
-                {"Content-Type": file_type},
+                {"Content-Type": "image/*"},
             ],
             ExpiresIn = 3600,
         )

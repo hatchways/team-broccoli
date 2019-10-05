@@ -3,9 +3,10 @@ import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { theme } from "./themes/theme";
-import FundraisingCreate from './pages/fundraising/FundraisingCreate';
-import Signin from "./pages/signin/Signin";
 import Signup from "./pages/signin/Signup";
+import Signin from "./pages/signin/Signin";
+import NavBar from "./components/NavBar";
+import FundraisingCreate from './pages/fundraising/FundraisingCreate';
 
 import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -17,8 +18,11 @@ function App() {
         <Switch>
           <Route path="/signin" component={Signin} />
           <Route path="/signup" component={Signup} />
-          <ProtectedRoute path="/fundraiser/create" component={FundraisingCreate} />
-          <Route path="/" component={Signin} /> {/* fallback route */}
+          <Route path = "/fundraiser/">
+            <ProtectedRoute component = { NavBar } />
+            <ProtectedRoute exact path="/fundraiser/create" component={FundraisingCreate} />
+          </Route>
+          <Route path="/" component={Signin}/> {/* fallback to signin */}
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>

@@ -1,7 +1,7 @@
 import { NavLink, Link } from "react-router-dom";
 import { AppBar, Button, Toolbar, Avatar } from "@material-ui/core";
 import React from "react";
-import FundraisingCreate from "../pages/fundraising/FundraisingCreate";
+import FundraiserCreate from "../pages/fundraisers/FundraiserCreate";
 
 function NavBar({ props }) {
   return (

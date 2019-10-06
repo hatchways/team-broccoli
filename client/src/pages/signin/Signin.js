@@ -68,26 +68,27 @@ class Signin extends Component {
 
     let requestBody = {
       email: this.state.login.email,
-      password: this.state.login.password,
-    }
+      password: this.state.login.password
+    };
 
     let fetchData = {
       method: "POST",
       body: JSON.stringify(requestBody),
       headers: new Headers(),
-      credentials: 'same-origin'
-    }
+      credentials: "same-origin"
+    };
 
-    fetch(url + '/signin', fetchData)
+    fetch(url + "/signin", fetchData)
       .then(res => {
         if (res !== 200) {
-          ; // TODO: handle :( cases
-        } return res;
+          // TODO: handle :( cases
+        }
+        return res;
       })
       .then(res => res.json())
       .then(authenticated_user => {
         localStorage.setItem("access_token", authenticated_user.access_token);
-        //this.props.SetUser(authenticated_user);
+        this.props.setUserState(authenticated_user);
         this.props.history.push("/fundraisers");
         //TODO: redirect to home page
       });

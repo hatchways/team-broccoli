@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
 function ProtectedRoute({ component: Component, ...rest }) {
@@ -6,14 +6,16 @@ function ProtectedRoute({ component: Component, ...rest }) {
     return (
       <Route
         {...rest}
-        render = { 
-          props => <Redirect to={{ pathname: "/signin", state: { from: props.location } }} /> 
-        }
+        render={props => (
+          <Redirect
+            to={{ pathname: "/signin", state: { from: props.location } }}
+          />
+        )}
       />
     );
   }
 
-  return ( <Route {...rest} render={props => <Component {...props}/> } /> );
+  return <Route {...rest} render={props => <Component {...props} />} />;
 }
 
-export default ProtectedRoute
+export default ProtectedRoute;

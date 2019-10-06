@@ -29,6 +29,11 @@ function NavBar({ props }) {
             My profile
           </Button>
         </NavLink>
+        <NavLink to="/logout">
+          <Button>
+            Log out
+          </Button>
+        </NavLink>
       </Toolbar>
 
     </AppBar>

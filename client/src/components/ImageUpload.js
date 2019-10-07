@@ -35,7 +35,7 @@ const img = {
 async function get_presigned_post(filename, filetype) {
 
   // TODO: change to appropriate values
-  const token = "" // Token from login to get the presigned post headers
+  const token = localStorage.getItem("access_token")
   var url = new URL("http://127.0.0.1:5000/sign_s3")
 
   const params = {
@@ -62,8 +62,7 @@ async function get_presigned_post(filename, filetype) {
   })
 }
 
-async function upload_to_s3(file) {
-  const presigned_post = await file.presigned_post
+async function upload_to_s3(file, presigned_post) {
   const fields = presigned_post.data.fields
   console.log(presigned_post.data)
 
@@ -83,6 +82,9 @@ async function upload_to_s3(file) {
         // TODO: handle errors from react's side
         throw new Error(`${response.status}: ${response.statusText}`)
       }
+      Object.assign(file, {
+        s3_url: presigned_post.url,
+      });
       return presigned_post.url;
     })
 }
@@ -100,11 +102,16 @@ export default function ImageUpload(props) {
         )
       );
       acceptedFiles.map(file => {
-        const presigned_post = get_presigned_post(file.name,file.type);
-        Object.assign(file, {
-          presigned_post,
-        })
-        upload_to_s3(file)
+        try {
+          const presigned_post = get_presigned_post(file.name,file.type);
+          upload_to_s3(file, presigned_post);
+        }
+        catch {
+          this.SetState([{
+            snackbarOpen: true,
+            snackbarMsg: "There is an error with the upload, please retry."
+          }])
+        }
       });
     }
   });

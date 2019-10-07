@@ -84,7 +84,7 @@ class Signup extends Component {
     //Post request and response to be handled here once backend is setup
 
     //TODO: cleanup/extract api functionality
-    let url = 'http://127.0.0.1:5000'
+    let url = process.env.REACT_APP_SERVER_URL;
 
     let requestBody = {
       name: this.state.signup.name,

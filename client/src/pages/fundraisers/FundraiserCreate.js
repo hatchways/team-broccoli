@@ -44,7 +44,7 @@ const styles = theme => ({
   theme: theme
 });
 
-class FundraisingCreate extends Component {
+class FundraiserCreate extends Component {
   constructor() {
     super();
     this.state = {
@@ -324,4 +324,4 @@ class FundraisingCreate extends Component {
   }
 }
 
-export default withStyles(styles)(FundraisingCreate);
+export default withStyles(styles)(FundraiserCreate);

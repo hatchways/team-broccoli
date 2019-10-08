@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import Background from "./backgroundimage.jpg";
 import { withStyles } from "@material-ui/core/styles";
@@ -9,8 +9,8 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
 class Signin extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       login: {
@@ -64,23 +64,33 @@ class Signin extends Component {
 
     //Post request and response to be handled here once backend is setup
     //TODO: cleanup/extract api functionality
-    let url = 'http://127.0.0.1:5000'
+    let url = process.env.REACT_APP_SERVER_URL;
 
     let requestBody = {
       email: this.state.login.email,
-      password: this.state.login.password,
-    }
+      password: this.state.login.password
+    };
 
     let fetchData = {
       method: "POST",
       body: JSON.stringify(requestBody),
-      headers: new Headers()
-    }
+      headers: new Headers(),
+      credentials: "same-origin"
+    };
 
-    fetch(url + '/signin', fetchData)
-      .then(function (resp) {
-        //TODO: if response is not 200, display error
-        //TODO: store cookie and redirect to home page
+    fetch(url + "/signin", fetchData)
+      .then(res => {
+        if (res !== 200) {
+          // TODO: handle :( cases
+        }
+        return res;
+      })
+      .then(res => res.json())
+      .then(authenticated_user => {
+        localStorage.setItem("access_token", authenticated_user.access_token);
+        this.props.setUserState(authenticated_user);
+        this.props.history.push("/fundraisers");
+        //TODO: redirect to home page
       });
   };
 
@@ -187,4 +197,4 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(Signin);
+export default withStyles(styles)(withRouter(Signin));

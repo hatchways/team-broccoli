@@ -188,6 +188,15 @@ class FundraiserCreate extends Component {
         },
         body: JSON.stringify(fundraiser_data)
     })
+    .then(res => res.json())
+    .then(response => {
+      // TODO: change the redirect to created fundraiser once implemented
+      // response is a full fundraiser object, maybe we can pass the object
+      // to the component directly to reduce network calls
+      // var created_fundraiser_id = response.id
+      // TODO: there's still no toggle for live column
+      this.props.history.push("/fundraisers")
+    })
     }
   };
 

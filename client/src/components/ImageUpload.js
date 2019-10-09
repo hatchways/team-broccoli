@@ -54,9 +54,9 @@ async function get_presigned_post(filename, filetype) {
   })
   .then(response => {
     if (!response.ok) {
-      throw new Error(`${response.status}: ${response.statusText}`)
-    }
-    return response.json();
+      //throw new Error(`${response.status}: ${response.statusText}`)
+    } else {
+    return response.json()};
   }).then(body => {
     return(body)
   })
@@ -80,12 +80,12 @@ async function upload_to_s3(file, presigned_post) {
     .then(response => {
       if (!response.ok) {
         // TODO: handle errors from react's side
-        throw new Error(`${response.status}: ${response.statusText}`)
-      }
+        //throw new Error(`${response.status}: ${response.statusText}`)
+      } else {
       Object.assign(file, {
         s3_url: presigned_post.url,
       });
-      return presigned_post.url;
+      return presigned_post.url;}
     })
 }
 

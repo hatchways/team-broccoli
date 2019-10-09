@@ -11,6 +11,7 @@ from config import Config
 app = Flask(__name__.split('.')[0])
 app.config.from_object(Config)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 604800 # set expiry date to a week
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 

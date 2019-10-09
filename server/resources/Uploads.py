@@ -79,5 +79,5 @@ class SignS3(Resource):
 
         return {
             "data": presigned_post,
-            "url": f"https://{S3_BUCKET}.s3.amazonaws.com/{file_name}"
+            "fileUrl": f"https://{S3_BUCKET}.s3.amazonaws.com/{file_name}"
         }

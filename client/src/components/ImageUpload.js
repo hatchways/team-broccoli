@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { useDropzone } from 'react-dropzone';
+import Dropzone from 'react-dropzone-uploader';
 import { Typography, Paper } from "@material-ui/core";
+import 'react-dropzone-uploader/dist/styles.css';
 
 const thumbsContainer = {
   display: "flex",
@@ -35,7 +37,8 @@ const img = {
 async function get_presigned_post(filename, filetype) {
 
   // TODO: change to appropriate values
-  const token = localStorage.getItem("access_token")
+  //const token = localStorage.getItem("access_token")
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzA1OTYzNDgsIm5iZiI6MTU3MDU5NjM0OCwianRpIjoiMjMzMDM2ZTEtZjY0My00ZjY1LTlmMTctNTYzNzMxZTg3MjUyIiwiZXhwIjoxNTcwNTk3MjQ4LCJpZGVudGl0eSI6InRlc3RAZ21haWwuY29tIiwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.4WlEGjxnsVYXQHe2EXL3aUGWcZbEkxyYw34PPQZenAI"
   var url = new URL("http://127.0.0.1:5000/sign_s3")
 
   const params = {
@@ -54,12 +57,12 @@ async function get_presigned_post(filename, filetype) {
   })
   .then(response => {
     if (!response.ok) {
-      //throw new Error(`${response.status}: ${response.statusText}`)
+      throw new Error(`${response.status}: ${response.statusText}`)
     } else {
     return response.json()};
   }).then(body => {
     return(body)
-  })
+  })//.catch((err) => {return err})
 }
 
 async function upload_to_s3(file, presigned_post) {
@@ -89,7 +92,42 @@ async function upload_to_s3(file, presigned_post) {
     })
 }
 
-export default function ImageUpload(props) {
+export var ImageUpload = (props) => {
+  const getUploadParams = async ({ meta: { name, type } }) => {
+    const { data, fileUrl } = await get_presigned_post(name, type)
+      .catch(err => {
+        "return null to let react-dropzone-uploader handle the error"
+        return {
+          data: {fields: null, url: null},
+          fileUrl: null,
+        }
+      })
+
+    return { fields: data['fields'], meta: { fileUrl }, fields: data['url'] }
+  }
+
+  const handleChangeStatus = ({ meta }, status) => {
+    console.log(status)
+    if (status == "error_upload_params" | "exception_upload" | "error_upload") {
+      console.log('error!')
+    }
+  }
+
+  return (
+    <Dropzone
+      getUploadParams={getUploadParams}
+      onChangeStatus={handleChangeStatus}
+      styles={{
+        dropzone: {
+          minHeight: 200,
+          maxHeight: 250,
+        }
+      }}
+    />
+  )
+}
+
+function ImageUploadOld(props) {
   const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/*",

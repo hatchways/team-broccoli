@@ -16,7 +16,7 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 
-import ImageUpload from "../../components/ImageUpload";
+import { ImageUpload } from "../../components/ImageUpload";
 
 import {
   DatePicker,

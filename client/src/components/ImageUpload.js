@@ -32,29 +32,38 @@ async function get_presigned_post(filename, filetype) {
   })
 }
 
-export var ImageUpload = (props) => {
+export var ImageUpload = ({imageUrlHandler}) => {
 
   const getUploadParams = async ({ meta: { name, type } }) => {
     const { data, fileUrl } = await get_presigned_post(name, type)
       .catch(err => {
         "return null to let react-dropzone-uploader handle the error"
+        console.log(err)
         return {
           data: {fields: null, url: null},
           fileUrl: null,
         }
       })
 
+    console.log(data)
+    console.log( {
+      fields: data['fields'],
+      meta: { fileUrl },
+      url: data['url'],
+    })
     return {
       fields: data['fields'],
       meta: { fileUrl },
-      fields: data['url']
+      url: data['url']
     }
   }
 
   const handleChangeStatus = ({ meta }, status) => {
-    console.log(status)
     if (status == "error_upload_params" | "exception_upload" | "error_upload") {
       console.log('error! ' + status)
+    }
+    if (status == "headers_received" | "done") {
+      imageUrlHandler(meta.fileUrl)
     }
   }
 

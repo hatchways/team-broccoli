@@ -29,7 +29,7 @@ async function get_presigned_post(filename, filetype) {
     return response.json()};
   }).then(body => {
     return(body)
-  })
+  })//.catch((err) => {return err})
 }
 
 export var ImageUpload = ({imageUrlHandler}) => {

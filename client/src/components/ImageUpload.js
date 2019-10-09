@@ -1,44 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useDropzone } from 'react-dropzone';
 import Dropzone from 'react-dropzone-uploader';
-import { Typography, Paper } from "@material-ui/core";
 import 'react-dropzone-uploader/dist/styles.css';
-
-const thumbsContainer = {
-  display: "flex",
-  flexDirection: "row",
-  marginTop: 16,
-  border: "1px solid #eaeaea"
-};
-
-const thumb = {
-  display: "inline-flex",
-  borderRadius: 2,
-  marginBottom: 8,
-  marginRight: 8,
-  height: 200,
-  padding: 4,
-  boxSizing: "border-box"
-};
-
-const thumbInner = {
-  display: "flex",
-  minWidth: 0
-};
-
-const img = {
-  display: "inline-block",
-  verticalAlign: "top",
-  height: "100%"
-};
-
 
 // TODO: move function to api file
 async function get_presigned_post(filename, filetype) {
 
-  // TODO: change to appropriate values
-  //const token = localStorage.getItem("access_token")
-  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzA1OTYzNDgsIm5iZiI6MTU3MDU5NjM0OCwianRpIjoiMjMzMDM2ZTEtZjY0My00ZjY1LTlmMTctNTYzNzMxZTg3MjUyIiwiZXhwIjoxNTcwNTk3MjQ4LCJpZGVudGl0eSI6InRlc3RAZ21haWwuY29tIiwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.4WlEGjxnsVYXQHe2EXL3aUGWcZbEkxyYw34PPQZenAI"
+  const token = localStorage.getItem("access_token")
   var url = new URL("http://127.0.0.1:5000/sign_s3")
 
   const params = {
@@ -62,37 +29,11 @@ async function get_presigned_post(filename, filetype) {
     return response.json()};
   }).then(body => {
     return(body)
-  })//.catch((err) => {return err})
-}
-
-async function upload_to_s3(file, presigned_post) {
-  const fields = presigned_post.data.fields
-  console.log(presigned_post.data)
-
-  let formData = new FormData();
-  Object.keys(fields).forEach(key => {
-    formData.append(key, fields[key])
   })
-
-  formData.append('file', file)
-
-  return fetch(presigned_post.data.url, {
-    body: formData,
-    method: 'POST',
-  })
-    .then(response => {
-      if (!response.ok) {
-        // TODO: handle errors from react's side
-        //throw new Error(`${response.status}: ${response.statusText}`)
-      } else {
-      Object.assign(file, {
-        s3_url: presigned_post.url,
-      });
-      return presigned_post.url;}
-    })
 }
 
 export var ImageUpload = (props) => {
+
   const getUploadParams = async ({ meta: { name, type } }) => {
     const { data, fileUrl } = await get_presigned_post(name, type)
       .catch(err => {
@@ -103,15 +44,20 @@ export var ImageUpload = (props) => {
         }
       })
 
-    return { fields: data['fields'], meta: { fileUrl }, fields: data['url'] }
+    return {
+      fields: data['fields'],
+      meta: { fileUrl },
+      fields: data['url']
+    }
   }
 
   const handleChangeStatus = ({ meta }, status) => {
     console.log(status)
     if (status == "error_upload_params" | "exception_upload" | "error_upload") {
-      console.log('error!')
+      console.log('error! ' + status)
     }
   }
+
 
   return (
     <Dropzone
@@ -125,72 +71,4 @@ export var ImageUpload = (props) => {
       }}
     />
   )
-}
-
-function ImageUploadOld(props) {
-  const [files, setFiles] = useState([]);
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*",
-    onDrop: acceptedFiles => {
-      setFiles(
-        acceptedFiles.map(file =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file)
-          })
-        )
-      );
-      acceptedFiles.map(file => {
-        try {
-          const presigned_post = get_presigned_post(file.name,file.type);
-          upload_to_s3(file, presigned_post);
-        }
-        catch {
-          this.SetState([{
-            snackbarOpen: true,
-            snackbarMsg: "There is an error with the upload, please retry."
-          }])
-        }
-      });
-    }
-  });
-
-  const thumbs = files.map(file => (
-    <div style={thumb} key={file.name}>
-      <div style={thumbInner}>
-        <p align={"center"}>
-          <img src={file.preview} style={img} />
-        </p>
-      </div>
-    </div>
-  ));
-
-  useEffect(
-    () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
-      files.forEach(file => URL.revokeObjectURL(file.preview));
-    },
-    [files]
-  );
-
-  return (
-    <section className="container">
-      <Paper>
-        <aside style={thumbsContainer}>{thumbs}</aside>
-        <div
-          {...getRootProps({ className: "dropzone" })}
-          style={{ padding: "5em" }}
-        >
-          <input {...getInputProps()} inputVariant="outlined" />
-          <Typography
-            variant="h6"
-            align="center"
-            padding={2}
-            style={{ color: "#a5a5a5", fontWeight: "400" }}
-          >
-            Drag and drop your image here, or click to select one
-          </Typography>
-        </div>
-      </Paper>
-    </section>
-  );
 }

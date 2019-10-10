@@ -40,6 +40,7 @@ class Fundraiser(db.Model):
     description = db.Column(db.Text(), nullable=False)
     amount = db.Column(db.Integer(), nullable=False)
     deadline = db.Column(db.DateTime(timezone=True), nullable=False)
+    live = db.Column(db.Boolean(), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), nullable=False)
     last_modified_at = db.Column(db.DateTime(timezone=True), nullable=False)
     creator_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)

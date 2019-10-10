@@ -75,11 +75,11 @@ class FundraiserCreate(Resource):
 
 
 class FundraiserList(Resource):
-    """Provide a list of all fundraisers at /fundraisers"""
+    """Provide a list of all public fundraisers at /fundraisers"""
     # Possible TODO -- some method of limiting the number of results.
     @classmethod
     def get(cls):
-        fundraisers = Fundraiser.query.all()
+        fundraisers = Fundraiser.query.filter_by(live=True).all()
         return fundraiser_list_schema.dump(fundraisers), 200
 
 
@@ -95,6 +95,14 @@ class FundraiserResource(Resource):
 
         if not fundraiser:
             return {"message": FUNDRAISER_NOT_FOUND}, 404
+
+        if not fundraiser.live:
+            # A live fundraiser shouldn't require any authentication, but
+            # a non-live one can only be seen by the owner.
+            user_email = get_jwt_identity()
+            user = User.find_by_email(user_email)
+            if not user or user.id != fundraiser.creator_id:
+                return {"message": INVALID_CREDENTIALS}, 401
 
         return fundraiser_schema.dump(fundraiser), 200
 

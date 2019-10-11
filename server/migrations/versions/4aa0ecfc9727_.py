@@ -1,4 +1,4 @@
-"""empty message
+"""Stripe session record for donations-in-progress
 
 Revision ID: 4aa0ecfc9727
 Revises: c58942fe6b16

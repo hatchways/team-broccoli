@@ -57,7 +57,7 @@ def login_user():
         if email and password:
             user_record = User.query.filter_by(email=email).first()
             if not user_record:
-                return jsonify({"error":"No account exists with that email address"}), 400
+                return jsonify({"error":"No account exists with that email address."}), 400
             hashed_password = scrypt(password, user_record.salt)
             if hashed_password == user_record.password:
                 access_token = create_access_token(identity=email)

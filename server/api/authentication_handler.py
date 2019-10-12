@@ -55,7 +55,6 @@ def login_user():
         email = body.get('email')
         password = body.get('password')
         if email and password:
-            # is 404 really what we want here?
             user_record = User.query.filter_by(email=email).first()
             if not user_record:
                 return jsonify({"error":"No account exists with that email address"}), 400

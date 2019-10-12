@@ -56,7 +56,9 @@ def login_user():
         password = body.get('password')
         if email and password:
             # is 404 really what we want here?
-            user_record = User.query.filter_by(email=email).first_or_404("No account exists with that email address")
+            user_record = User.query.filter_by(email=email).first()
+            if not user_record:
+                return jsonify({"error":"No account exists with that email address"}), 400
             hashed_password = scrypt(password, user_record.salt)
             if hashed_password == user_record.password:
                 access_token = create_access_token(identity=email)

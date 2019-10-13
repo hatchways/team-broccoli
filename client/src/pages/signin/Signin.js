@@ -49,7 +49,7 @@ class Signin extends Component {
 
   // attempt to sign in, sending credentials to backend and checking the status
   async attempt_signin(credentials) {
-    let api = new Api('signin');
+    let api = new Api("signin");
     const result = await api.post(credentials);
 
     if (result.success) {
@@ -59,7 +59,6 @@ class Signin extends Component {
     }
     // else show warning message
   }
-
 
   //handles form submit
   handleSubmit = event => {
@@ -81,7 +80,6 @@ class Signin extends Component {
       email: this.state.login.email,
       password: this.state.login.password
     });
-
   };
 
   render() {

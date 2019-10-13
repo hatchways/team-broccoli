@@ -32,19 +32,15 @@ function App() {
           <Route path="/signup" component={Signup} />
           <ProtectedRoute path="/fundraiser*">
             <Route component={NavBar} />
-            <Route
-              exact
-              path="/fundraisers"
-              component={FundraiserList}
-            />
+            <Route exact path="/fundraisers" component={FundraiserList} />
             <Route
               exact
               path="/fundraiser/create"
               component={FundraiserCreate}
             />
           </ProtectedRoute>
-          <ProtectedRoute path="/logout" >
-            <Route component={LogOut}/>
+          <ProtectedRoute path="/logout">
+            <Route component={LogOut} />
           </ProtectedRoute>
           <Route
             exact

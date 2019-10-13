@@ -1,16 +1,15 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import Api from "../util/Api";
 
 function ProtectedRoute({ children, ...rest }) {
-
   const [is_authenticated, checkAuth] = useState(null);
 
   useEffect(() => {
     let didCancel = false;
 
     async function validateToken() {
-      let api = new Api('validate_token');
+      let api = new Api("validate_token");
       let valid = await api.get();
 
       if (!didCancel) {
@@ -20,13 +19,15 @@ function ProtectedRoute({ children, ...rest }) {
 
     validateToken();
 
-    return function () { didCancel = true; }
-  }, [])
+    return function() {
+      didCancel = true;
+    };
+  }, []);
 
   console.log(is_authenticated);
 
   if (is_authenticated === null) {
-    return 'Loading...';
+    return "Loading...";
   }
 
   return (

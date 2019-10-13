@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from "react";
 import { Route, Redirect } from "react-router-dom";
-import Api from "../Api";
+import Api from "../util/Api";
 
 function ProtectedRoute({ children, ...rest }) {
 
@@ -12,7 +12,7 @@ function ProtectedRoute({ children, ...rest }) {
     async function validateToken() {
       let api = new Api('validate_token');
       let valid = await api.get();
-      console.log(valid);
+
       if (!didCancel) {
         checkAuth(valid.success);
       }

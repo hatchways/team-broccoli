@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme => ({
         // this 18px radius does not produce circular ends for it.
         "border-radius": "18px",
         "text-transform": "none",
+        "margin-left": "0.5em",
     },
 }));
 

@@ -24,8 +24,6 @@ function ProtectedRoute({ children, ...rest }) {
     };
   }, []);
 
-  console.log(is_authenticated);
-
   if (is_authenticated === null) {
     return "Loading...";
   }

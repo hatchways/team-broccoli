@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 class FundraisingDetails extends Component {
-<<<<<<< HEAD
   constructor() {
     super();
 
@@ -19,8 +18,6 @@ class FundraisingDetails extends Component {
       body: JSON.stringify(this.state.fundraiser)
     });
   }
-=======
->>>>>>> 83756520ebb21cb62fba224071e7886df9c54d64
   render() {
     return <div>FundraisingDetails</div>;
   }

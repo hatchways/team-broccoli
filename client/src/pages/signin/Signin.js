@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import Api from "../../util/Api";
 
 class Signin extends Component {
   constructor(props) {
@@ -46,7 +47,21 @@ class Signin extends Component {
     });
   };
 
-  //handles form submittal
+  // attempt to sign in, sending credentials to backend and checking the status
+  async attempt_signin(credentials) {
+    let api = new Api('signin');
+    const result = await api.post(credentials);
+
+    if (result.success) {
+      localStorage.setItem("access_token", result.contents.access_token);
+      this.props.setUserState(result.contents);
+      this.props.history.push("/fundraisers");
+    }
+    // else show warning message
+  }
+
+
+  //handles form submit
   handleSubmit = event => {
     event.preventDefault();
     if (this.state.passLength < 6) {
@@ -62,36 +77,11 @@ class Signin extends Component {
       });
     }
 
-    //Post request and response to be handled here once backend is setup
-    //TODO: cleanup/extract api functionality
-    let url = process.env.REACT_APP_SERVER_URL;
-
-    let requestBody = {
+    this.attempt_signin({
       email: this.state.login.email,
       password: this.state.login.password
-    };
+    });
 
-    let fetchData = {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: new Headers(),
-      credentials: "same-origin"
-    };
-
-    fetch(url + "/signin", fetchData)
-      .then(res => {
-        if (res !== 200) {
-          // TODO: handle :( cases
-        }
-        return res;
-      })
-      .then(res => res.json())
-      .then(authenticated_user => {
-        localStorage.setItem("access_token", authenticated_user.access_token);
-        this.props.setUserState(authenticated_user);
-        this.props.history.push("/fundraisers");
-        //TODO: redirect to home page
-      });
   };
 
   render() {

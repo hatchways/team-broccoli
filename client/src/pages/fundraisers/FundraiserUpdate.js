@@ -73,7 +73,13 @@ class FundraiserUpdate extends Component {
     const url = process.env.REACT_APP_SERVER_URL
     const { id }= this.props.match.params
     this.setState({fundraiserId: id})
-    fetch(url + `/fundraiser/${id}`)
+    var token = localStorage.getItem("access_token")
+    fetch(url + `/fundraiser/${id}`, {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + token,
+      }
+    })
       .then(res => res.json())
       .then(fundraiser => {
         this.setState({

@@ -39,15 +39,15 @@ function App() {
               path="/fundraiser/create"
               component={FundraiserCreate}
             />
-          </ProtectedRoute>
-          <ProtectedRoute path="/logout">
-            <Route component={LogOut} />
-          </ProtectedRoute>
-            <ProtectedRoute
+            <Route
               exact
               path="/fundraiser/:id/edit"
               component={FundraiserUpdate}
             />
+          </ProtectedRoute>
+          <ProtectedRoute path="/logout">
+            <Route component={LogOut} />
+          </ProtectedRoute>
           <ProtectedRoute path="/logout" component={LogOut} />
           <Route
             exact

@@ -73,7 +73,7 @@ class FundraiserList extends Component {
           {
             this.state.fundraisers.map(fundraiser => {
               return  <Grid item>
-                        <FundraiserCard title={fundraiser.title} donated_amount={fundraiser.donated_amount}/>
+                        <FundraiserCard title={fundraiser.title} donated_amount={fundraiser.donated_amount} image_url={fundraiser.image_url}/>
                       </Grid>
             })
           }

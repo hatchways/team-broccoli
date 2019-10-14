@@ -23,6 +23,23 @@ class FundraiserList extends Component {
       ]
     }
   }
+  componentDidMount() {
+    const url = process.env.REACT_APP_SERVER_URL
+    var token = localStorage.getItem('access_token')
+
+    fetch(url + `/fundraisers`, {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + token,
+      }
+    })
+      .then(res => res.json())
+      .then(fundraisers => {
+        this.setState({
+          fundraisers: fundraisers,
+        })
+      })
+  }
   render() {
     return (
       <div>
@@ -39,7 +56,7 @@ class FundraiserList extends Component {
           {
             this.state.fundraisers.map(fundraiser => {
               return  <Grid item>
-                        <FundraiserCard title={fundraiser.title} donated_amount={fundraiser.donated_amount}/> 
+                        <FundraiserCard title={fundraiser.title} donated_amount={fundraiser.donated_amount} image_url={fundraiser.image_url}/>
                       </Grid>
             })
           }
@@ -56,7 +73,7 @@ class FundraiserList extends Component {
           {
             this.state.fundraisers.map(fundraiser => {
               return  <Grid item>
-                        <FundraiserCard title={fundraiser.title} donated_amount={fundraiser.donated_amount}/> 
+                        <FundraiserCard title={fundraiser.title} donated_amount={fundraiser.donated_amount}/>
                       </Grid>
             })
           }

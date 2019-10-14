@@ -10,6 +10,7 @@ function ProtectedRoute({ children, ...rest }) {
 
     async function validateToken() {
       let api = new Api("validate_token");
+      console.log(api.url);
       let valid = await api.get();
 
       if (!didCancel) {

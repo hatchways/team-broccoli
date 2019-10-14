@@ -7,6 +7,7 @@ import Signup from "./pages/signin/Signup";
 import Signin from "./pages/signin/Signin";
 import NavBar from "./components/NavBar";
 import FundraiserCreate from "./pages/fundraisers/FundraiserCreate";
+import FundraiserDetails from "./pages/fundraisers/FundraiserDetails";
 
 import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -30,6 +31,7 @@ function App() {
             render={props => <Signin {...props} setUserState={SetUserState} />}
           />
           <Route path="/signup" component={Signup} />
+
           <ProtectedRoute path="/fundraiser*">
             <Route component={NavBar} />
             <Route exact path="/fundraisers" component={FundraiserList} />
@@ -37,6 +39,11 @@ function App() {
               exact
               path="/fundraiser/create"
               component={FundraiserCreate}
+            />
+            <Route
+              exact
+              path="/fundraiser/details/:id"
+              component={FundraiserDetails}
             />
           </ProtectedRoute>
           <ProtectedRoute path="/logout">

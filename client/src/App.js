@@ -11,10 +11,11 @@ import MessagePane from "./components/MessagePane";
 import FundraiserCreate from "./pages/fundraisers/FundraiserCreate";
 import FundraiserDetails from "./pages/fundraisers/FundraiserDetails";
 import FundraiserUpdate from "./pages/fundraisers/FundraiserUpdate";
+import FundraiserCard from "./components/FundraiserCard";
+import FundraiserList from "./pages/fundraisers/FundraisersList"
 
 import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute";
-import FundraiserList from "./pages/fundraisers/FundraisersList";
 import LogOut from "./components/LogOut";
 import NotFoundPage from "./pages/NotFoundPage";
 

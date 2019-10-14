@@ -178,7 +178,8 @@ class FundraiserCreate extends Component {
         image_url: this.state.imageUrl
       };
 
-      fetch("/fundraiser", {
+      let url = process.env.REACT_APP_SERVER_URL
+      fetch(url + "/fundraiser", {
         method: "POST",
         headers: {
           Accept: "application/json",

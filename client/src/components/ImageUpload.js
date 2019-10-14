@@ -39,7 +39,6 @@ export class ImageUpload extends Component {
 
     this.state = {
       ...props,
-      previewFile: props.initialFiles[0]
     }
   }
 
@@ -48,17 +47,6 @@ export class ImageUpload extends Component {
     this.setState({
       ...props,
     })
-    this.readFile(props.initialFiles[0])
-  }
-
-  readFile (file) {
-    if (file == null) {return ""}
-    console.log(file)
-    var fr = new FileReader()
-    var url = fr.readAsDataURL(file)
-    fr.onloadend = (e) => {
-      this.setState({previewFile: fr.result})
-    }
   }
 
   async getUploadParams ({ meta: { name, type } }) {
@@ -72,12 +60,6 @@ export class ImageUpload extends Component {
         }
       })
 
-    console.log(data)
-    console.log( {
-      fields: data['fields'],
-      meta: { fileUrl },
-      url: data['url'],
-    })
     return {
       fields: data['fields'],
       meta: { fileUrl },
@@ -101,8 +83,6 @@ export class ImageUpload extends Component {
       <Dropzone
         getUploadParams={this.getUploadParams}
         onChangeStatus={this.handleChangeStatus}
-        initialFiles={this.state.initialFiles}
-        inputContent={this.state.inputContent}
         styles={{
           dropzone: {
             minHeight: 200,

@@ -11,6 +11,7 @@ from config import Config
 app = Flask(__name__.split('.')[0])
 app.config.from_object(Config)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 604800 # set expiry date to a week
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
@@ -31,8 +32,10 @@ app.register_blueprint(ping_handler)
 
 # flask_restful API and resources
 from resources.Fundraiser import FundraiserCreate, FundraiserList, FundraiserResource
+from resources.Uploads import SignS3
 fr_api = Api(app)
 
 fr_api.add_resource(FundraiserCreate, '/fundraiser')
 fr_api.add_resource(FundraiserList, '/fundraisers')
 fr_api.add_resource(FundraiserResource, '/fundraiser/<int:fundraiser_id>')
+fr_api.add_resource(SignS3, '/sign_s3')

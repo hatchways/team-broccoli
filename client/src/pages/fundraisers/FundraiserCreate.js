@@ -16,7 +16,7 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 
-import ImageUpload from "../../components/ImageUpload";
+import { ImageUpload } from "../../components/ImageUpload";
 
 import {
   DatePicker,
@@ -52,13 +52,14 @@ class FundraiserCreate extends Component {
         title: "",
         description: "",
         amount: "",
-        deadline: dayjs().add(30, "days")
+        deadline: dayjs().add(30, "days"),
       },
       date: dayjs()
         .add(30, "days")
         .format("YYYY-MM-DD"),
       time: dayjs()
         .second(0),
+      imageUrl: "",
       snackbarOpen: false,
       snackbarMsg: ""
     };
@@ -109,6 +110,12 @@ class FundraiserCreate extends Component {
     });
   };
 
+  updateImageUrl = (imageUrl) => {
+    this.setState({
+      imageUrl: imageUrl
+    })
+  }
+
   validate = data => {
     if (!data.title) {
       this.setState({
@@ -140,6 +147,9 @@ class FundraiserCreate extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+
+    const token = localStorage.getItem("access_token")
+
     // todo add length checks
     this.validate(this.state.fundraiser);
     // deadline must be later than today
@@ -152,20 +162,41 @@ class FundraiserCreate extends Component {
         0,
         deadline_string.length - 1
       );
+
+      // Somehow changing the state and accessing it is too slow
       this.setState({
         fundraiser: {
-          deadline: deadline_string
+          ...this.state.fundraiser,
+          deadline: deadline_string,
+          image_url: this.state.imageUrl,
         }
       });
+
+      // creating the updated fundraiser data
+      const fundraiser_data = {
+        ...this.state.fundraiser,
+        deadline: deadline_string,
+        image_url: this.state.imageUrl,
+      }
 
       fetch("/fundraiser", {
         method: "POST",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token,
         },
-        body: JSON.stringify(this.state.fundraiser)
-      });
+        body: JSON.stringify(fundraiser_data)
+    })
+    .then(res => res.json())
+    .then(response => {
+      // TODO: change the redirect to created fundraiser once implemented
+      // response is a full fundraiser object, maybe we can pass the object
+      // to the component directly to reduce network calls
+      // var created_fundraiser_id = response.id
+      // TODO: there's still no toggle for live column
+      this.props.history.push("/fundraisers")
+    })
     }
   };
 
@@ -295,7 +326,9 @@ class FundraiserCreate extends Component {
 
               <Grid item>
                 <FormLabel>Upload an image for your fundraiser</FormLabel>
-                <ImageUpload />
+                <ImageUpload
+                  imageUrlHandler={this.updateImageUrl}
+                  />
               </Grid>
 
               <Grid

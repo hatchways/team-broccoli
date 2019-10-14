@@ -3,6 +3,7 @@ from flask_restful import Resource
 from flask_jwt_extended import (
     get_jwt_identity,
     jwt_required,
+    jwt_optional,
 )
 from marshmallow import ValidationError
 
@@ -90,6 +91,7 @@ class FundraiserResource(Resource):
     """
 
     @classmethod
+    @jwt_optional
     def get(cls, fundraiser_id: int):
         fundraiser = Fundraiser.find_by_id(fundraiser_id)
 

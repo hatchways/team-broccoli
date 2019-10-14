@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Component } from "react";
 import Dropzone from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css';
 
@@ -6,6 +6,7 @@ import 'react-dropzone-uploader/dist/styles.css';
 async function get_presigned_post(filename, filetype) {
 
   const token = localStorage.getItem("access_token")
+
   var url = new URL("http://127.0.0.1:5000/sign_s3")
 
   const params = {
@@ -29,12 +30,26 @@ async function get_presigned_post(filename, filetype) {
     return response.json()};
   }).then(body => {
     return(body)
-  })
+  })//.catch((err) => {return err})
 }
 
-export var ImageUpload = ({imageUrlHandler}) => {
+export class ImageUpload extends Component {
+  constructor(props) {
+    super()
 
-  const getUploadParams = async ({ meta: { name, type } }) => {
+    this.state = {
+      ...props,
+    }
+  }
+
+  componentWillReceiveProps (props) {
+    console.log('updated!')
+    this.setState({
+      ...props,
+    })
+  }
+
+  async getUploadParams ({ meta: { name, type } }) {
     const { data, fileUrl } = await get_presigned_post(name, type)
       .catch(err => {
         "return null to let react-dropzone-uploader handle the error"
@@ -45,12 +60,6 @@ export var ImageUpload = ({imageUrlHandler}) => {
         }
       })
 
-    console.log(data)
-    console.log( {
-      fields: data['fields'],
-      meta: { fileUrl },
-      url: data['url'],
-    })
     return {
       fields: data['fields'],
       meta: { fileUrl },
@@ -58,26 +67,30 @@ export var ImageUpload = ({imageUrlHandler}) => {
     }
   }
 
-  const handleChangeStatus = ({ meta }, status) => {
+  handleChangeStatus ({ meta }, status) {
     if (status == "error_upload_params" | "exception_upload" | "error_upload") {
       console.log('error! ' + status)
     }
     if (status == "headers_received" | "done") {
-      imageUrlHandler(meta.fileUrl)
+      this.state.imageUrlHandler(meta.fileUrl)
     }
   }
 
-
-  return (
-    <Dropzone
-      getUploadParams={getUploadParams}
-      onChangeStatus={handleChangeStatus}
-      styles={{
-        dropzone: {
-          minHeight: 200,
-          maxHeight: 250,
-        }
-      }}
-    />
-  )
+  render() {
+    return (
+      <React.Fragment>
+        <img src={this.state.previewFile}></img>
+      <Dropzone
+        getUploadParams={this.getUploadParams}
+        onChangeStatus={this.handleChangeStatus}
+        styles={{
+          dropzone: {
+            minHeight: 200,
+            maxHeight: 250,
+          }
+        }}
+      />
+      </React.Fragment>
+    )
+  }
 }

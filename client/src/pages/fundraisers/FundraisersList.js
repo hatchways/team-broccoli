@@ -1,22 +1,70 @@
 import React, { Component } from "react";
+import FundraiserCard from '../../components/FundraiserCard';
+import { Grid, Container } from "@material-ui/core";
 
 
 class FundraiserList extends Component {
-    constructor(props) {
-        super(props)
+  constructor() {
+    super();
+    this.state = {
+      fundraisers : [
+        {
+          title: "Donate to kill Lizards",
+          donated_amount: 400000
+        },
+        {
+          title: "Donate to heal Lizards",
+          donated_amount: 211
+        },
+        {
+          title: "Donate to impeach Lizards",
+          donated_amount: 44132
+        },
+      ]
     }
+  }
+  render() {
+    return (
+      <div>
+        <Container maxWidth="lg">
 
-    render() {
-        return (
-            <div>
-                <h1>Fundraisers</h1>
-                <p>
-                    {this.props.user}
-                </p>
-            </div>
-        );
-    }
+          <h1>Active Fundraisers</h1>
+          <Grid
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="center"
+          spacing={2}
+          >
+          {
+            this.state.fundraisers.map(fundraiser => {
+              return  <Grid item>
+                        <FundraiserCard title={fundraiser.title} donated_amount={fundraiser.donated_amount}/> 
+                      </Grid>
+            })
+          }
+          </Grid>
 
+          <h1 style = {{ marginTop: "2em" }}>Recently Fundraised</h1>
+          <Grid
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="center"
+          spacing={2}
+          >
+          {
+            this.state.fundraisers.map(fundraiser => {
+              return  <Grid item>
+                        <FundraiserCard title={fundraiser.title} donated_amount={fundraiser.donated_amount}/> 
+                      </Grid>
+            })
+          }
+          </Grid>
+        </Container>
+      </div>
+    );
+  }
 }
 
 

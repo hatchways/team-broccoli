@@ -8,10 +8,11 @@ import Signin from "./pages/signin/Signin";
 import NavBar from "./components/NavBar";
 import FundraiserCreate from "./pages/fundraisers/FundraiserCreate";
 import FundraiserUpdate from "./pages/fundraisers/FundraiserUpdate";
+import FundraiserCard from "./components/FundraiserCard";
+import FundraiserList from "./pages/fundraisers/FundraisersList"
 
 import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute";
-import FundraiserList from "./pages/fundraisers/FundraisersList";
 import LogOut from "./components/LogOut";
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -31,6 +32,7 @@ function App() {
             render={props => <Signin {...props} setUserState={SetUserState} />}
           />
           <Route path="/signup" component={Signup} />
+          <Route path="/card" component={FundraiserCard} />
           <ProtectedRoute path="/fundraiser*">
             <Route component={NavBar} />
             <Route exact path="/fundraisers" component={FundraiserList} />

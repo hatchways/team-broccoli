@@ -78,8 +78,6 @@ export class ImageUpload extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <img src={this.state.previewFile}></img>
       <Dropzone
         getUploadParams={this.getUploadParams}
         onChangeStatus={this.handleChangeStatus}
@@ -90,7 +88,6 @@ export class ImageUpload extends Component {
           }
         }}
       />
-      </React.Fragment>
     )
   }
 }

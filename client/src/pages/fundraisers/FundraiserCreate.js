@@ -53,6 +53,7 @@ class FundraiserCreate extends Component {
         description: "",
         amount: "",
         deadline: dayjs().add(30, "days"),
+        live: false,
       },
       date: dayjs()
         .add(30, "days")

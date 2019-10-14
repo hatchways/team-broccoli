@@ -67,7 +67,7 @@ export class ImageUpload extends Component {
     }
   }
 
-  handleChangeStatus ({ meta }, status) {
+  handleChangeStatus = ({ meta }, status) => {
     if (status == "error_upload_params" | "exception_upload" | "error_upload") {
       console.log('error! ' + status)
     }

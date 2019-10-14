@@ -23,7 +23,7 @@ class Fundraiser extends Component {
                 style={{ textAlign: "center" }}
                 variant="h5"
                 component="h5"
-                style={{ 
+                style={{
                   width: "280px",
                   position: "absolute",
                   color: "white",
@@ -37,7 +37,7 @@ class Fundraiser extends Component {
                   variant="body2"
                   color="textSecondary"
                   component="p"
-                  style={{ 
+                  style={{
                     width: "280px",
                     position: "absolute",
                     color: "white",
@@ -56,7 +56,7 @@ class Fundraiser extends Component {
                 component="img"
                 alt="Fundraiser image"
                 height="200"
-                src="https://material-ui.com/static/images/cards/contemplative-reptile.jpg"
+                src={this.props.image_url}
                 title="Fundraiser Image"
               />
             </CardMedia>

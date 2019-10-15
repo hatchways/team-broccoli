@@ -26,6 +26,9 @@ import {
 import dayjs from "dayjs";
 import DayjsUtils from "@date-io/dayjs";
 
+//TESTING HYPOTHESIS
+import Dropzone from 'react-dropzone-uploader';
+
 const styles = theme => ({
   container: {
     display: "flex",
@@ -44,7 +47,7 @@ const styles = theme => ({
   theme: theme
 });
 
-class FundraiserCreate extends Component {
+class FundraiserUpdate extends Component {
   constructor() {
     super();
     this.state = {
@@ -53,15 +56,39 @@ class FundraiserCreate extends Component {
         description: "",
         amount: "",
         deadline: dayjs().add(30, "days"),
-        live: false
+        image_url: "",
       },
       date: dayjs()
         .add(30, "days")
         .format("YYYY-MM-DD"),
-      time: dayjs().second(0),
+      time: dayjs()
+        .second(0),
+      imageUrl: "",
       snackbarOpen: false,
-      snackbarMsg: ""
+      snackbarMsg: "",
     };
+  }
+
+  componentDidMount() {
+    const url = process.env.REACT_APP_SERVER_URL
+    const { id }= this.props.match.params
+    this.setState({fundraiserId: id})
+    var token = localStorage.getItem("access_token")
+    fetch(url + `/fundraiser/${id}`, {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + token,
+      }
+    })
+      .then(res => res.json())
+      .then(fundraiser => {
+        this.setState({
+          fundraiser: {
+            ...fundraiser,
+            deadline: dayjs(fundraiser.deadline),
+          },
+        })
+      })
   }
 
   snackbarClose = () => {
@@ -109,11 +136,11 @@ class FundraiserCreate extends Component {
     });
   };
 
-  updateImageUrl = imageUrl => {
+  updateImageUrl = (imageUrl) => {
     this.setState({
       imageUrl: imageUrl
-    });
-  };
+    })
+  }
 
   validate = data => {
     if (!data.title) {
@@ -147,13 +174,16 @@ class FundraiserCreate extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("access_token")
 
     // todo add length checks
     this.validate(this.state.fundraiser);
     // deadline must be later than today
 
     if (!this.state.snackbarOpen) {
+      const url = process.env.REACT_APP_SERVER_URL
+      const id = this.state.fundraiserId
+
       // remove Z from the end because we're sending this as UTC time
       let deadline_string = this.state.fundraiser.deadline;
       deadline_string = deadline_string.toISOString();
@@ -167,7 +197,7 @@ class FundraiserCreate extends Component {
         fundraiser: {
           ...this.state.fundraiser,
           deadline: deadline_string,
-          image_url: this.state.imageUrl
+          image_url: this.state.imageUrl,
         }
       });
 
@@ -175,27 +205,27 @@ class FundraiserCreate extends Component {
       const fundraiser_data = {
         ...this.state.fundraiser,
         deadline: deadline_string,
-        image_url: this.state.imageUrl
-      };
+        image_url: this.state.imageUrl,
+      }
 
-      fetch("/fundraiser", {
-        method: "POST",
+      fetch(url + `/fundraiser/${id}`, {
+        method: "PUT",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + token
+          "Authorization": "Bearer " + token,
         },
         body: JSON.stringify(fundraiser_data)
-      })
-        .then(res => res.json())
-        .then(response => {
-          // TODO: change the redirect to created fundraiser once implemented
-          // response is a full fundraiser object, maybe we can pass the object
-          // to the component directly to reduce network calls
-          // var created_fundraiser_id = response.id
-          // TODO: there's still no toggle for live column
-          this.props.history.push("/fundraisers");
-        });
+    })
+    .then(res => res.json())
+    .then(response => {
+      // TODO: change the redirect to created fundraiser once implemented
+      // response is a full fundraiser object, maybe we can pass the object
+      // to the component directly to reduce network calls
+      // var created_fundraiser_id = response.id
+      // TODO: there's still no toggle for live column
+      this.props.history.push("/fundraisers")
+    })
     }
   };
 
@@ -217,7 +247,7 @@ class FundraiserCreate extends Component {
                 align="center"
                 gutterBottom
               >
-                Create New Fundraiser
+                Edit Your Fundraiser
               </Typography>
 
               <Grid item>
@@ -241,7 +271,7 @@ class FundraiserCreate extends Component {
                 <FormControl fullWidth required>
                   <FormLabel>Description</FormLabel>
                   <TextField
-                    placeholder="Details about the course you are fundraising"
+                    placeholder="Write a cause title"
                     name="description"
                     margin="normal"
                     multiline
@@ -325,7 +355,9 @@ class FundraiserCreate extends Component {
 
               <Grid item>
                 <FormLabel>Upload an image for your fundraiser</FormLabel>
-                <ImageUpload imageUrlHandler={this.updateImageUrl} />
+                <ImageUpload
+                  imageUrlHandler={this.updateImageUrl}
+                  />
               </Grid>
 
               <Grid
@@ -343,7 +375,7 @@ class FundraiserCreate extends Component {
                     backgroundColor: "black"
                   }}
                 >
-                  Create Fundraiser
+                  Edit Fundraiser
                 </Button>
               </Grid>
             </Grid>
@@ -354,4 +386,4 @@ class FundraiserCreate extends Component {
   }
 }
 
-export default withStyles(styles)(FundraiserCreate);
+export default withStyles(styles)(FundraiserUpdate);

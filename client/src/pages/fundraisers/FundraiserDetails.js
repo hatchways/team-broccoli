@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Api from "../../util/Api";
 import { withStyles } from "@material-ui/core/styles";
+import moment from "moment";
 
 class FundraiserDetails extends Component {
   constructor() {
@@ -21,12 +22,30 @@ class FundraiserDetails extends Component {
     } = this.props;
     let api = new Api(`fundraiser/${params.id}`);
     const request = await api.get(info);
-    console.log(api);
-    console.log(request);
+    //console.log(api);
+    //console.log(request);
+
+    let data = request.contents;
+    //console.log(data);
+    let time = moment(data.deadline).format("MMMM Do YYYY");
+    data.deadline = time;
+    //console.log(data);
+    let today = moment(Date.now()).format("MMMM Do YYYY");
+    //console.log(today);
+    let fundEnd;
+    if (time >= today) {
+      fundEnd = true;
+    } else {
+      fundEnd = false;
+    }
+    let isLive;
+    data.live ? (isLive = true) : (isLive = false);
 
     if (request.success) {
       this.setState({
-        details: { ...request.contents }
+        details: { ...data },
+        fundraiserEnded: fundEnd,
+        liveDetails: isLive
       });
     }
   }
@@ -39,22 +58,18 @@ class FundraiserDetails extends Component {
     //make a post request to the go live backend route
 
     //modify the contents of the page to show the live details
-    console.log(this.state.details.live);
+    //console.log(this.state.details.live);
 
     this.setState({
       liveDetails: event.target.value
     });
   };
 
-  /*
-  <div>{!details.creator.id ? "" : userButtonDisplay()}</div>
-  <div>{liveDisplay()}</div>
-  */
   render() {
     //console.log(this.props);
-    console.log(this.state.details);
-    console.log(this.state.details.creator.name);
-    console.log(this.state.liveDetails);
+    console.log(this.state);
+    //console.log(this.state.details.creator.name);
+    //console.log(this.state.liveDetails);
     const { classes } = this.props;
     const { details, liveDetails, fundraiserEnded } = this.state;
 
@@ -95,13 +110,21 @@ class FundraiserDetails extends Component {
       }
     };
 
+    const fundsEnded = () => {
+      if (fundraiserEnded) {
+        return <button className={classes.greyButton}>Fundraiser ended</button>;
+      } else {
+        return details.deadline;
+      }
+    };
+
     const liveDisplay = () => {
       if (liveDetails) {
         return (
           <div>
-            <div>Raised 0 of {details.amount}</div>
+            <div>Raised $0 of ${details.amount}</div>
             <span>THIS FUNDRAISER IS CURRENTLY LIVE</span>
-            <div>end on {details.deadline}</div>
+            <div>ends on {fundsEnded()}</div>
             <button className={classes.blueButton}>DONATE NOW</button>
           </div>
         );

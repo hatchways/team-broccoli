@@ -9,7 +9,9 @@ class FundraiserDetails extends Component {
     this.state = {
       details: {
         creator: {}
-      }
+      },
+      liveDetails: false,
+      fundraiserEnded: false
     };
   }
 
@@ -30,22 +32,42 @@ class FundraiserDetails extends Component {
   }
   componentDidMount() {
     console.log("ComponentDidMount");
-
     this.getDetails();
   }
 
+  goLive = event => {
+    //make a post request to the go live backend route
+
+    //modify the contents of the page to show the live details
+    console.log(this.state.details.live);
+
+    this.setState({
+      liveDetails: event.target.value
+    });
+  };
+
+  /*
+  <div>{!details.creator.id ? "" : userButtonDisplay()}</div>
+  <div>{liveDisplay()}</div>
+  */
   render() {
     //console.log(this.props);
     console.log(this.state.details);
     console.log(this.state.details.creator.name);
+    console.log(this.state.liveDetails);
     const { classes } = this.props;
-    const { details } = this.state;
+    const { details, liveDetails, fundraiserEnded } = this.state;
 
     const userButtonDisplay = () => {
       if (details.creator.id === details.creator_id) {
         return (
           <div>
-            <button className={classes.greyButton} type="submit">
+            <button
+              className={classes.greyButton}
+              onClick={this.goLive}
+              type="submit"
+              value="true"
+            >
               GO LIVE
             </button>
             <br />
@@ -59,26 +81,44 @@ class FundraiserDetails extends Component {
 
     const accessForUser = () => {
       if (details.creator.id !== details.creator_id && !details.live) {
-        return (
-          <div>The page is not live or you do not have access to this page</div>
-        );
+        return;
       } else {
         return (
           <div>
-            <div>
-              <h2>{details.title}</h2>
-              <h5>Created by {details.creator.name}</h5>
-              <br />
-              <h3>Description</h3>
-              <span>{details.description}</span>
-              <br />
-            </div>
-            <div>{!details.creator.id ? "" : userButtonDisplay()}</div>
+            <h2>{details.title}</h2>
+            <h5>Created by {details.creator.name}</h5>
+            <h3>Description</h3>
+            <span>{details.description}</span>
+            <br />
           </div>
         );
       }
     };
-    return <div>{accessForUser()}</div>;
+
+    const liveDisplay = () => {
+      if (liveDetails) {
+        return (
+          <div>
+            <div>Raised 0 of {details.amount}</div>
+            <span>THIS FUNDRAISER IS CURRENTLY LIVE</span>
+            <div>end on {details.deadline}</div>
+            <button className={classes.blueButton}>DONATE NOW</button>
+          </div>
+        );
+      }
+    };
+    return (
+      <div>
+        <div>{accessForUser()}</div>
+        <div>
+          {liveDetails
+            ? liveDisplay()
+            : userButtonDisplay() && !details.creator.id
+            ? ""
+            : userButtonDisplay()}
+        </div>
+      </div>
+    );
   }
 }
 
@@ -93,6 +133,20 @@ const styles = theme => ({
     textDecoration: "none",
     fontSize: "16px",
     fontWeight: "700",
+    marginTop: "20px",
+    marginBottom: "50px",
+    width: "200px",
+    cursor: "pointer"
+  },
+  blueButton: {
+    backgroundColor: "DeepSkyBlue",
+    border: "1px solid rgb(202, 202, 202)",
+    borderRadius: "20px",
+    color: "white",
+    padding: "10px",
+    textAlign: "center",
+    textDecoration: "none",
+    fontSize: "16px",
     marginTop: "20px",
     marginBottom: "50px",
     width: "200px",

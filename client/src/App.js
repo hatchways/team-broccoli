@@ -6,6 +6,8 @@ import { theme } from "./themes/theme";
 import Signup from "./pages/signin/Signup";
 import Signin from "./pages/signin/Signin";
 import NavBar from "./components/NavBar";
+import ChatBar from "./components/ChatBar";
+import MessagePane from "./components/MessagePane";
 import FundraiserCreate from "./pages/fundraisers/FundraiserCreate";
 import FundraiserUpdate from "./pages/fundraisers/FundraiserUpdate";
 
@@ -31,6 +33,13 @@ function App() {
             render={props => <Signin {...props} setUserState={SetUserState} />}
           />
           <Route path="/signup" component={Signup} />
+
+          <ProtectedRoute path="/message">
+            <NavBar />
+            <MessagePane />
+            <ChatBar />
+          </ProtectedRoute>
+
           <ProtectedRoute path="/fundraiser*">
             <Route component={NavBar} />
             <Route exact path="/fundraisers" component={FundraiserList} />

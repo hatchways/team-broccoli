@@ -15,8 +15,11 @@ class User(db.Model):
 
     fundraisers = db.relationship("Fundraiser", back_populates="creator")
     donations = db.relationship("Donation", back_populates="user")
-    conversations = db.relationship("Conversation", back_populates="participants")
     sent_messages = db.relationship("Message", back_populates="sender")
+
+    # defined through backref on the Conversation model below
+    # can be accessed by User.conversations
+    #conversations = db.relationship("Conversation", back_populates="participants")
 
     @classmethod
     def find_by_id(cls, _id: int) -> "User":

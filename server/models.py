@@ -15,6 +15,8 @@ class User(db.Model):
 
     fundraisers = db.relationship("Fundraiser", back_populates="creator")
     donations = db.relationship("Donation", back_populates="user")
+    conversations = db.relationship("Conversation", back_populates="participants")
+    messages = db.relationship("Message", back_populates="user")
 
     @classmethod
     def find_by_id(cls, _id: int) -> "User":
@@ -84,6 +86,7 @@ class Conversation(db.Model):
     participants = db.relationship("User",
                                    secondary=association_table,
                                    backref="conversations")
+    messages = db.relationship("Message", back_populates="conversation")
 
     @classmethod
     def get(cls, userid1, userid2) -> "Conversation":
@@ -139,8 +142,15 @@ class Message(db.Model):
     body = db.Column(db.Text(), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), nullable=False)
 
-    user = db.relationship("User", backref="messages")
-    conversation = db.relationship("Conversation", backref="messages")
+    user = db.relationship("User", back_populates="messages")
+    conversation = db.relationship("Conversation", back_populates="messages")
+
+    @classmethod
+    def store_message(cls, conversation_id, user_id):
+        # TODO: constraint for messages to be only created for
+        # conversation which user is a participant of
+        pass
+
 
     def save_to_db(self) -> None:
         db.session.add(self)

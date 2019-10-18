@@ -16,7 +16,7 @@ class User(db.Model):
     fundraisers = db.relationship("Fundraiser", back_populates="creator")
     donations = db.relationship("Donation", back_populates="user")
     conversations = db.relationship("Conversation", back_populates="participants")
-    messages = db.relationship("Message", back_populates="user")
+    sent_messages = db.relationship("Message", back_populates="sender")
 
     @classmethod
     def find_by_id(cls, _id: int) -> "User":
@@ -137,12 +137,12 @@ class Message(db.Model):
     __tablename__ = 'messages'
 
     id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
+    sender_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
     conversation_id = db.Column(db.Integer(), db.ForeignKey('conversations.id'), nullable=False)
     body = db.Column(db.Text(), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), nullable=False)
 
-    user = db.relationship("User", back_populates="messages")
+    sender = db.relationship("User", back_populates="sent_messages")
     conversation = db.relationship("Conversation", back_populates="messages")
 
     @classmethod

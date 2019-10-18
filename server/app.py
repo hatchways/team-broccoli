@@ -5,6 +5,7 @@ from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
+from flask_socketio import SocketIO
 
 from config import Config
 
@@ -14,11 +15,16 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 604800 # set expiry date to a week
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 ma = Marshmallow(app)
 migrate = Migrate(app,db)
+
+sio = SocketIO(app)
+# out of an abundance of caution, import the file that defines handlers for
+# the socket
+import socketio_routes
+
 from models import User
 # authentication_handler imports db from this very file.
 # Is there a better file structure for this?
@@ -39,3 +45,6 @@ fr_api.add_resource(FundraiserCreate, '/fundraiser')
 fr_api.add_resource(FundraiserList, '/fundraisers')
 fr_api.add_resource(FundraiserResource, '/fundraiser/<int:fundraiser_id>')
 fr_api.add_resource(SignS3, '/sign_s3')
+
+if __name__ == '__main__':
+    sio.run(app)

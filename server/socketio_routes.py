@@ -1,6 +1,8 @@
-from app import sio
+import logging
 
+from app import sio, app
 
 @sio.on('user_message')
 def receive_message(message):
-    pass
+    raise Exception(str(message))
+    app.logger.critical(message)

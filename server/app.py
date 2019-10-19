@@ -20,7 +20,7 @@ jwt = JWTManager(app)
 ma = Marshmallow(app)
 migrate = Migrate(app,db)
 
-sio = SocketIO(app)
+sio = SocketIO(app, cors_allowed_origins="*")
 # out of an abundance of caution, import the file that defines handlers for
 # the socket
 import socketio_routes

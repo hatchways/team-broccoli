@@ -5,7 +5,6 @@ from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
-from flask_socketio import SocketIO
 
 from config import Config
 
@@ -43,13 +42,5 @@ fr_api.add_resource(FundraiserList, '/fundraisers')
 fr_api.add_resource(FundraiserResource, '/fundraiser/<int:fundraiser_id>')
 fr_api.add_resource(SignS3, '/sign_s3')
 
-sio = SocketIO(app, cors_allowed_origins="*")
-# out of an abundance of caution, import the file that defines handlers for
-# the socket
-@sio.on('user_message')
-def receive_message(message):
-    app.logger.critical(message)
-    raise Exception(str(message))
-
 if __name__ == '__main__':
-    sio.run(app)
+    socketio_routes.sio.run(app)

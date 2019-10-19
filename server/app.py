@@ -20,9 +20,6 @@ jwt = JWTManager(app)
 ma = Marshmallow(app)
 migrate = Migrate(app,db)
 
-sio = SocketIO(app, cors_allowed_origins="*")
-# out of an abundance of caution, import the file that defines handlers for
-# the socket
 import socketio_routes
 
 from models import User
@@ -45,6 +42,14 @@ fr_api.add_resource(FundraiserCreate, '/fundraiser')
 fr_api.add_resource(FundraiserList, '/fundraisers')
 fr_api.add_resource(FundraiserResource, '/fundraiser/<int:fundraiser_id>')
 fr_api.add_resource(SignS3, '/sign_s3')
+
+sio = SocketIO(app, cors_allowed_origins="*")
+# out of an abundance of caution, import the file that defines handlers for
+# the socket
+@sio.on('user_message')
+def receive_message(message):
+    app.logger.critical(message)
+    raise Exception(str(message))
 
 if __name__ == '__main__':
     sio.run(app)

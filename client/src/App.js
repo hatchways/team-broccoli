@@ -7,11 +7,8 @@ import Signup from "./pages/signin/Signup";
 import Signin from "./pages/signin/Signin";
 import NavBar from "./components/NavBar";
 import FundraiserCreate from "./pages/fundraisers/FundraiserCreate";
-<<<<<<< HEAD
 import FundraiserDetails from "./pages/fundraisers/FundraiserDetails";
-=======
 import FundraiserUpdate from "./pages/fundraisers/FundraiserUpdate";
->>>>>>> bf8e03b185a3f63bf26b37f3cba0d28586792f61
 
 import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -45,14 +42,10 @@ function App() {
               component={FundraiserCreate}
             />
             <Route
-              
               path="/fundraiser/details/:id"
               component={FundraiserDetails}
-              />
-              <Route
-              path="/fundraiser/:id/edit"
-              component={FundraiserUpdate}
             />
+            <Route path="/fundraiser/:id/edit" component={FundraiserUpdate} />
           </ProtectedRoute>
           <ProtectedRoute path="/logout">
             <Route component={LogOut} />

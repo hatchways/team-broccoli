@@ -73,6 +73,7 @@ class FundraiserDetails extends Component {
     const { classes } = this.props;
     const { details, liveDetails, fundraiserEnded } = this.state;
 
+    //Provides the go live and edit contest button access only to same user
     const userButtonDisplay = () => {
       if (details.creator.id === details.creator_id) {
         return (
@@ -94,6 +95,7 @@ class FundraiserDetails extends Component {
       } else return;
     };
 
+    //Provide access to users only when live
     const accessForUser = () => {
       if (details.creator.id !== details.creator_id && !details.live) {
         return;
@@ -110,21 +112,23 @@ class FundraiserDetails extends Component {
       }
     };
 
+    //if fundraiser is past the expiration date show fundraisers ended UI
     const fundsEnded = () => {
       if (fundraiserEnded) {
         return <button className={classes.greyButton}>Fundraiser ended</button>;
       } else {
-        return details.deadline;
+        return liveDisplay();
       }
     };
 
+    //Show live details once the fundraiser is live
     const liveDisplay = () => {
       if (liveDetails) {
         return (
           <div>
             <div>Raised $0 of ${details.amount}</div>
             <span>THIS FUNDRAISER IS CURRENTLY LIVE</span>
-            <div>ends on {fundsEnded()}</div>
+            <div>ends on ${details.deadline}</div>
             <button className={classes.blueButton}>DONATE NOW</button>
           </div>
         );
@@ -135,7 +139,7 @@ class FundraiserDetails extends Component {
         <div>{accessForUser()}</div>
         <div>
           {liveDetails
-            ? liveDisplay()
+            ? fundsEnded()
             : userButtonDisplay() && !details.creator.id
             ? ""
             : userButtonDisplay()}

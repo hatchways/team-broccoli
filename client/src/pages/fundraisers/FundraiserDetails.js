@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Api from "../../util/Api";
 import { withStyles } from "@material-ui/core/styles";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 class FundraiserDetails extends Component {
   constructor() {
@@ -22,16 +23,12 @@ class FundraiserDetails extends Component {
     } = this.props;
     let api = new Api(`fundraiser/${params.id}`);
     const request = await api.get(info);
-    //console.log(api);
-    //console.log(request);
 
     let data = request.contents;
-    //console.log(data);
     let time = moment(data.deadline).format("MMMM Do YYYY");
     data.deadline = time;
-    //console.log(data);
     let today = moment(Date.now()).format("MMMM Do YYYY");
-    //console.log(today);
+
     let fundEnd;
     if (time >= today) {
       fundEnd = true;
@@ -55,27 +52,30 @@ class FundraiserDetails extends Component {
   }
 
   goLive = event => {
-    //make a post request to the go live backend route
+    //make a post request to the go live backend route TODO
 
     //modify the contents of the page to show the live details
-    //console.log(this.state.details.live);
-
     this.setState({
       liveDetails: event.target.value
     });
   };
 
+  donate = () => {
+    //FE Stripe Integration to take place here
+  };
+
   render() {
-    //console.log(this.props);
-    console.log(this.state);
-    //console.log(this.state.details.creator.name);
-    //console.log(this.state.liveDetails);
-    const { classes } = this.props;
+    const {
+      classes,
+      match: { params }
+    } = this.props;
     const { details, liveDetails, fundraiserEnded } = this.state;
 
     //Provides the go live and edit contest button access only to same user
     const userButtonDisplay = () => {
-      if (details.creator.id === details.creator_id) {
+      if (details.creator.id !== details.creator_id && !details.live) {
+        return;
+      } else if (details.creator.id === details.creator_id && details.live) {
         return (
           <div>
             <button
@@ -86,27 +86,27 @@ class FundraiserDetails extends Component {
             >
               GO LIVE
             </button>
-            <br />
-            <button className={classes.greyButton} type="submit">
-              EDIT CONTEST
-            </button>
+            <Link to={`/fundraiser/${params.id}/edit`}>
+              <button className={classes.greyButton} type="submit">
+                EDIT CONTEST
+              </button>
+            </Link>
           </div>
         );
-      } else return;
+      }
     };
 
     //Provide access to users only when live
     const accessForUser = () => {
       if (details.creator.id !== details.creator_id && !details.live) {
         return;
-      } else {
+      } else if (details.creator.id === details.creator_id && details.live) {
         return (
           <div>
             <h2>{details.title}</h2>
             <h5>Created by {details.creator.name}</h5>
             <h3>Description</h3>
             <span>{details.description}</span>
-            <br />
           </div>
         );
       }
@@ -115,7 +115,14 @@ class FundraiserDetails extends Component {
     //if fundraiser is past the expiration date show fundraisers ended UI
     const fundsEnded = () => {
       if (fundraiserEnded) {
-        return <button className={classes.greyButton}>Fundraiser ended</button>;
+        return (
+          <div>
+            <div className={classes.amountBox}>
+              Raised $0 of ${details.amount}
+            </div>
+            <input className={classes.greyInput}>Fundraiser ended</input>
+          </div>
+        );
       } else {
         return liveDisplay();
       }
@@ -126,18 +133,40 @@ class FundraiserDetails extends Component {
       if (liveDetails) {
         return (
           <div>
-            <div>Raised $0 of ${details.amount}</div>
-            <span>THIS FUNDRAISER IS CURRENTLY LIVE</span>
-            <div>ends on ${details.deadline}</div>
-            <button className={classes.blueButton}>DONATE NOW</button>
+            <div className={classes.amountBox}>
+              Raised $0 of ${details.amount}
+            </div>
+            <span className={classes.greenText}>
+              THIS FUNDRAISER IS CURRENTLY LIVE
+            </span>
+            <div className={classes.deadline}>ends on {details.deadline}</div>
+            <button className={classes.blueButton} onClick={this.donate}>
+              DONATE NOW
+            </button>
           </div>
         );
       }
     };
+
+    const sendMessage = () => {
+      if (details.creator.id !== details.creator_id && !details.live) {
+        return;
+      } else if (details.creator.id === details.creator_id && details.live) {
+        return (
+          <div>
+            <button className={classes.greyButton} type="submit">
+              Send Message
+            </button>
+          </div>
+        );
+      }
+    };
+
     return (
-      <div>
-        <div>{accessForUser()}</div>
-        <div>
+      <div className={classes.layout}>
+        <div className={classes.grid1}>{accessForUser()}</div>
+        <div className={classes.grid2}>
+          {sendMessage()}
           {liveDetails
             ? fundsEnded()
             : userButtonDisplay() && !details.creator.id
@@ -161,9 +190,23 @@ const styles = theme => ({
     fontSize: "16px",
     fontWeight: "700",
     marginTop: "20px",
-    marginBottom: "50px",
+    marginBottom: "20px",
     width: "200px",
     cursor: "pointer"
+  },
+  greyInput: {
+    backgroundColor: "light grey",
+    border: "1px solid rgb(202, 202, 202)",
+    borderRadius: "20px",
+    color: "black",
+    padding: "10px",
+    textAlign: "center",
+    textDecoration: "none",
+    fontSize: "16px",
+    fontWeight: "700",
+    marginTop: "20px",
+    marginBottom: "20px",
+    width: "200px"
   },
   blueButton: {
     backgroundColor: "DeepSkyBlue",
@@ -178,6 +221,30 @@ const styles = theme => ({
     marginBottom: "50px",
     width: "200px",
     cursor: "pointer"
+  },
+  layout: {
+    display: "grid",
+    gridTemplateColumns: "3fr 1fr",
+    gridGap: "1em"
+  },
+  grid1: {
+    marginLeft: "50px",
+    marginTop: "20px"
+  },
+  grid2: {
+    marginTop: "20px"
+  },
+  greenText: {
+    color: "limegreen"
+  },
+  amountBox: {
+    background: "WhiteSmoke",
+    padding: "1em",
+    marginRight: "70px",
+    fontWeight: 700
+  },
+  deadline: {
+    fontWeight: 700
   }
 });
 

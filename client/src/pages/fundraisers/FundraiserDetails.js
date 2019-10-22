@@ -47,7 +47,6 @@ class FundraiserDetails extends Component {
     }
   }
   componentDidMount() {
-    console.log("ComponentDidMount");
     this.getDetails();
   }
 

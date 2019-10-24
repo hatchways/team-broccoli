@@ -147,8 +147,10 @@ class Signin extends Component {
         </div>
 
         <div className={classes.signupView}>
-          <Link to="/signup" className={classes.signup}>
-            Sign Up
+          <Link to="/signup">
+            <button className={classes.signup} type="submit">
+              Sign Up
+            </button>
           </Link>
         </div>
       </div>

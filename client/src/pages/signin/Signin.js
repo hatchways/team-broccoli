@@ -147,10 +147,8 @@ class Signin extends Component {
         </div>
 
         <div className={classes.signupView}>
-          <Link to="/signup">
-            <button className={classes.signup} type="submit">
-              Sign Up
-            </button>
+          <Link to="/signup" className={classes.signup}>
+            Sign Up
           </Link>
         </div>
       </div>
@@ -164,24 +162,21 @@ const styles = theme => ({
   pageView: {
     display: "flex",
     flexDirection: "row",
-    maxwidth: "100%",
     justifyContent: "space-between"
   },
   loginView: {
     flex: 1,
     flexWrap: "wrap",
-    flexBasis: "50%",
     boxSizing: "border-box",
-    padding: "100px",
-    marginBottom: "115px"
+    padding: "90px"
   },
   signupView: {
     flex: 1,
     flexWrap: "wrap",
-    flexBasis: "50%",
     boxSizing: "border-box",
     backgroundImage: `url(${Background})`,
-    backgroundSize: "cover"
+    backgroundSize: "cover",
+    height: "100vh"
   }
 });
 

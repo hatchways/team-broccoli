@@ -15,6 +15,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import FundraiserList from "./pages/fundraisers/FundraisersList";
 import LogOut from "./components/LogOut";
 import NotFoundPage from "./pages/NotFoundPage";
+import Message from "./pages/Message";
 
 function App() {
   const [user, setUser] = useState({});
@@ -45,6 +46,7 @@ function App() {
               path="/fundraiser/details/:id"
               component={FundraiserDetails}
             />
+            <Route exact path="/fundraiser/message" component={Message} />
             <Route path="/fundraiser/:id/edit" component={FundraiserUpdate} />
           </ProtectedRoute>
           <ProtectedRoute path="/logout">

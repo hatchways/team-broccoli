@@ -8,10 +8,7 @@ import {
   Typography
 } from "@material-ui/core";
 
-class Fundraiser extends Component {
-  constructor() {
-    super();
-  }
+class FundraiserCard extends Component {
 
   render() {
     return (
@@ -20,10 +17,10 @@ class Fundraiser extends Component {
           <CardActionArea>
             <CardMedia component="div" align="center">
               <Typography
-                style={{ textAlign: "center" }}
                 variant="h5"
                 component="h5"
-                style={{
+                style={{ 
+                  textAlign: "center",
                   width: "280px",
                   position: "absolute",
                   color: "white",
@@ -41,8 +38,6 @@ class Fundraiser extends Component {
                     width: "280px",
                     position: "absolute",
                     color: "white",
-                    position: "absolute",
-                    color: "white",
                     top: "60%",
                     textShadow: "-0.2px 0 black, 0 0.2px black, 0.2px 0 black, 0 -0.2px black"
                   }}
@@ -54,7 +49,7 @@ class Fundraiser extends Component {
 
               <img
                 component="img"
-                alt="Fundraiser image"
+                alt="Fundraiser"
                 height="200"
                 src={this.props.image_url}
                 title="Fundraiser Image"
@@ -72,4 +67,4 @@ class Fundraiser extends Component {
   }
 }
 
-export default Fundraiser;
+export default FundraiserCard;

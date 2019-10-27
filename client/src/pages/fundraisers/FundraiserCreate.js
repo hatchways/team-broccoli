@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import { theme } from "../../themes/theme";
 import {
   FormControl,
   FormLabel,
@@ -14,7 +13,6 @@ import {
 } from "@material-ui/core";
 
 import { withStyles } from "@material-ui/core/styles";
-import Snackbar from "@material-ui/core/Snackbar";
 
 import { ImageUpload } from "../../components/ImageUpload";
 

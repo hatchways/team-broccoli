@@ -9,7 +9,6 @@ import NavBar from "./components/NavBar";
 import FundraiserCreate from "./pages/fundraisers/FundraiserCreate";
 import FundraiserDetails from "./pages/fundraisers/FundraiserDetails";
 import FundraiserUpdate from "./pages/fundraisers/FundraiserUpdate";
-import FundraiserCard from "./components/FundraiserCard";
 import FundraiserList from "./pages/fundraisers/FundraisersList"
 
 import "./App.css";

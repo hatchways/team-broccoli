@@ -23,6 +23,7 @@ import {
 } from "@material-ui/pickers";
 import dayjs from "dayjs";
 import DayjsUtils from "@date-io/dayjs";
+import Api from "../../util/Api";
 
 const styles = theme => ({
   container: {
@@ -107,6 +108,16 @@ class FundraiserCreate extends Component {
     });
   };
 
+  async createFundraiser(details) {
+    let api = new Api("fundraiser");
+    const result = await api.post(details);
+
+    if (result.success) {
+      // redirect to details page using the id
+      this.props.history.push("/fundraiser/details/" + result.id);
+    }
+  }
+
   updateImageUrl = imageUrl => {
     this.setState({
       imageUrl: imageUrl
@@ -176,7 +187,7 @@ class FundraiserCreate extends Component {
         image_url: this.state.imageUrl
       };
 
-      let url = process.env.REACT_APP_SERVER_URL
+      let url = process.env.REACT_APP_SERVER_URL;
       fetch(url + "/fundraiser", {
         method: "POST",
         headers: {

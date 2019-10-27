@@ -3,7 +3,6 @@ import FundraiserCard from "../../components/FundraiserCard";
 import {
   Grid,
   Container,
-  TextField,
   Typography,
   Icon,
   Fab
@@ -49,9 +48,10 @@ class FundraiserList extends Component {
       ]
     };
   }
-  componentDidMount() {
-    var token = localStorage.getItem("access_token");
 
+  componentDidMount() {
+    //var token = localStorage.getItem("access_token");
+    
     // fetch(`/fundraisers`, {
     //   method: "GET",
     //   headers: {
@@ -65,6 +65,7 @@ class FundraiserList extends Component {
     //   });
     // });
   }
+
   render() {
     return (
       <Container maxWidth="lg" style={{ marginTop: "2em" }}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField, OutlinedInput } from "@material-ui/core";
+import { OutlinedInput } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
 const StyledTextField = withStyles({

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { Component } from "react";
 import Dropzone from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css';
 
@@ -43,7 +43,6 @@ export class ImageUpload extends Component {
   }
 
   componentWillReceiveProps (props) {
-    console.log('updated!')
     this.setState({
       ...props,
     })
@@ -52,8 +51,7 @@ export class ImageUpload extends Component {
   async getUploadParams ({ meta: { name, type } }) {
     const { data, fileUrl } = await get_presigned_post(name, type)
       .catch(err => {
-        "return null to let react-dropzone-uploader handle the error"
-        console.log(err)
+        // return null to let react-dropzone-uploader handle the error
         return {
           data: {fields: null, url: null},
           fileUrl: null,
@@ -68,10 +66,10 @@ export class ImageUpload extends Component {
   }
 
   handleChangeStatus = ({ meta }, status) => {
-    if (status == "error_upload_params" | "exception_upload" | "error_upload") {
+    if (status === "error_upload_params" | "exception_upload" | "error_upload") {
       console.log('error! ' + status)
     }
-    if (status == "headers_received" | "done") {
+    if (status === "headers_received" | "done") {
       this.state.imageUrlHandler(meta.fileUrl)
     }
   }

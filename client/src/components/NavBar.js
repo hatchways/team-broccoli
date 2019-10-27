@@ -1,8 +1,7 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AppBar, Button, Toolbar, Avatar } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import React from "react";
-import FundraiserCreate from "../pages/fundraisers/FundraiserCreate";
 
 import { ReactComponent as Logo } from '../res/images/smile.svg';
 

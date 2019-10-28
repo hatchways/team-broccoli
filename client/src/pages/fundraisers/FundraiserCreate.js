@@ -110,8 +110,9 @@ class FundraiserCreate extends Component {
 
   async createFundraiser(details) {
     let api = new Api("fundraiser");
+    console.log(details);
     const result = await api.post(details);
-
+    console.log(result);
     if (result.success) {
       // redirect to details page using the id
       this.props.history.push("/fundraiser/details/" + result.id);
@@ -156,8 +157,6 @@ class FundraiserCreate extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const token = localStorage.getItem("access_token");
-
     // todo add length checks
     this.validate(this.state.fundraiser);
     // deadline must be later than today
@@ -166,10 +165,7 @@ class FundraiserCreate extends Component {
       // remove Z from the end because we're sending this as UTC time
       let deadline_string = this.state.fundraiser.deadline;
       deadline_string = deadline_string.toISOString();
-      deadline_string = deadline_string.substring(
-        0,
-        deadline_string.length - 1
-      );
+      deadline_string = deadline_string.substring(0, deadline_string.length - 1);
 
       // Somehow changing the state and accessing it is too slow
       this.setState({
@@ -180,32 +176,12 @@ class FundraiserCreate extends Component {
         }
       });
 
-      // creating the updated fundraiser data
-      const fundraiser_data = {
+      this.createFundraiser({
         ...this.state.fundraiser,
         deadline: deadline_string,
-        image_url: this.state.imageUrl
-      };
-
-      let url = process.env.REACT_APP_SERVER_URL;
-      fetch(url + "/fundraiser", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token
-        },
-        body: JSON.stringify(fundraiser_data)
-      })
-        .then(res => res.json())
-        .then(response => {
-          // TODO: change the redirect to created fundraiser once implemented
-          // response is a full fundraiser object, maybe we can pass the object
-          // to the component directly to reduce network calls
-          // var created_fundraiser_id = response.id
-          // TODO: there's still no toggle for live column
-          this.props.history.push("/fundraisers");
-        });
+        image_url: this.state.imageUrl,
+        live: false
+      });
     }
   };
 

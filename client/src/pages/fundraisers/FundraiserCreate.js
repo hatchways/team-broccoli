@@ -110,13 +110,18 @@ class FundraiserCreate extends Component {
 
   async createFundraiser(details) {
     let api = new Api("fundraiser");
-    console.log(details);
+
+    api.setHeaders({
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    });
+
     const result = await api.post(details);
-    console.log(result);
     if (result.success) {
       // redirect to details page using the id
-      this.props.history.push("/fundraiser/details/" + result.id);
+      this.props.history.push("/fundraiser/details/" + result.contents.id);
     }
+    // TODO: Handle error message
   }
 
   updateImageUrl = imageUrl => {

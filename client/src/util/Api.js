@@ -9,7 +9,7 @@ export default class Api {
     }
   }
 
-  headers(headers) {
+  setHeaders(headers) {
     if (headers == null) return this.headers;
     this.headers = Object.assign(this.headers, headers);
   }

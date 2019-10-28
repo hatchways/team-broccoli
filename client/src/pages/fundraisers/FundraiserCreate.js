@@ -53,14 +53,12 @@ class FundraiserCreate extends Component {
         description: "",
         amount: "",
         deadline: dayjs().add(30, "days"),
-        live: false,
+        live: false
       },
       date: dayjs()
         .add(30, "days")
         .format("YYYY-MM-DD"),
-      time: dayjs()
-        .second(0),
-      imageUrl: "",
+      time: dayjs().second(0),
       snackbarOpen: false,
       snackbarMsg: ""
     };
@@ -111,11 +109,11 @@ class FundraiserCreate extends Component {
     });
   };
 
-  updateImageUrl = (imageUrl) => {
+  updateImageUrl = imageUrl => {
     this.setState({
       imageUrl: imageUrl
-    })
-  }
+    });
+  };
 
   validate = data => {
     if (!data.title) {
@@ -149,7 +147,7 @@ class FundraiserCreate extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const token = localStorage.getItem("access_token")
+    const token = localStorage.getItem("access_token");
 
     // todo add length checks
     this.validate(this.state.fundraiser);
@@ -169,7 +167,7 @@ class FundraiserCreate extends Component {
         fundraiser: {
           ...this.state.fundraiser,
           deadline: deadline_string,
-          image_url: this.state.imageUrl,
+          image_url: this.state.imageUrl
         }
       });
 
@@ -177,27 +175,27 @@ class FundraiserCreate extends Component {
       const fundraiser_data = {
         ...this.state.fundraiser,
         deadline: deadline_string,
-        image_url: this.state.imageUrl,
-      }
+        image_url: this.state.imageUrl
+      };
 
       fetch("/fundraiser", {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + token,
+          Authorization: "Bearer " + token
         },
         body: JSON.stringify(fundraiser_data)
-    })
-    .then(res => res.json())
-    .then(response => {
-      // TODO: change the redirect to created fundraiser once implemented
-      // response is a full fundraiser object, maybe we can pass the object
-      // to the component directly to reduce network calls
-      // var created_fundraiser_id = response.id
-      // TODO: there's still no toggle for live column
-      this.props.history.push("/fundraisers")
-    })
+      })
+        .then(res => res.json())
+        .then(response => {
+          // TODO: change the redirect to created fundraiser once implemented
+          // response is a full fundraiser object, maybe we can pass the object
+          // to the component directly to reduce network calls
+          // var created_fundraiser_id = response.id
+          // TODO: there's still no toggle for live column
+          this.props.history.push("/fundraisers");
+        });
     }
   };
 
@@ -243,7 +241,7 @@ class FundraiserCreate extends Component {
                 <FormControl fullWidth required>
                   <FormLabel>Description</FormLabel>
                   <TextField
-                    placeholder="Write a cause title"
+                    placeholder="Details about the course you are fundraising"
                     name="description"
                     margin="normal"
                     multiline
@@ -327,9 +325,7 @@ class FundraiserCreate extends Component {
 
               <Grid item>
                 <FormLabel>Upload an image for your fundraiser</FormLabel>
-                <ImageUpload
-                  imageUrlHandler={this.updateImageUrl}
-                  />
+                <ImageUpload imageUrlHandler={this.updateImageUrl} />
               </Grid>
 
               <Grid

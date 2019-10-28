@@ -9,6 +9,7 @@ import NavBar from "./components/NavBar";
 import ChatBar from "./components/ChatBar";
 import MessagePane from "./components/MessagePane";
 import FundraiserCreate from "./pages/fundraisers/FundraiserCreate";
+import FundraiserDetails from "./pages/fundraisers/FundraiserDetails";
 import FundraiserUpdate from "./pages/fundraisers/FundraiserUpdate";
 
 import "./App.css";
@@ -49,10 +50,10 @@ function App() {
               component={FundraiserCreate}
             />
             <Route
-              exact
-              path="/fundraiser/:id/edit"
-              component={FundraiserUpdate}
+              path="/fundraiser/details/:id"
+              component={FundraiserDetails}
             />
+            <Route path="/fundraiser/:id/edit" component={FundraiserUpdate} />
           </ProtectedRoute>
           <ProtectedRoute path="/logout">
             <Route component={LogOut} />

@@ -17,7 +17,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import FundraiserList from "./pages/fundraisers/FundraisersList";
 import LogOut from "./components/LogOut";
 import NotFoundPage from "./pages/NotFoundPage";
-import Message from "./pages/Message";
+import Message from "./pages/message/Message";
 
 function App() {
   const [user, setUser] = useState({});

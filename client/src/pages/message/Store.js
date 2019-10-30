@@ -14,7 +14,7 @@ export const CTX = createContext();
         general: [
             {msg}, {msg}, {msg}
         ]
-        topic2: [
+        user2: [
             {msg}, {msg}, {msg}
         ]
     }
@@ -26,10 +26,10 @@ const initState = {
     { from: "arnold", msg: "hello" },
     { from: "archer", msg: "hello" }
   ],
-  topic2: [
-    { from: "aaron", msg: "hello" },
-    { from: "aaron", msg: "hello" },
-    { from: "aaron", msg: "hello" }
+  user2: [
+    { from: "mike", msg: "hello" },
+    { from: "luke", msg: "hello" },
+    { from: "hashi", msg: "hello" }
   ]
 };
 

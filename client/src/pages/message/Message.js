@@ -42,7 +42,7 @@ export default function Message() {
   const classes = useStyles();
 
   //CTX Store
-  const [allChats] = useContext(CTX);
+  const { allChats, sendChatAction, user } = useContext(CTX);
   const conversations = Object.keys(allChats);
 
   //local state
@@ -100,6 +100,14 @@ export default function Message() {
             variant="contained"
             color="primary"
             className={classes.button}
+            onClick={() => {
+              sendChatAction({
+                from: user,
+                msg: textValue,
+                conversation: activeConversation
+              });
+              changeTextValue("");
+            }}
           >
             Send
           </Button>

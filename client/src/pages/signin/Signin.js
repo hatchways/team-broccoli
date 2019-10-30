@@ -164,24 +164,21 @@ const styles = theme => ({
   pageView: {
     display: "flex",
     flexDirection: "row",
-    maxwidth: "100%",
     justifyContent: "space-between"
   },
   loginView: {
     flex: 1,
     flexWrap: "wrap",
-    flexBasis: "50%",
     boxSizing: "border-box",
-    padding: "100px",
-    marginBottom: "115px"
+    padding: "90px"
   },
   signupView: {
     flex: 1,
     flexWrap: "wrap",
-    flexBasis: "50%",
     boxSizing: "border-box",
     backgroundImage: `url(${Background})`,
-    backgroundSize: "cover"
+    backgroundSize: "cover",
+    height: "100vh"
   }
 });
 

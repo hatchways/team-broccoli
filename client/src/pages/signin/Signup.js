@@ -89,20 +89,19 @@ class Signup extends Component {
     let requestBody = {
       name: this.state.signup.name,
       email: this.state.signup.email,
-      password: this.state.signup.password,
-    }
+      password: this.state.signup.password
+    };
 
     let fetchData = {
       method: "POST",
       body: JSON.stringify(requestBody),
       headers: new Headers()
-    }
+    };
 
-    fetch(url + '/create', fetchData)
-      .then((resp) => {
-        //TODO: if response is not 200, display error
-        //TODO: store cookie and redirect to home page
-      });
+    fetch(url + "/create", fetchData).then(resp => {
+      //TODO: if response is not 200, display error
+      //TODO: store cookie and redirect to home page
+    });
   };
 
   handleCheck = event => {
@@ -220,24 +219,21 @@ const styles = theme => ({
   pageView: {
     display: "flex",
     flexDirection: "row",
-    maxwidth: "100%",
     justifyContent: "space-between"
   },
   createView: {
     flex: 1,
     flexWrap: "wrap",
-    flexBasis: "50%",
     boxSizing: "border-box",
-    padding: "90px",
-    marginBottom: "12px"
+    padding: "90px"
   },
   returnView: {
     flex: 1,
     flexWrap: "wrap",
-    flexBasis: "50%",
     boxSizing: "border-box",
     backgroundImage: `url(${Background})`,
-    backgroundSize: "cover"
+    backgroundSize: "cover",
+    height: "100vh"
   }
 });
 

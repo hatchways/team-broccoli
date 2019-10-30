@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -8,6 +8,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+
+import { CTX } from "./Store";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,6 +40,16 @@ const useStyles = makeStyles(theme => ({
 
 export default function Message() {
   const classes = useStyles();
+
+  //CTX Store
+  const [allChats] = useContext(CTX);
+  const conversations = Object.keys(allChats);
+
+  //local state
+  const [activeConversation, changeActiveConversation] = useState(
+    conversations[0]
+  );
+
   const [textValue, changeTextValue] = useState("");
 
   return (
@@ -49,21 +61,30 @@ export default function Message() {
         <Typography variant="h5" component="h5">
           Inbox Messages
         </Typography>
+        <Typography variant="h5" component="h5">
+          {activeConversation}
+        </Typography>
         <div className={classes.flex}>
           <div className={classes.userWindow}>
             <List>
-              {["user1"].map(user => (
-                <ListItem key={user} button>
-                  <ListItemText primary={user} />
+              {conversations.map(conversation => (
+                <ListItem
+                  onClick={e => changeActiveConversation(e.target.innerText)}
+                  key={conversation}
+                  button
+                >
+                  <ListItemText primary={conversation} />
                 </ListItem>
               ))}
             </List>
           </div>
           <div className={classes.chatWindow}>
-            {[{ from: "user", msg: "hello" }].map((chat, i) => (
+            {allChats[activeConversation].map((chat, i) => (
               <div className={classes.flex} key={i}>
                 <Chip label={chat.from} className={classes.chip} />
-                <Typography variant="p">{chat.msg}</Typography>
+                <Typography variant="body1" gutterBottom>
+                  {chat.msg}
+                </Typography>
               </div>
             ))}
           </div>

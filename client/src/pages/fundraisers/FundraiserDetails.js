@@ -60,6 +60,12 @@ class FundraiserDetails extends Component {
   };
 
   donate = () => {
+    const { details } = this.state;
+    let api = new Api('make_session')
+    const request = api.post({
+      "line_item": "Donation: " + details.title,
+      "fundraiser_id": details.id,
+    })
     //FE Stripe Integration to take place here
   };
 

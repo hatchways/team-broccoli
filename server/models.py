@@ -163,6 +163,18 @@ class Message(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+class MessageSchema(ma.ModelSchema):
+    class Meta:
+        model = Message
+        include_fk = True
+
+class ConversationSchema(ma.ModelSchema):
+    class Meta:
+        model: Conversation
+        include_fk = True
+
+    messages = ma.Nested(MessageSchema, many=True)
+
 class UserOnlySchema(ma.ModelSchema):
     class Meta:
         model = User

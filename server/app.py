@@ -57,12 +57,11 @@ def register_resources(app):
     fr_api.init_app(app)
     return None
 
-
-app = create_app(Config)
+if __name__ == "__main__":
+    app = create_app(Config)
 
     # importing socketIO methods here as
     # they are registered using decorators
-    #import socketio_routes
-#
-    #sio.run(app)
-#
+    import socketio_routes
+
+    sio.run(app)

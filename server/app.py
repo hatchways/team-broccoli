@@ -6,7 +6,7 @@ from extensions import (
     ma,
     migrate,
     fr_api,
-    sio,
+    #sio,
 )
 
 from config import Config
@@ -27,7 +27,7 @@ def register_extensions(app):
     jwt.init_app(app)
     ma.init_app(app)
     migrate.init_app(app,db)
-    sio.init_app(app, cors_allowed_origins="*")
+    #sio.init_app(app, cors_allowed_origins="*")
     return None
 
 def register_blueprints(app):
@@ -57,11 +57,12 @@ def register_resources(app):
     fr_api.init_app(app)
     return None
 
-if __name__ == '__main__':
-    app = create_app(Config)
+
+app = create_app(Config)
 
     # importing socketIO methods here as
     # they are registered using decorators
-    import socketio_routes
-
-    sio.run(app)
+    #import socketio_routes
+#
+    #sio.run(app)
+#

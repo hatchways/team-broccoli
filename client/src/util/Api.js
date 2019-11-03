@@ -20,6 +20,12 @@ export default class Api {
   }
 
   async post(data) {
+    // For now, let's put set headers here for all POST requests
+    this.setHeaders({
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    });
+    
     if (data != null) this.data = JSON.stringify(data);
     return await this._request("POST");
   }

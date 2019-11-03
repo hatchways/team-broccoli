@@ -10,11 +10,15 @@ import {
 
 class FundraiserCard extends Component {
 
+  handleCardClick = () => {
+    this.props.history.push("/fundraiser/details/" + this.props.id);
+  }
+
   render() {
     return (
       <div style={{ width: "300px" }}>
         <Card>
-          <CardActionArea>
+          <CardActionArea onClick={this.handleCardClick}>
             <CardMedia component="div" align="center">
               <Typography
                 variant="h5"

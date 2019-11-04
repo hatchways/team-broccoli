@@ -12,6 +12,7 @@ import FundraiserCreate from "./pages/fundraisers/FundraiserCreate";
 import FundraiserDetails from "./pages/fundraisers/FundraiserDetails";
 import FundraiserUpdate from "./pages/fundraisers/FundraiserUpdate";
 import FundraiserList from "./pages/fundraisers/FundraisersList"
+import Thankyou from "./pages/Thankyou";
 
 import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -36,6 +37,8 @@ function App() {
             render={props => <Signin {...props} setUserState={SetUserState} />}
           />
           <Route path="/signup" component={Signup} />
+
+          <Route path="/donate/success" component={Thankyou} />
 
           <ProtectedRoute path="/message">
             <NavBar />

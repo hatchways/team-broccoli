@@ -1,13 +1,13 @@
 from datetime import datetime
 import json
-from flask import jsonify, request, Blueprint
+from flask import jsonify, request, Blueprint, current_app
 from flask_jwt_extended import (
     get_jwt_identity,
     jwt_required,
 )
-from app import db
+import app # full module import due to circular dependencies
 from config import APP_URL, STRIPE_API_KEY, STRIPE_WEBHOOK_SECRET
-from models import Donation, Fundraiser
+from models import Donation, Fundraiser, User
 
 import stripe
 
@@ -62,16 +62,16 @@ def make_stripe_session():
             stripe_session = stripe_session.id,
             payment_finalized = False,
         )
-        db.session.add(donation)
-        db.session.commit()
+        app.db.session.add(donation)
+        app.db.session.commit()
 
         return jsonify({'session_id': stripe_session.id}), 201
 
 
-@donation_handler.route('/donations/confirm')
+@donation_handler.route('/donations/confirm', methods=['POST'])
 def confirm_donation():
     payload = request.get_data()
-    sig_header = request.headers.get('HTTP_STRIPE_SIGNATURE')
+    sig_header = request.headers.get('Stripe-Signature')
     event = None
 
     try:
@@ -81,6 +81,7 @@ def confirm_donation():
     except ValueError:
         return jsonify({'error': 'Invalid payload.'}), 400
     except stripe.error.SignatureVerificationError:
+        current_app.logger.critical('Stripe signature error')
         return jsonify({'error': 'Invalid message signature.'}), 400
 
     if event['type'] == 'checkout.session.completed':
@@ -90,6 +91,7 @@ def confirm_donation():
             return jsonify({'error':'No donation record for this session.'}), 500
 
         donation.payment_finalized = True
-        db.session.add(donation)
-        db.session.commit()
-        return jsonify({'message':'OK'}), 200
+        app.db.session.add(donation)
+        app.db.session.commit()
+
+    return jsonify({'message':'OK'}), 200 # Stripe only looks at the HTTP status

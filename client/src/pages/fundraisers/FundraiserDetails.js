@@ -63,10 +63,29 @@ class FundraiserDetails extends Component {
     const { details } = this.state;
     let api = new Api('make_session')
     const request = api.post({
-      "line_item": "Donation: " + details.title,
+      "line_item": {
+        "name": "Donation",
+        "description": details.title,
+        "amount": 714,
+        "currency": "usd",
+        "quantity": 1,
+      },
       "fundraiser_id": details.id,
-    })
-    //FE Stripe Integration to take place here
+    });
+
+    var session_id = 0;
+    request.then(function (response) {
+      session_id = response.contents.session_id;
+      /* global Stripe */
+      // as the pk_ prefix notes, this is our public key
+      var stripe = Stripe('pk_test_oV8BjaCCF4yuH4CfwBOAKcAH00WInBdsHn');
+      stripe.redirectToCheckout({
+        sessionId: session_id,
+      }).then(function (result) {
+        // TODO -- better error handling
+        alert("Couldn't redirect to Stripe.");
+      });
+    });
   };
 
   render() {

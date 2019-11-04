@@ -211,24 +211,21 @@ const styles = theme => ({
   pageView: {
     display: "flex",
     flexDirection: "row",
-    maxwidth: "100%",
     justifyContent: "space-between"
   },
   createView: {
     flex: 1,
     flexWrap: "wrap",
-    flexBasis: "50%",
     boxSizing: "border-box",
-    padding: "90px",
-    marginBottom: "12px"
+    padding: "90px"
   },
   returnView: {
     flex: 1,
     flexWrap: "wrap",
-    flexBasis: "50%",
     boxSizing: "border-box",
     backgroundImage: `url(${Background})`,
-    backgroundSize: "cover"
+    backgroundSize: "cover",
+    height: "100vh"
   }
 });
 

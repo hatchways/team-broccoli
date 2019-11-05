@@ -14,9 +14,6 @@ from config import Config
 def create_app(Config):
     app = Flask(__name__.split('.')[0])
     app.config.from_object(Config)
-    # TODO -- delete the below
-    from config import Config as cfg_Config; app.config.from_object(cfg_Config)
-    # TODO -- delete the above
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 604800 # set expiry date to a week
     register_extensions(app)

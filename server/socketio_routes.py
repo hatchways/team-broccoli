@@ -33,3 +33,7 @@ def left(message):
     room = session.get('room')
     leave_room(room)
     emit('status', {'msg': session.get('name') + ' has left the room.'}, room=room)
+
+#Socket IO Requirements to test the functionality from the FE
+#To establish socket io Listener for the connection from the FE Message Component
+# Broadcast the received message from the server for the client to receive back the message

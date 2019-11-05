@@ -1,6 +1,7 @@
 # Team Broccoli!
 
 ## How to set up PostgreSQL to match the .env configuration:
+
 ```
 # Check your PostgreSQL version
 # This is NOT the version on apt-get. Install from homebrew / linuxbrew.
@@ -25,8 +26,9 @@ $ postgresql > \q
 ```
 
 ## How to run the server
+
 - Change directory to the /server directory
 - `pipenv install` to install the dependencies
-- `pipenv run python flask db migrate` to prepare the migration steps
-- `pipenv run python flask db upgrade` to apply the latest migration to your database
+- `pipenv run flask db migrate` to prepare the migration steps
+- `pipenv run flask db upgrade` to apply the latest migration to your database
 - `pipenv run flask run` to run the server

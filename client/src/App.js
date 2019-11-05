@@ -17,6 +17,8 @@ import "./App.css";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LogOut from "./components/LogOut";
 import NotFoundPage from "./pages/NotFoundPage";
+import Message from "./pages/message/Message";
+import Store from "./pages/message/Store";
 
 function App() {
   const [user, setUser] = useState({});
@@ -53,6 +55,9 @@ function App() {
               path="/fundraiser/details/:id"
               component={FundraiserDetails}
             />
+            <Store>
+              <Route exact path="/fundraiser/message" component={Message} />
+            </Store>
             <Route path="/fundraiser/:id/edit" component={FundraiserUpdate} />
           </ProtectedRoute>
           <ProtectedRoute path="/logout">

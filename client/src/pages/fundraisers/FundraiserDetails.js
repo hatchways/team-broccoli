@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Api from "../../util/Api";
+import DonateDialog from "../../components/DonateDialog";
 import { withStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -56,35 +57,6 @@ class FundraiserDetails extends Component {
     //modify the contents of the page to show the live details
     this.setState({
       liveDetails: event.target.value
-    });
-  };
-
-  donate = () => {
-    const { details } = this.state;
-    let api = new Api('make_session')
-    const request = api.post({
-      "line_item": {
-        "name": "Donation",
-        "description": details.title,
-        "amount": 714,
-        "currency": "usd",
-        "quantity": 1,
-      },
-      "fundraiser_id": details.id,
-    });
-
-    var session_id = 0;
-    request.then(function (response) {
-      session_id = response.contents.session_id;
-      /* global Stripe */
-      // as the pk_ prefix notes, this is our public key
-      var stripe = Stripe('pk_test_oV8BjaCCF4yuH4CfwBOAKcAH00WInBdsHn');
-      stripe.redirectToCheckout({
-        sessionId: session_id,
-      }).then(function (result) {
-        // TODO -- better error handling
-        alert("Couldn't redirect to Stripe.");
-      });
     });
   };
 
@@ -164,9 +136,11 @@ class FundraiserDetails extends Component {
               THIS FUNDRAISER IS CURRENTLY LIVE
             </span>
             <div className={classes.deadline}>ends on {details.deadline}</div>
-            <button className={classes.blueButton} onClick={this.donate}>
-              DONATE NOW
-            </button>
+            <DonateDialog
+              className={classes.blueButton}
+              stripe_description={details.title}
+              fundraiser_id={details.id}
+            />
           </div>
         );
       }

@@ -30,7 +30,20 @@ def make_stripe_session():
         if not line_item:
             return jsonify({'error': 'Malformed request data.'}), 400
 
+        # We need to do some cleaning on the line_item --
+        # in particular, we need to have a 'quantity' of 1, and
+        # we need to pass 'amount' as an integer number of cents
+        # rather than a string.
         line_item['quantity'] = 1
+        amount = 0
+        try:
+            amount = float(line_item['amount'])
+            amount *= 100
+            amount += 0.5
+            line_item['amount'] = int(amount)
+        except:
+            return jsonify({'error': "Couldn't parse donation amount."}), 400
+
         fundraiser_id = body.get('fundraiser_id')
         if not fundraiser_id:
             return jsonify({'error': 'Malformed request data.'}), 400

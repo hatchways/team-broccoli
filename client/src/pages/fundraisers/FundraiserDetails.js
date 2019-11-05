@@ -114,7 +114,7 @@ class FundraiserDetails extends Component {
         return (
           <div>
             <div className={classes.amountBox}>
-              Raised $0 of ${details.amount}
+            Raised ${Math.floor(details.current_funding / 100)} of ${details.amount}
             </div>
             <input className={classes.greyInput}>Fundraiser ended</input>
           </div>
@@ -130,7 +130,7 @@ class FundraiserDetails extends Component {
         return (
           <div>
             <div className={classes.amountBox}>
-              Raised $0 of ${details.amount}
+            Raised ${Math.floor(details.current_funding / 100)} of ${details.amount}
             </div>
             <span className={classes.greenText}>
               THIS FUNDRAISER IS CURRENTLY LIVE

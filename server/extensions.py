@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
-#from flask_socketio import SocketIO
+from flask_socketio import SocketIO
 
 cors = CORS()
 db = SQLAlchemy()
@@ -12,4 +12,4 @@ jwt = JWTManager()
 ma = Marshmallow()
 migrate = Migrate()
 fr_api = Api()
-#sio = SocketIO()
+sio = SocketIO()

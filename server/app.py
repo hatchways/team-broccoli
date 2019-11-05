@@ -6,7 +6,7 @@ from extensions import (
     ma,
     migrate,
     fr_api,
-    #sio,
+    sio,
 )
 
 from config import Config
@@ -27,7 +27,7 @@ def register_extensions(app):
     jwt.init_app(app)
     ma.init_app(app)
     migrate.init_app(app,db)
-    #sio.init_app(app, cors_allowed_origins="*")
+    sio.init_app(app, cors_allowed_origins="*")
     return None
 
 def register_blueprints(app):
@@ -46,11 +46,14 @@ def register_blueprints(app):
 def register_resources(app):
     from resources.Fundraiser import FundraiserCreate, FundraiserList, FundraiserResource
     from resources.Uploads import SignS3
+    from resources.Messages import PostMessage, ConversationResource
 
     fr_api.add_resource(FundraiserCreate, '/fundraiser')
     fr_api.add_resource(FundraiserList, '/fundraisers')
     fr_api.add_resource(FundraiserResource, '/fundraiser/<int:fundraiser_id>')
     fr_api.add_resource(SignS3, '/sign_s3')
+    fr_api.add_resource(PostMessage, '/message')
+    fr_api.add_resource(ConversationResource, '/conversation/<int:recipient_id>')
 
     # Initialize the flask-restful here instead of at register_extensions
     # because of unknown reasons

@@ -7,7 +7,6 @@ import Signup from "./pages/signin/Signup";
 import Signin from "./pages/signin/Signin";
 import NavBar from "./components/NavBar";
 import ChatBar from "./components/ChatBar";
-import MessagePane from "./components/MessagePane";
 import FundraiserCreate from "./pages/fundraisers/FundraiserCreate";
 import FundraiserDetails from "./pages/fundraisers/FundraiserDetails";
 import FundraiserUpdate from "./pages/fundraisers/FundraiserUpdate";
@@ -35,10 +34,8 @@ function App() {
           />
           <Route path="/signup" component={Signup} />
 
-          <ProtectedRoute path="/message">
-            <NavBar />
-            <MessagePane />
-            <ChatBar />
+          <ProtectedRoute path="/message/:id">
+            <Route component={ChatBar} />
           </ProtectedRoute>
 
           <ProtectedRoute path="/fundraiser*">

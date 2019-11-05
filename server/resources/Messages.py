@@ -10,6 +10,8 @@ from marshmallow import ValidationError
 from datetime import datetime as dt
 from datetime import timezone as tz
 
+from extensions import sio
+
 from models import (
     db,
     ma,
@@ -23,6 +25,7 @@ from models import (
 message_schema = MessageSchema()
 conversation_schema = ConversationSchema()
 
+INVALID_CREDENTIALS = "You do not have permission to do this action."
 
 class PostMessage(Resource):
     """ Handle POST for /message
@@ -48,13 +51,12 @@ class PostMessage(Resource):
 
         message_data['sender_id'] = user.id
 
-        recipient_id = message_data['recipient_data']
+        recipient_id = message_data['recipient_id']
 
         conv = Conversation.get(user.id, recipient_id)
 
         if not conv:
             conv = Conversation.create(user.id, recipient_id)
-            conv.save_to_db()
 
         try:
             message = message_schema.load(message_data)
@@ -64,12 +66,14 @@ class PostMessage(Resource):
         message.save_to_db()
 
         # TODO: emit websocket event for listeners to refresh
-        #sio.emit.....
+        sio.emit('message',
+                 {'msg': 'new message available'},
+                 room=conv.id)
 
-        return message_schema.dump(message), 200
+        return message_schema.dump(message), 201
 
 class ConversationResource(Resource):
-    """ Handle GET for /message/<id>
+    """ Handle GET for /messages/<id>
     Requires authentication
     """
 
@@ -85,10 +89,10 @@ class ConversationResource(Resource):
 
         conv = Conversation.get(user.id, recipient_id)
 
+        print(conv)
         # QUESTION: is it ok for GET to create
         # object?
-        if not conv:
+        if conv is None:
             conv = Conversation.create(user.id, recipient_id)
-            conv.save_to_db()
 
         return conversation_schema.dump(conv), 200

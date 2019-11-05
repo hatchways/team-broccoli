@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Api from "../../util/Api";
 
 class Signup extends Component {
   constructor() {
@@ -37,7 +38,6 @@ class Signup extends Component {
 
   //handle updating the state with the values of the input fields
   updateText = event => {
-    console.log("updateText: " + event.target.id + " == " + event.target.value);
     let updatedText = Object.assign({}, this.state.signup);
     updatedText[event.target.id] = event.target.value;
 
@@ -52,9 +52,16 @@ class Signup extends Component {
     });
   };
 
+  async attempt_signup(details) {
+    let api = new Api("create");
+    const result = await api.post(details);
+    //TODO: if response is not 200, display error
+
+    if (result.success) this.props.history.push("/signin");
+  }
+
   //handles form submittal
   handleSubmit = event => {
-    console.log("submit details" + JSON.stringify(this.state.signup));
     event.preventDefault();
     if (this.state.passLength < 6) {
       this.setState({
@@ -81,26 +88,11 @@ class Signup extends Component {
           "Please agree to the terms and conditions by selecting the checkbox"
       });
     }
-    //Post request and response to be handled here once backend is setup
 
-    //TODO: cleanup/extract api functionality
-    let url = process.env.REACT_APP_SERVER_URL;
-
-    let requestBody = {
+    this.attempt_signup({
       name: this.state.signup.name,
       email: this.state.signup.email,
       password: this.state.signup.password
-    };
-
-    let fetchData = {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: new Headers()
-    };
-
-    fetch(url + "/create", fetchData).then(resp => {
-      //TODO: if response is not 200, display error
-      //TODO: store cookie and redirect to home page
     });
   };
 

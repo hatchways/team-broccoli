@@ -28,7 +28,7 @@ export const theme = createMuiTheme({
     },
     MuiPickersClockNumber: {
       clockNumberSelected: { backgroundColor: "black" }
-    }
+    },
   },
   typography: { fontFamily: '"Roboto"' },
   primary: "#f04040",

@@ -1,31 +1,42 @@
 export default class Api {
-  constructor(route, params, type, data) {
-    this.type = type;
-    this.data = JSON.stringify(data);
-    this.url = process.env.REACT_APP_SERVER_URL + "/" + route;
-    if (params != null) this.url = this.url + "/" + params;
+  constructor(route, url) {
+    if (url == null) url = "";
+    this.url = url + "/" + route;
     this.headers = { "Content-Type": "text/plain" };
 
     if (localStorage.hasOwnProperty("access_token")) {
-      this.headers.Authorization =
-        "Bearer " + localStorage.getItem("access_token");
+      this.headers.Authorization = "Bearer " + localStorage.getItem("access_token");
     }
   }
 
-  async get() {
+  setHeaders(headers) {
+    if (headers == null) return this.headers;
+    this.headers = Object.assign(this.headers, headers);
+  }
+
+  async get(params) {
+    if (params != null) this.url = this.url + "/" + params;
     return await this._request("GET");
   }
 
   async post(data) {
+    // For now, let's put set headers here for all POST requests
+    this.setHeaders({
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    });
+    
     if (data != null) this.data = JSON.stringify(data);
     return await this._request("POST");
   }
 
-  async patch() {
+  async patch(data) {
+    if (data != null) this.data = JSON.stringify(data);
     return await this._request("PATCH");
   }
 
-  async put() {
+  async put(data) {
+    if (data != null) this.data = JSON.stringify(data);
     return await this._request("PUT");
   }
 

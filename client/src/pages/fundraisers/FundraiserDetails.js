@@ -71,7 +71,7 @@ class FundraiserDetails extends Component {
     const userButtonDisplay = () => {
       if (details.creator.id !== details.creator_id && !details.live) {
         return;
-      } else if (details.creator.id === details.creator_id && details.live) {
+      } else if (details.creator.id === details.creator_id) {
         return (
           <div>
             <button
@@ -96,7 +96,7 @@ class FundraiserDetails extends Component {
     const accessForUser = () => {
       if (details.creator.id !== details.creator_id && !details.live) {
         return;
-      } else if (details.creator.id === details.creator_id && details.live) {
+      } else if (details.creator.id === details.creator_id || details.live) {
         return (
           <div>
             <h2>{details.title}</h2>
@@ -149,7 +149,7 @@ class FundraiserDetails extends Component {
     const sendMessage = () => {
       if (details.creator.id !== details.creator_id && !details.live) {
         return;
-      } else if (details.creator.id === details.creator_id && details.live) {
+      } else if (details.live) {
         return (
           <div>
             <button className={classes.greyButton} type="submit">

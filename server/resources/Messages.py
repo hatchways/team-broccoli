@@ -47,7 +47,7 @@ class PostMessage(Resource):
         if not user:
             return {"message": INVALID_CREDENTIALS}, 401
 
-        message_data = request.get_json
+        message_data = request.get_json()
 
         message_data['sender_id'] = user.id
 
@@ -57,6 +57,11 @@ class PostMessage(Resource):
 
         if not conv:
             conv = Conversation.create(user.id, recipient_id)
+
+        message_data['conversation_id'] = conv.id
+
+        message_data.pop('recipient_id')
+
 
         try:
             message = message_schema.load(message_data)

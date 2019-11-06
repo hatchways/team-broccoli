@@ -40,6 +40,10 @@ function App() {
             <Route component={ChatBar} />
           </ProtectedRoute>
 
+          <ProtectedRoute path="/chat/:id">
+            <Route component={Message} />
+          </ProtectedRoute>
+
           <ProtectedRoute path="/fundraiser*">
             <Route component={NavBar} />
             <Route exact path="/fundraisers" component={FundraiserList} />

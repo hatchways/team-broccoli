@@ -41,8 +41,22 @@ const useStyles = makeStyles(theme => ({
 export default function Message() {
   const classes = useStyles();
 
+  // Store Replacements
+  const allChats = {
+    1: [
+      {from: "A", msg:"Hello"},
+      {from: "b", msg:"Hi!"},
+    ],
+    2: [
+      {from: "B", msg: "Hi2!"},
+      {from: "C", msg: "He22o!",}
+    ]
+  }
+
   //CTX Store
-  const { allChats, sendChatAction, user } = useContext(CTX);
+  //const { sendChatAction, user } = useContext(CTX);
+  const sendChatAction = (a) => console.log(a);
+  const user = "yo"
   const conversations = Object.keys(allChats);
 
   //local state

@@ -108,24 +108,28 @@ class Conversation(db.Model):
 
     @classmethod
     def create(cls, userid1, userid2) -> "Conversation":
+        print("creating new conversation!")
         # enforce only to have one conversation object per
         # two user combination
 
         # return error if Conversation for the user combination exists
         existing_conv = cls.get(userid1, userid2)
         if existing_conv:
-            return "Conversation exists!"
+            raise Exception("Conversation exists!")
 
         # get list of users
         users = User.query.filter(User.id.in_([userid1, userid2])).all()
+        print(users)
 
         # return error if not exactly 2 users exists from the query
         if len(users) != 2:
-            return "User does not exist!"
+            print("error!")
+            raise Exception("User does not exist!")
 
         # create and save the Conversation
         conv = Conversation(participants=users)
         conv.save_to_db()
+        print(type(conv))
         return conv
 
     def save_to_db(self) -> None:
@@ -163,6 +167,11 @@ class Message(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+class UserOnlySchema(ma.ModelSchema):
+    class Meta:
+        model = User
+        fields = ("name", "id", "email", )
+
 class MessageSchema(ma.ModelSchema):
     class Meta:
         model = Message
@@ -170,15 +179,12 @@ class MessageSchema(ma.ModelSchema):
 
 class ConversationSchema(ma.ModelSchema):
     class Meta:
-        model: Conversation
+        model = Conversation
         include_fk = True
 
     messages = ma.Nested(MessageSchema, many=True)
+    participants = ma.Nested(UserOnlySchema, many=True)
 
-class UserOnlySchema(ma.ModelSchema):
-    class Meta:
-        model = User
-        fields = ("name", "id", "email", )
 
 class DonationSchema(ma.ModelSchema):
     class Meta:

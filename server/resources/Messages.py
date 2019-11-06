@@ -103,14 +103,14 @@ class SingleConversationResource(Resource):
 
         return conversation_schema.dump(conv), 200
 
-class ConversationResources(Resource):
+class ConversationResource(Resource):
     """ Handle GET for /conversations
     Requires authentication
     """
 
     @classmethod
     @jwt_required
-    def get(cls, recipient_id:int):
+    def get(cls):
         user_email = get_jwt_identity()
         user = User.find_by_email(user_email)
 

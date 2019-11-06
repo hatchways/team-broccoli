@@ -46,14 +46,15 @@ def register_blueprints(app):
 def register_resources(app):
     from resources.Fundraiser import FundraiserCreate, FundraiserList, FundraiserResource
     from resources.Uploads import SignS3
-    from resources.Messages import PostMessage, ConversationResource
+    from resources.Messages import PostMessage, ConversationResource, SingleConversationResource
 
     fr_api.add_resource(FundraiserCreate, '/fundraiser')
     fr_api.add_resource(FundraiserList, '/fundraisers')
     fr_api.add_resource(FundraiserResource, '/fundraiser/<int:fundraiser_id>')
     fr_api.add_resource(SignS3, '/sign_s3')
     fr_api.add_resource(PostMessage, '/message')
-    fr_api.add_resource(ConversationResource, '/conversation/<int:recipient_id>')
+    fr_api.add_resource(SingleConversationResource, '/conversation/<int:recipient_id>')
+    fr_api.add_resource(ConversationResource, '/conversations')
 
     # Initialize the flask-restful here instead of at register_extensions
     # because of unknown reasons

@@ -24,6 +24,7 @@ from models import (
 
 message_schema = MessageSchema()
 conversation_schema = ConversationSchema()
+conversation_list_schema = ConversationSchema(many=True)
 
 INVALID_CREDENTIALS = "You do not have permission to do this action."
 
@@ -77,7 +78,7 @@ class PostMessage(Resource):
 
         return message_schema.dump(message), 201
 
-class ConversationResource(Resource):
+class SingleConversationResource(Resource):
     """ Handle GET for /messages/<id>
     Requires authentication
     """
@@ -101,3 +102,21 @@ class ConversationResource(Resource):
             conv = Conversation.create(user.id, recipient_id)
 
         return conversation_schema.dump(conv), 200
+
+class ConversationResources(Resource):
+    """ Handle GET for /conversations
+    Requires authentication
+    """
+
+    @classmethod
+    @jwt_required
+    def get(cls, recipient_id:int):
+        user_email = get_jwt_identity()
+        user = User.find_by_email(user_email)
+
+        if not user:
+            return {"message": INVALID_CREDENTIALS}, 401
+
+        conversations = user.conversations
+
+        return conversation_list_schema.dump(conversations), 200

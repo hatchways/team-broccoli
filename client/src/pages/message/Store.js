@@ -20,32 +20,131 @@ export const CTX = createContext();
     }
 */
 
-const initState = {
-  general: [
-    { from: "aaron", msg: "hello" },
-    { from: "arnold", msg: "hello" },
-    { from: "archer", msg: "hello" }
+// old initState
+const old_initState = {
+  1: [
+    { sender_id: "aaron", body: "hello" },
+    { sender_id: "arnold", body: "hello" },
+    { sender_id: "archer", body: "hello" }
   ],
   user2: [
-    { from: "mike", msg: "hello" },
-    { from: "luke", msg: "hello" },
-    { from: "hashi", msg: "hello" }
+    { sender_id: "mike", body: "hello" },
+    { sender_id: "luke", body: "hello" },
+    { sender_id: "hashi", body: "hello" }
   ]
 };
 
+const prepInitState = [
+  {
+      "participants": [
+          {
+              "id": 1,
+              "name": "testadmin",
+              "email": "test@test.com"
+          },
+          {
+              "id": 2,
+              "name": "RA2",
+              "email": "test2@test.com"
+          }
+      ],
+      "id": 1,
+      "messages": [
+          {
+              "conversation": 1,
+              "sender": 1,
+              "conversation_id": 1,
+              "body": "test",
+              "created_at": "2019-09-01T07:00:00+07:00",
+              "sender_id": 1,
+              "id": 1
+          },
+          {
+              "conversation": 1,
+              "sender": 1,
+              "conversation_id": 1,
+              "body": "test2",
+              "created_at": "2019-09-01T08:00:00+07:00",
+              "sender_id": 1,
+              "id": 2
+          },
+          {
+              "conversation": 1,
+              "sender": 2,
+              "conversation_id": 1,
+              "body": "hi there!",
+              "created_at": "2019-09-01T10:01:00+07:00",
+              "sender_id": 2,
+              "id": 4
+          },
+          {
+              "conversation": 1,
+              "sender": 2,
+              "conversation_id": 1,
+              "body": "What would you need from me?",
+              "created_at": "2019-09-01T10:02:00+07:00",
+              "sender_id": 2,
+              "id": 5
+          }
+      ]
+  },
+  {
+      "participants": [
+          {
+              "id": 1,
+              "name": "testadmin",
+              "email": "test@test.com"
+          },
+          {
+              "id": 3,
+              "name": "RA3",
+              "email": "test3@test.com"
+          }
+      ],
+      "id": 2,
+      "messages": [
+          {
+              "conversation": 2,
+              "sender": 1,
+              "conversation_id": 2,
+              "body": "sup",
+              "created_at": "2019-09-01T08:01:00+07:00",
+              "sender_id": 1,
+              "id": 3
+          }
+      ]
+  }
+]
+
+const convertArrayToObject = (array, key) => {
+  const initialValue = {};
+  return array.reduce((obj, item) => {
+    return {
+      ...obj,
+      [item[key]]: item,
+    };
+  }, initialValue);
+};
+
+const initState = convertArrayToObject(prepInitState, 'id')
+
 function reducer(state, action) {
-  const { from, msg, conversation } = action.payload;
+  const { sender_id, body, conversation_id } = action.payload;
+  console.log(conversation_id)
   switch (action.type) {
     case "RECEIVE_MESSAGE":
       return {
         ...state,
-        [conversation]: [
-          ...state[conversation],
-          {
-            from,
-            msg
-          }
-        ]
+        [conversation_id]: {
+          ...state[conversation_id],
+          messages: [
+            ...state[conversation_id].messages,
+            {
+              sender_id,
+              body
+            }
+          ]
+        }
       };
     default:
       return state;
@@ -71,10 +170,10 @@ export default function Store(props) {
       console.log({ msg });
       dispatch({ type: "RECEIVE_MESSAGE", payload: msg });
     });
+    socket.emit('join_room',
+      {token: token}
+    )
   }
-  socket.emit('join_room',
-    {token: token}
-  )
 
   const user = "aslamm" + Math.random(100).toFixed(2);
 

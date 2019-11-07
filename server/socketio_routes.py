@@ -33,13 +33,18 @@ def receive_chat(object):
     object.pop('from')
 
     print(object)
+    conv = Conversation.find_by_id(object['conversation_id'])
+
+    # TODO: show error if user not in participant
+    if user not in conv.participants:
+        return None
 
     try:
         message = message_schema.load(object)
+        message.save_to_db()
     except ValidationError as err:
         return err.messages
 
-    conv = Conversation.find_by_id(object['conversation_id'])
 
     for user in conv.participants:
         emit('chat message', object, room=user.id)

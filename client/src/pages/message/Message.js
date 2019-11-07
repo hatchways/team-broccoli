@@ -94,11 +94,11 @@ export default function Message() {
             </List>
           </div>
           <div className={classes.chatWindow}>
-            {allChats[activeConversation].map((chat, i) => (
+            {allChats[activeConversation]['messages'].map((chat, i) => (
               <div className={classes.flex} key={i}>
-                <Chip label={chat.from} className={classes.chip} />
+                <Chip label={chat.sender_id} className={classes.chip} />
                 <Typography variant="body1" gutterBottom>
-                  {chat.msg}
+                  {chat.body}
                 </Typography>
               </div>
             ))}
@@ -119,7 +119,7 @@ export default function Message() {
               sendChatAction({
                 from: user,
                 body: textValue,
-                conversation_id: 1,
+                conversation_id: activeConversation,
                 token: token,
               });
               changeTextValue("");

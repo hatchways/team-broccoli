@@ -132,6 +132,10 @@ class Conversation(db.Model):
         print(type(conv))
         return conv
 
+    @classmethod
+    def find_by_id(cls, _id: int) -> "Conversation":
+        return cls.query.filter_by(id=_id).first()
+
     def save_to_db(self) -> None:
         db.session.add(self)
         db.session.commit()

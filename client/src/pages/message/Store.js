@@ -59,16 +59,22 @@ function sendChatAction(value) {
   socket.emit("chat message", value);
 }
 
+const token = localStorage.getItem("access_token")
+
 export default function Store(props) {
   const [allChats, dispatch] = useReducer(reducer, initState);
 
   if (!socket) {
     socket = io("http://127.0.0.1:5000");
+    console.log('creating socket..')
     socket.on("chat message", function(msg) {
       console.log({ msg });
       dispatch({ type: "RECEIVE_MESSAGE", payload: msg });
     });
   }
+  socket.emit('join_room',
+    {token: token}
+  )
 
   const user = "aslamm" + Math.random(100).toFixed(2);
 

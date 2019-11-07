@@ -1,14 +1,57 @@
 from app import sio
 from flask import session
 from flask_socketio import emit, join_room, leave_room
+from flask_jwt_extended import (
+    get_jti,
+    decode_token,
+)
+
+from marshmallow import ValidationError
+
+from datetime import datetime as dt
+from datetime import timezone as tz
+
+from models import db, ma, User, ConversationSchema, MessageSchema, Message, Conversation
+
+message_schema = MessageSchema()
 
 @sio.on('user_message')
 def receive_message(message):
     print(message)
 
+@sio.on('chat message')
+def receive_chat(object):
+    #print(object)
+    #print(decode_token(object['token']).get('identity'))
+    user_email = decode_token(object['token']).get('identity')
+    user = User.find_by_email(user_email)
+
+    object['sender_id'] = user.id
+    object['created_at'] = dt.now(tz=tz.utc).isoformat()
+
+    object.pop('token')
+    object.pop('from')
+
+    print(object)
+
+    try:
+        message = message_schema.load(object)
+    except ValidationError as err:
+        return err.messages
+
+    conv = Conversation.find_by_id(object['conversation_id'])
+
+    for user in conv.participants:
+        emit('chat message', object, room=user.id)
+
 @sio.on('join_room')
-def join_room(id):
-    print(id)
+def join_room_func(object):
+    print('joining room..')
+    print(object)
+    user_email = decode_token(object['token']).get('identity')
+    user = User.find_by_email(user_email)
+    join_room(user.id)
+    print(user)
 
 @sio.on('joined', namespace='/chat')
 def joined(message):

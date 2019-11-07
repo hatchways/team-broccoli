@@ -41,7 +41,9 @@ function App() {
           </ProtectedRoute>
 
           <ProtectedRoute path="/chat/:id">
+            <Store>
             <Route component={Message} />
+            </Store>
           </ProtectedRoute>
 
           <ProtectedRoute path="/fundraiser*">

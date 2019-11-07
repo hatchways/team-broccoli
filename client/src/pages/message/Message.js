@@ -42,22 +42,23 @@ export default function Message() {
   const classes = useStyles();
 
   // Store Replacements
-  const allChats = {
-    1: [
-      {from: "A", msg:"Hello"},
-      {from: "b", msg:"Hi!"},
-    ],
-    2: [
-      {from: "B", msg: "Hi2!"},
-      {from: "C", msg: "He22o!",}
-    ]
-  }
+  //const allChats = {
+  //  1: [
+  //    {from: "A", msg:"Hello"},
+  //    {from: "b", msg:"Hi!"},
+  //  ],
+  //  2: [
+  //    {from: "B", msg: "Hi2!"},
+  //    {from: "C", msg: "He22o!",}
+  //  ]
+  //}
 
   //CTX Store
-  //const { sendChatAction, user } = useContext(CTX);
-  const sendChatAction = (a) => console.log(a);
-  const user = "yo"
+  const { allChats, sendChatAction, user } = useContext(CTX);
+  //const sendChatAction = (a) => console.log(a);
+  //const user = "yo"
   const conversations = Object.keys(allChats);
+  const token = localStorage.getItem("access_token")
 
   //local state
   const [activeConversation, changeActiveConversation] = useState(
@@ -83,7 +84,7 @@ export default function Message() {
             <List>
               {conversations.map(conversation => (
                 <ListItem
-                  onClick={e => changeActiveConversation(e.target.innerText)}
+                  onClick={e => changeActiveConversation(conversation)}
                   key={conversation}
                   button
                 >
@@ -117,8 +118,9 @@ export default function Message() {
             onClick={() => {
               sendChatAction({
                 from: user,
-                msg: textValue,
-                conversation: activeConversation
+                body: textValue,
+                conversation_id: 1,
+                token: token,
               });
               changeTextValue("");
             }}

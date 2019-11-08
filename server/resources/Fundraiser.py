@@ -86,8 +86,8 @@ class FundraiserList(Resource):
 
 
 class FundraiserResource(Resource):
-    """ Handle GET/PUT/DELETE for /fundraiser/<fundraiser_id>
-    PUT/DELETE needs authentication and
+    """ Handle GET/POST/PUT/DELETE for /fundraiser/<fundraiser_id>
+    POST/PUT/DELETE needs authentication and
     can only be done by the Fundraiser creator
     """
 
@@ -109,7 +109,9 @@ class FundraiserResource(Resource):
 
         return fundraiser_schema.dump(fundraiser), 200
 
-
+    """
+    This POST method toggles the fundraiser's live status
+    """
     @classmethod
     @jwt_required
     def post(cls, fundraiser_id: int):
@@ -127,9 +129,9 @@ class FundraiserResource(Resource):
             return {"message": INVALID_CREDENTIALS}, 401
         
         if fundraiser.live is True:
-            fundraiser['live'] = False
+            fundraiser.live = False
         else:
-            fundraiser['live'] = True
+            fundraiser.live = True
         
         fundraiser.save_to_db()
 

@@ -52,7 +52,7 @@ class FundraiserList extends Component {
   }
 
   render() {
-    if (this.state.isLoading == true) return ("Loading...");
+    if (this.state.isLoading === true) return ("Loading...");
     return (
       <Container maxWidth="lg" style={{ marginTop: "2em" }}>
         <Grid container spacing="1">
@@ -81,7 +81,7 @@ class FundraiserList extends Component {
 
           <Grid container style={{ marginTop: "2em" }}>
             <h1>{
-              (this.state.fundraisers.length == 0 || this.state.fundraisers == null)
+              (this.state.fundraisers.length === 0 || this.state.fundraisers == null)
                 ? "No Active Fundraisers Found"
                 : "Active Fundraisers"
             }</h1>
@@ -110,7 +110,7 @@ class FundraiserList extends Component {
         </Grid>
 
         <h1 style={{ marginTop: "2em" }}>{
-              (this.state.fundraisers.length == 0 || this.state.fundraisers == null)
+              (this.state.fundraisers.length === 0 || this.state.fundraisers == null)
                 ? "No Recently Fundraised"
                 : "Recently Fundraised"
             }</h1>

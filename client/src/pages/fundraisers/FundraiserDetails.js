@@ -60,7 +60,7 @@ class FundraiserDetails extends Component {
     //modify the contents of the page to show the live details
     if (res.success) {
       this.setState({
-        liveDetails: event.target.value
+        liveDetails: true
       });
     }
 
@@ -175,8 +175,8 @@ class FundraiserDetails extends Component {
           {liveDetails
             ? fundsEnded()
             : userButtonDisplay() && !details.creator.id
-            ? ""
-            : userButtonDisplay()}
+              ? ""
+              : userButtonDisplay()}
         </div>
       </div>
     );

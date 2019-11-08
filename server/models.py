@@ -1,8 +1,7 @@
 from app import db, ma
 from sqlalchemy.dialects.postgresql import JSON, BYTEA
-from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
-from marshmallow import Schema, fields
+from sqlalchemy import func
+from marshmallow import fields
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -69,6 +68,8 @@ class Donation(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), nullable=False)
     fundraiser_id = db.Column(db.Integer(), db.ForeignKey('fundraisers.id'), nullable=False)
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
+    stripe_session = db.Column(db.String(255))
+    payment_finalized = db.Column(db.Boolean(), nullable=False)
 
     fundraiser = db.relationship("Fundraiser", back_populates="donations")
     user = db.relationship("User", back_populates="donations")
@@ -90,6 +91,15 @@ class FundraiserSchema(ma.ModelSchema):
 
     creator = ma.Nested(UserOnlySchema)
     donations = ma.Nested(DonationSchema, many=True)
+    current_funding = fields.Method('count_funding')
+
+    def count_funding(self, fundraiser):
+        return db.session.query(
+            func.sum(Donation.amount),
+        ).filter_by(
+            payment_finalized=True,
+            fundraiser_id=fundraiser.id,
+        ).scalar() or 0 # the SQL sum() of no records is NULL, not 0
 
 class UserSchema(ma.ModelSchema):
 

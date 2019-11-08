@@ -35,10 +35,12 @@ def register_blueprints(app):
     # # authentication_handler imports db from this very file.
     # # Is there a better file structure for this?
     from api.authentication_handler import authentication_handler
+    from api.donation import donation_handler
     from api.ping_handler import ping_handler
     from api.home_handler import home_handler
 
     app.register_blueprint(authentication_handler)
+    app.register_blueprint(donation_handler)
     app.register_blueprint(home_handler)
     app.register_blueprint(ping_handler)
     return None

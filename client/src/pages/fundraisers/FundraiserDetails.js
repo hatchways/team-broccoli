@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Api from "../../util/Api";
+import DonateDialog from "../../components/DonateDialog";
 import { withStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -59,10 +60,6 @@ class FundraiserDetails extends Component {
     });
   };
 
-  donate = () => {
-    //FE Stripe Integration to take place here
-  };
-
   render() {
     const {
       classes,
@@ -117,7 +114,7 @@ class FundraiserDetails extends Component {
         return (
           <div>
             <div className={classes.amountBox}>
-              Raised $0 of ${details.amount}
+            Raised ${Math.floor(details.current_funding / 100)} of ${details.amount}
             </div>
             <input className={classes.greyInput}>Fundraiser ended</input>
           </div>
@@ -133,15 +130,17 @@ class FundraiserDetails extends Component {
         return (
           <div>
             <div className={classes.amountBox}>
-              Raised $0 of ${details.amount}
+            Raised ${Math.floor(details.current_funding / 100)} of ${details.amount}
             </div>
             <span className={classes.greenText}>
               THIS FUNDRAISER IS CURRENTLY LIVE
             </span>
             <div className={classes.deadline}>ends on {details.deadline}</div>
-            <button className={classes.blueButton} onClick={this.donate}>
-              DONATE NOW
-            </button>
+            <DonateDialog
+              className={classes.blueButton}
+              stripe_description={details.title}
+              fundraiser_id={details.id}
+            />
           </div>
         );
       }

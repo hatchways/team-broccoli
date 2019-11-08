@@ -1,6 +1,9 @@
 import os
 
 TEAM_NAME = os.environ['TEAM_NAME']
+APP_URL = os.environ['APP_URL']
+STRIPE_API_KEY = os.environ['STRIPE_API_KEY']
+STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
 
 class Config(object):
     DEBUG = os.environ['DEBUG']

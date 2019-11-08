@@ -8,6 +8,8 @@ import {
   Typography
 } from "@material-ui/core";
 
+import NoImage from "../res/images/no_image2.png"
+
 class FundraiserCard extends Component {
 
   handleCardClick = () => {
@@ -55,7 +57,7 @@ class FundraiserCard extends Component {
                 component="img"
                 alt="Fundraiser"
                 height="200"
-                src={this.props.image_url}
+                src={this.props.image_url != null ? this.props.image_url : NoImage  }
                 title="Fundraiser Image"
               />
             </CardMedia>

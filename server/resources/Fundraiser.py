@@ -61,6 +61,7 @@ class FundraiserCreate(Resource):
         fundraiser_data['created_at'] = now
         fundraiser_data['last_modified_at'] = now
         fundraiser_data['creator_id'] = user.id
+        fundraiser_data['live'] = False
 
         try:
             fundraiser = fundraiser_schema.load(fundraiser_data)
@@ -107,6 +108,33 @@ class FundraiserResource(Resource):
                 return {"message": INVALID_CREDENTIALS}, 401
 
         return fundraiser_schema.dump(fundraiser), 200
+
+
+    @classmethod
+    @jwt_required
+    def post(cls, fundraiser_id: int):
+        user_email = get_jwt_identity()
+        user = User.find_by_email(user_email)
+        fundraiser = Fundraiser.find_by_id(fundraiser_id)
+
+        if not user:
+            return {"message": INVALID_CREDENTIALS}, 401
+
+        if not fundraiser:
+            return {"message": FUNDRAISER_NOT_FOUND}, 404
+
+        if user.id != fundraiser.creator_id:
+            return {"message": INVALID_CREDENTIALS}, 401
+        
+        if fundraiser.live is True:
+            fundraiser['live'] = False
+        else:
+            fundraiser['live'] = True
+        
+        fundraiser.save_to_db()
+
+        return {"message": "Fundraiser is now live"}, 201
+
 
     @classmethod
     @jwt_required

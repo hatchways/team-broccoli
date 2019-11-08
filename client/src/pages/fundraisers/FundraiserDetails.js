@@ -51,13 +51,20 @@ class FundraiserDetails extends Component {
     this.getDetails();
   }
 
-  goLive = event => {
+  goLive = async event => {
     //make a post request to the go live backend route TODO
+    console.log(this.state.details);
+    let api = new Api(`fundraiser/${this.state.details.id}`);
+    const res = await api.post();
 
     //modify the contents of the page to show the live details
-    this.setState({
-      liveDetails: event.target.value
-    });
+    if (res.success) {
+      this.setState({
+        liveDetails: event.target.value
+      });
+    }
+
+    // handle error
   };
 
   render() {
